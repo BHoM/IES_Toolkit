@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BH.oM.Queries;
+using BH.Engine;
 
 namespace BH.Adapter.IES
 {
@@ -13,14 +14,20 @@ namespace BH.Adapter.IES
         public IesAdapter(string iesFilePath = "")
         {
             //ies application
-            //if (!String.IsNullOrEmpty(iesFilePath) && System.IO.File.Exists(iesFilePath))
-                //m_IesDocumentInstance.open(iesFilePath);
+            if (!String.IsNullOrEmpty(iesFilePath) && System.IO.File.Exists(iesFilePath))
+            {
+                m_IesProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                m_IesProcess.Start();
+            }
 
-           // else if (!String.IsNullOrEmpty(iesFilePath))
-                //m_IesDocumentInstance.create(iesFilePath); //TODO: what if an existing file has the same name? 
-
-           // else
-                //ErrorLog.Add("The IES file does not exist");
+            else if (!String.IsNullOrEmpty(iesFilePath))
+            {
+                m_IesProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                m_IesProcess.Start(); //TODO: what if an existing file has the same name? 
+            }
+               
+           else
+                ErrorLog.Add("The IES file does not exist");
 
             //AdapterId = BH.Engine.IES.Convert.AdapterID;
             Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
@@ -36,7 +43,7 @@ namespace BH.Adapter.IES
         /**** Private Fields                            ****/
         /***************************************************/
 
-        //private TBD.TBDDocumentClass m_IesDocumentInstance = new TBD.TBDDocumentClass();
+        private System.Diagnostics.Process m_IesProcess = new System.Diagnostics.Process();
 
 
         /***************************************************/
