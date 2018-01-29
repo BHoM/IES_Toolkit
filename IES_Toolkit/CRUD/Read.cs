@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using BH.oM.Base;
-using BHE = BH.oM.Environmental;
-using BHS = BH.oM.Structural;
 using BH.oM.Environmental.Elements;
 using BH.oM.Environmental.Properties;
 using BH.oM.Environmental.Interface;
