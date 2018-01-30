@@ -1,7 +1,10 @@
 ﻿using BH.Adapter;
 using System.Collections.Generic;
 using BH.oM.Base;
+using BHG = BH.oM.Geometry;
 using BHE = BH.oM.Environmental;
+using XML_Adapter;
+using gbXML= XML_Adapter.gbXML;
 
 namespace BH.Adapter.IES
 {
@@ -34,6 +37,10 @@ namespace BH.Adapter.IES
         {
 
             //Convert the BHoMPanel to gbXML
+            BHG.Polyline bHoMPolyline = bHoMBuildingElementPanel.Curve;
+
+            gbXML.Polyloop MakePolyloop(List < BHG.Point > pts);
+            
 
 
 
