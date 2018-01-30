@@ -17,14 +17,19 @@ namespace BH.Adapter.IES
             //ies application
             if (!String.IsNullOrEmpty(iesFilePath) && System.IO.File.Exists(iesFilePath))
             {
+                m_IesProcess.StartInfo.FileName = iesFilePath;
                 m_IesProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                
                 m_IesProcess.Start();
+                
             }
 
             else if (!String.IsNullOrEmpty(iesFilePath))
             {
+                m_IesProcess.StartInfo.FileName = iesFilePath;
                 m_IesProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-                m_IesProcess.Start(); //TODO: what if an existing file has the same name? 
+
+                m_IesProcess.Start();
             }
                
            else
