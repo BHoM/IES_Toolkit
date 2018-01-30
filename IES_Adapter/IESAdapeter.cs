@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BH.oM.Queries;
 using BH.Engine;
 
+
 namespace BH.Adapter.IES
 {
     public partial class IesAdapter : BHoMAdapter
@@ -29,7 +30,7 @@ namespace BH.Adapter.IES
            else
                 ErrorLog.Add("The IES file does not exist");
 
-            //AdapterId = BH.Engine.IES.Convert.AdapterID;
+            AdapterId = Engine.IES.Convert.AdapterID;
             Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
             Config.ProcessInMemory = false;
             Config.SeparateProperties = false;  //Set to true after Dependency types have been implemented

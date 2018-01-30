@@ -7,8 +7,8 @@
     <ProjectGuid>{8C300803-9E86-4742-8884-04D41C7B5478}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IES_Toolkit</RootNamespace>
-    <AssemblyName>IES_Toolkit</AssemblyName>
+    <RootNamespace>BH.Adapter.IES</RootNamespace>
+    <AssemblyName>IES_Adapter</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Build\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -31,16 +31,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BHoM">
-      <HintPath>..\..\..\BHoM_Adapter\Build\BHoM.dll</HintPath>
+      <HintPath>..\..\BHoM\Build\BHoM.dll</HintPath>
     </Reference>
     <Reference Include="BHoM_Adapter">
-      <HintPath>..\..\..\BHoM_Adapter\Build\BHoM_Adapter.dll</HintPath>
+      <HintPath>..\..\BHoM_Adapter\Build\BHoM_Adapter.dll</HintPath>
     </Reference>
     <Reference Include="BHoM_Engine">
       <HintPath>..\..\..\BHoM_Adapter\Build\BHoM_Engine.dll</HintPath>
     </Reference>
     <Reference Include="Environment_Engine">
       <HintPath>..\..\..\BHoM_Engine\Build\Environment_Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="IES_Engine">
+      <HintPath>..\IES_Engine\bin\Debug\IES_Engine.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
