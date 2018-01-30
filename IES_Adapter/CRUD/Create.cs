@@ -1,6 +1,7 @@
 ﻿using BH.Adapter;
 using System.Collections.Generic;
 using BH.oM.Base;
+using BHE = BH.oM.Environmental;
 
 namespace BH.Adapter.IES
 {
@@ -27,7 +28,16 @@ namespace BH.Adapter.IES
 
         }
 
-
         /***************************************************/
+
+        private bool Create(BHE.Elements.BuildingElementPanel bHoMBuildingElementPanel)
+        {
+
+            //Convert the BHoMPanel to gbXML
+
+
+
+            return true;
+        }
     }
 }
