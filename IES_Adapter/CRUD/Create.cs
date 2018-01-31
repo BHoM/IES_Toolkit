@@ -36,7 +36,17 @@ namespace BH.Adapter.IES
 
         private bool Create(BHE.Elements.BuildingElementPanel bHoMBuildingElementPanel)
         {
-            gbXML.gbXMLSerializer.Serialize(new List<IObject> {bHoMBuildingElementPanel as IObject});
+            gbXML.gbXML gbXMLfile = gbXML.gbXMLSerializer.Serialize(new List<IObject> {bHoMBuildingElementPanel as IObject});
+            XMLWriter.Save(@"C: \Users\smalmste\Desktop\", "MyTestXml", gbXMLfile);
+            return true;
+        }
+
+        /***************************************************/
+
+        private bool Create(BHE.Elements.Space bHoMSpace)
+        {
+            gbXML.gbXML gbXMLfile =  gbXML.gbXMLSerializer.Serialize(new List<IObject> { bHoMSpace as IObject });
+            XMLWriter.Save(@"C:\Users\smalmste\Desktop\", "MyTestXml", gbXMLfile);
             return true;
         }
 
