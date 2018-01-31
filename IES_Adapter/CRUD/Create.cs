@@ -4,7 +4,9 @@ using BH.oM.Base;
 using BHG = BH.oM.Geometry;
 using BHE = BH.oM.Environmental;
 using XML_Adapter;
-using gbXML= XML_Adapter.gbXML;
+using gbXML = XML_Adapter.gbXML;
+using BH.Engine.IES;
+using System.Xml;
 
 namespace BH.Adapter.IES
 {
@@ -18,37 +20,36 @@ namespace BH.Adapter.IES
         {
             bool success = true;
 
+            gbXML.gbXML gbx = new gbXML.gbXML();
+
             if (typeof(IObject).IsAssignableFrom(typeof(T)))
             {
 
                 foreach (T obj in objects)
                 {
-                    success &= Create(obj as dynamic);
+                    success &= Create(obj as dynamic, gbx);
                 }
-            }
 
+            }
+            if(success)
+                XMLWriter.Save(@"C: \Users\smalmste\Desktop\", "MyTestXml", gbx);
             return success;
 
         }
 
         /***************************************************/
 
-
-        private bool Create(BHE.Elements.BuildingElementPanel bHoMBuildingElementPanel)
+        private bool Create(BHE.Elements.BuildingElementPanel bHoMBuildingElementPanel, gbXML.gbXML gbx)
         {
-            gbXML.gbXML gbXMLfile = gbXML.gbXMLSerializer.Serialize(new List<IObject> {bHoMBuildingElementPanel as IObject});
-            XMLWriter.Save(@"C: \Users\smalmste\Desktop\", "MyTestXml", gbXMLfile);
+            //List<BHE.Elements.BuildingElementPanel> panelList = new List<BHE.Elements.BuildingElementPanel>();
+
+            //gbXML.gbXML gbXMLfile = gbXML.gbXMLSerializer.Serialize(new List<IObject> { bHoMBuildingElementPanel as IObject });
+            gbXML.gbXMLSerializer.Serialize(new List<IObject> { bHoMBuildingElementPanel as IObject }, gbx);
+            //XMLWriter.Save(@"C: \Users\smalmste\Desktop\", "MyTestXml", gbXMLfile);
             return true;
         }
 
-        /***************************************************/
 
-        private bool Create(BHE.Elements.Space bHoMSpace)
-        {
-            gbXML.gbXML gbXMLfile =  gbXML.gbXMLSerializer.Serialize(new List<IObject> { bHoMSpace as IObject });
-            XMLWriter.Save(@"C:\Users\smalmste\Desktop\", "MyTestXml", gbXMLfile);
-            return true;
-        }
 
     }
 }

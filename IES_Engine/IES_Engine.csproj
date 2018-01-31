@@ -59,6 +59,7 @@
     <Compile Include="Convert\AdapterID.cs" />
     <Compile Include="Convert\ToBHoM.cs" />
     <Compile Include="Convert\ToIES.cs" />
+    <Compile Include="Convert\ToGbXML.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
