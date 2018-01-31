@@ -33,18 +33,12 @@ namespace BH.Adapter.IES
 
         /***************************************************/
 
+
         private bool Create(BHE.Elements.BuildingElementPanel bHoMBuildingElementPanel)
         {
-
-            //Convert the BHoMPanel to gbXML
-            BHG.Polyline bHoMPolyline = bHoMBuildingElementPanel.Curve;
-
-            gbXML.Polyloop MakePolyloop(List < BHG.Point > pts);
-            
-
-
-
+            gbXML.gbXMLSerializer.Serialize(new List<IObject> {bHoMBuildingElementPanel as IObject});
             return true;
         }
+
     }
 }
