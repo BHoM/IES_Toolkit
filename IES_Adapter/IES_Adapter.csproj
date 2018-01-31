@@ -37,13 +37,10 @@
       <HintPath>..\..\BHoM_Adapter\Build\BHoM_Adapter.dll</HintPath>
     </Reference>
     <Reference Include="BHoM_Engine">
-      <HintPath>..\..\..\BHoM_Adapter\Build\BHoM_Engine.dll</HintPath>
+      <HintPath>..\..\BHoM_Engine\Build\BHoM_Engine.dll</HintPath>
     </Reference>
     <Reference Include="Environment_Engine">
-      <HintPath>..\..\..\BHoM_Engine\Build\Environment_Engine.dll</HintPath>
-    </Reference>
-    <Reference Include="IES_Engine">
-      <HintPath>..\IES_Engine\bin\Debug\IES_Engine.dll</HintPath>
+      <HintPath>..\..\BHoM_Engine\Build\Environment_Engine.dll</HintPath>
     </Reference>
     <Reference Include="IronPython, Version=2.7.7.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>..\packages\IronPython.2.7.7\lib\Net45\IronPython.dll</HintPath>
@@ -100,6 +97,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IES_Engine\IES_Engine.csproj">
+      <Project>{0b212bf1-02ff-421f-86fc-15cbf96283c7}</Project>
+      <Name>IES_Engine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
