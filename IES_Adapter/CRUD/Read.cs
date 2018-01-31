@@ -7,6 +7,8 @@ using BH.oM.Environmental.Properties;
 using BH.oM.Environmental.Interface;
 using BHG = BH.oM.Geometry;
 using BH.Engine;
+using gbXML = XML_Adapter.gbXML;
+using XML_Adapter;
 
 namespace BH.Adapter.IES
 {
@@ -20,6 +22,8 @@ namespace BH.Adapter.IES
         {
             if (type == typeof(Space))
                 return ReadZones();
+            if (type == typeof(BuildingElementPanel))
+                return ReadPanels();
             return null;
         }
 
@@ -29,6 +33,17 @@ namespace BH.Adapter.IES
 
         private List<Space> ReadZones(List<string> ids = null)
         {
+
+            throw new NotImplementedException();
+        }
+
+        /***************************************************/
+
+        private List<Space> ReadPanels(List<string> ids = null)
+        {
+            BuildingElementPanel bHoMPanel = new BuildingElementPanel();
+            //gbXML.gbXML gbXMLfile = gbXML.(new List<IObject> { bHoMPanel as IObject });
+            //XMLWriter.Save(@"C: \Users\smalmste\Desktop\", "MyTestXml", gbXMLfile);
             throw new NotImplementedException();
         }
     }

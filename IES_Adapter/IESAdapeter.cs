@@ -22,9 +22,9 @@ namespace BH.Adapter.IES
             {
                 m_IesProcess.StartInfo.FileName = iesFilePath;
                 m_IesProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-                
+
                 //m_IesProcess.Start();
-                
+
             }
 
             else if (!String.IsNullOrEmpty(iesFilePath))
@@ -71,7 +71,6 @@ namespace BH.Adapter.IES
         /***************************************************/
 
         private System.Diagnostics.Process m_IesProcess = new System.Diagnostics.Process();
-
 
         /***************************************************/
     }
