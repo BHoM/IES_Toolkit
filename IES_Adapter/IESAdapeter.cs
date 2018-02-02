@@ -27,14 +27,6 @@ namespace BH.Adapter.IES
 
             }
 
-            else if (!String.IsNullOrEmpty(iesFilePath))
-            {
-                m_IesProcess.StartInfo.FileName = iesFilePath;
-                m_IesProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-
-                m_IesProcess.Start();
-            }
-               
            else
                 ErrorLog.Add("The IES file does not exist");
 
