@@ -23,7 +23,7 @@ namespace BH.Adapter.IES
                 m_IesProcess.StartInfo.FileName = iesFilePath;
                 m_IesProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
 
-                //m_IesProcess.Start();
+                m_IesProcess.Start();
 
             }
 
@@ -32,7 +32,7 @@ namespace BH.Adapter.IES
                 m_IesProcess.StartInfo.FileName = iesFilePath;
                 m_IesProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
 
-                //m_IesProcess.Start();
+                m_IesProcess.Start();
             }
                
            else
