@@ -39,7 +39,7 @@ namespace BH.Adapter.IES
         }
 
 
-        public override bool Push(IEnumerable<IObject> objects, string tag = "", Dictionary<string, object> config = null)
+        public override List<IObject> Push(IEnumerable<IObject> objects, string tag = "", Dictionary<string, object> config = null)
         {
             bool success = true;
             MethodInfo miToList = typeof(Enumerable).GetMethod("Cast");
@@ -52,9 +52,9 @@ namespace BH.Adapter.IES
                 success &= Create(list as dynamic, false);
             }
 
-
-
-            return success;
+            return success ? objects.ToList() : new List<IObject>();
+        
+           
         }
 
 
