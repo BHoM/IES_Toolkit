@@ -33,7 +33,7 @@ namespace BH.Adapter.IES
             }
 
             if(success)
-                XMLWriter.Save(@"C: \Users\smalmste\Desktop\", "MyTestXml", gbx);
+                XMLWriter.Save(filepath, filename, gbx);
             return success;
 
         }
