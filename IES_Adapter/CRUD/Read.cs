@@ -8,6 +8,7 @@ using BH.oM.Environmental.Interface;
 using BHG = BH.oM.Geometry;
 using BH.Engine;
 using gbXML = XML_Adapter.gbXML;
+using BHE = BH.oM.Environmental;
 using XML_Adapter;
 
 namespace BH.Adapter.IES
@@ -31,10 +32,14 @@ namespace BH.Adapter.IES
         /**** Private Methods                           ****/
         /***************************************************/
 
-        private List<Space> ReadZones(List<string> ids = null)
+        private IEnumerable<IObject> ReadZones(List<string> ids = null)
         {
+            List<BHE.Elements.Space> bHoMSpaces = new List<Space>();
+            gbXML.gbXML gbx = XMLReader.Load(filepath, filename);
+            IEnumerable<IObject> bHoMObject = gbXML.gbXMLDeserializer.Deserialize(gbx);
+           
 
-            throw new NotImplementedException();
+            return bHoMObject;
         }
 
         /***************************************************/

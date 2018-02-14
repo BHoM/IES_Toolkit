@@ -48,6 +48,8 @@ namespace BH.Adapter.IES
             return true;
         }
 
+        /***************************************************/
+
         private bool Create(BHE.Elements.Space bHoMSpace, gbXML.gbXML gbx)
         {
 
