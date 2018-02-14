@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using BH.oM.Base;
@@ -22,7 +23,7 @@ namespace BH.Adapter.IES
         protected override IEnumerable<IObject> Read(Type type, IList indices = null)
         {
             if (type == typeof(Space))
-                return ReadZones();
+                return ReadSpaces();
             if (type == typeof(BuildingElementPanel))
                 return ReadPanels();
             return null;
@@ -32,24 +33,20 @@ namespace BH.Adapter.IES
         /**** Private Methods                           ****/
         /***************************************************/
 
-        private IEnumerable<IObject> ReadZones(List<string> ids = null)
+        private List<Space> ReadSpaces(List<string> ids = null)
         {
-            List<BHE.Elements.Space> bHoMSpaces = new List<Space>();
             gbXML.gbXML gbx = XMLReader.Load(filepath, filename);
             IEnumerable<IObject> bHoMObject = gbXML.gbXMLDeserializer.Deserialize(gbx);
-           
-
-            return bHoMObject;
+            return bHoMObject.Where(x => x is BHE.Elements.Space).Cast<Space>().ToList();
         }
 
         /***************************************************/
 
-        private List<Space> ReadPanels(List<string> ids = null)
+        private List<BuildingElementPanel> ReadPanels(List<string> ids = null)
         {
-            BuildingElementPanel bHoMPanel = new BuildingElementPanel();
-            //gbXML.gbXML gbXMLfile = gbXML.(new List<IObject> { bHoMPanel as IObject });
-            //XMLWriter.Save(@"C: \Users\smalmste\Desktop\", "MyTestXml", gbXMLfile);
-            throw new NotImplementedException();
+            gbXML.gbXML gbx = XMLReader.Load(filepath, filename);
+            IEnumerable<IObject> bHoMObject = gbXML.gbXMLDeserializer.Deserialize(gbx);
+            return bHoMObject.Where(x => x is BHE.Elements.BuildingElementPanel).Cast<BuildingElementPanel>().ToList();
         }
     }
 }
