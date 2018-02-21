@@ -35,7 +35,7 @@ namespace BH.Adapter.IES
 
         private List<Space> ReadSpaces(List<string> ids = null)
         {
-            gbXML.gbXML gbx = XMLReader.Load(filepath, filename);
+            gbXML.gbXML gbx = XMLReader.Load(Filepath, Filename);
             IEnumerable<IObject> bHoMObject = gbXML.gbXMLDeserializer.Deserialize(gbx);
             return bHoMObject.Where(x => x is BHE.Elements.Space).Cast<Space>().ToList();
         }
@@ -44,7 +44,7 @@ namespace BH.Adapter.IES
 
         private List<BuildingElementPanel> ReadPanels(List<string> ids = null)
         {
-            gbXML.gbXML gbx = XMLReader.Load(filepath, filename);
+            gbXML.gbXML gbx = XMLReader.Load(Filepath, Filename);
             IEnumerable<IObject> bHoMObject = gbXML.gbXMLDeserializer.Deserialize(gbx);
             return bHoMObject.Where(x => x is BHE.Elements.BuildingElementPanel).Cast<BuildingElementPanel>().ToList();
         }
