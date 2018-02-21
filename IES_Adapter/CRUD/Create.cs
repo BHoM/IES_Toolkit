@@ -33,7 +33,7 @@ namespace BH.Adapter.IES
             }
 
             if(success)
-                XMLWriter.Save(filepath, filename, gbx);
+                XMLWriter.Save(Filepath, Filename, gbx);
             return success;
 
         }

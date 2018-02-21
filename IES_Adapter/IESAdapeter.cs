@@ -15,24 +15,11 @@ namespace BH.Adapter.IES
         /**** Constructors                              ****/
         /***************************************************/
 
-        public IesAdapter(string iesFilePath = "", string gbXML_name = "MyTestXML", string gbXML_FilePath = @"C: \Users\smalmste\Desktop\")
+        public IesAdapter( string gbXML_name, string gbXML_FilePath)
         {
-            //ies application
-            if (!String.IsNullOrEmpty(iesFilePath) && System.IO.File.Exists(iesFilePath))
-            {
-                m_IesProcess.StartInfo.FileName = iesFilePath;
-                m_IesProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
 
-               // m_IesProcess.Start();
-
-            }
-
-           else
-                ErrorLog.Add("The IES file does not exist");
-
-
-            filepath = gbXML_FilePath;
-            filename = gbXML_name;
+            Filepath = gbXML_FilePath;
+            Filename = gbXML_name;
 
 
             AdapterId = Engine.IES.Convert.AdapterID;
@@ -69,15 +56,14 @@ namespace BH.Adapter.IES
 
         private System.Diagnostics.Process m_IesProcess = new System.Diagnostics.Process();
 
-      
+
         /***************************************************/
-        /**** Public Fields                            ****/
+        /**** Public properties                         ****/
         /***************************************************/
 
-        public static string filepath = @"C: \Users\smalmste\Desktop\";
-        public static string filename = "MyTestXML";
-
-
+        public string Filepath { get; set; }
+        public string Filename { get; set; }
+        
 
     }
 }
