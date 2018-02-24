@@ -25,7 +25,7 @@ namespace BH.Engine.IES
         {
             //List<BHE.Elements.BuildingElementPanel> panelList = new List<BHE.Elements.BuildingElementPanel>();
 
-            gbXML.gbXML gbXMLfile = gbXML.gbXMLSerializer.Serialize(new List<IObject> { bHoMBuildingElementPanel as IObject });
+            gbXML.gbXML gbXMLfile = gbXML.gbXMLSerializer.Serialize(new List<IBHoMObject> { bHoMBuildingElementPanel as IBHoMObject });
             //XMLWriter.Save(@"C: \Users\smalmste\Desktop\", "MyTestXml", gbXMLfile);
             return gbXMLfile;
         }
@@ -34,7 +34,7 @@ namespace BH.Engine.IES
 
         /*public static gbXML.gbXML ToGbXML(BHE.Elements.Space bHoMSpace)
         {
-            gbXML.gbXML gbXMLfile = gbXML.gbXMLSerializer.Serialize(new List<IObject> { bHoMSpace as IObject });
+            gbXML.gbXML gbXMLfile = gbXML.gbXMLSerializer.Serialize(new List<IBHoMObject> { bHoMSpace as IBHoMObject });
             return gbXMLfile;
 
         }*/

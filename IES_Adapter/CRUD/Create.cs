@@ -22,7 +22,7 @@ namespace BH.Adapter.IES
 
             gbXML.gbXML gbx = new gbXML.gbXML();
 
-            if (typeof(IObject).IsAssignableFrom(typeof(T)))
+            if (typeof(IBHoMObject).IsAssignableFrom(typeof(T)))
             {
 
                 foreach (T obj in objects)
@@ -43,7 +43,7 @@ namespace BH.Adapter.IES
         private bool Create(BHE.Elements.BuildingElementPanel bHoMBuildingElementPanel, gbXML.gbXML gbx)
         {
 
-            gbXML.gbXMLSerializer.Serialize(new List<IObject> { bHoMBuildingElementPanel as IObject }, gbx);
+            gbXML.gbXMLSerializer.Serialize(new List<IBHoMObject> { bHoMBuildingElementPanel as IBHoMObject }, gbx);
 
             return true;
         }
@@ -53,7 +53,7 @@ namespace BH.Adapter.IES
         private bool Create(BHE.Elements.Space bHoMSpace, gbXML.gbXML gbx)
         {
 
-            gbXML.gbXMLSerializer.Serialize(new List<IObject> { bHoMSpace as IObject }, gbx);
+            gbXML.gbXMLSerializer.Serialize(new List<IBHoMObject> { bHoMSpace as IBHoMObject }, gbx);
 
             return true;
         }
