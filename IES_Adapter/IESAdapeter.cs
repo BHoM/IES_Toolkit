@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using BH.oM.Queries;
+using BH.oM.DataManipulation.Queries;
 using BH.Engine;
 using BH.oM.Base;
 using System.Linq;
