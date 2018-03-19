@@ -15,11 +15,11 @@ namespace BH.Adapter.IES
         /**** Constructors                              ****/
         /***************************************************/
 
-        public IesAdapter( string gbXML_name, string gbXML_FilePath)
+        public IesAdapter( string gbXMLName, string gbXMLDirectoryPath)
         {
 
-            Filepath = gbXML_FilePath;
-            Filename = gbXML_name;
+            Filepath = gbXMLDirectoryPath;
+            Filename = gbXMLName;
 
 
             AdapterId = Engine.IES.Convert.AdapterID;
