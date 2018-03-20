@@ -5,6 +5,7 @@ using BHG = BH.oM.Geometry;
 using BHE = BH.oM.Environmental;
 using XML_Adapter;
 using gbXML = XML_Adapter.gbXML;
+using BH.oM.XML;
 using BH.Engine.IES;
 using System.Xml;
 
@@ -20,7 +21,7 @@ namespace BH.Adapter.IES
         {
             bool success = true;
 
-            gbXML.gbXML gbx = new gbXML.gbXML();
+            BH.oM.XML.gbXML gbx = new BH.oM.XML.gbXML();
 
             if (typeof(IBHoMObject).IsAssignableFrom(typeof(T)))
             {
@@ -40,7 +41,7 @@ namespace BH.Adapter.IES
 
         /***************************************************/
 
-        private bool Create(BHE.Elements.BuildingElementPanel bHoMBuildingElementPanel, gbXML.gbXML gbx)
+        private bool Create(BHE.Elements.BuildingElementPanel bHoMBuildingElementPanel, BH.oM.XML.gbXML gbx)
         {
 
             gbXML.gbXMLSerializer.Serialize(new List<IBHoMObject> { bHoMBuildingElementPanel as IBHoMObject }, gbx);
@@ -50,7 +51,7 @@ namespace BH.Adapter.IES
 
         /***************************************************/
 
-        private bool Create(BHE.Elements.Space bHoMSpace, gbXML.gbXML gbx)
+        private bool Create(BHE.Elements.Space bHoMSpace, BH.oM.XML.gbXML gbx)
         {
 
             gbXML.gbXMLSerializer.Serialize(new List<IBHoMObject> { bHoMSpace as IBHoMObject }, gbx);

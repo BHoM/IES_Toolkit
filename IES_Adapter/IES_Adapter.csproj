@@ -85,6 +85,9 @@
     <Reference Include="XML_Adapter">
       <HintPath>..\..\XML_Toolkit\Build\XML_Adapter.dll</HintPath>
     </Reference>
+    <Reference Include="XML_oM">
+      <HintPath>..\..\XML_Toolkit\Build\XML_oM.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IESAdapeter.cs" />
