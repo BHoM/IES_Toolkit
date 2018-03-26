@@ -59,6 +59,17 @@ namespace BH.Adapter.IES
             return true;
         }
 
+        /***************************************************/
+
+        private bool Create(BHE.Elements.Building bHoMBuilding, BH.oM.XML.gbXML gbx)
+        {
+
+            gbXML.gbXMLSerializer.Serialize(new List<IBHoMObject> { bHoMBuilding as IBHoMObject }, gbx);
+
+            return true;
+        }
+
+        /***************************************************/
 
 
     }
