@@ -25,11 +25,12 @@ namespace BH.Adapter.IES
 
             if (typeof(IBHoMObject).IsAssignableFrom(typeof(T)))
             {
+                gbXML.gbXMLSerializer.Serialize(objects, gbx);
 
-                foreach (T obj in objects)
-                {
-                    success &= Create(obj as dynamic, gbx);
-                }
+                //foreach (T obj in objects)
+                //{
+                //    success &= Create(obj as dynamic, gbx);
+                //}
 
             }
 
