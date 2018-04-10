@@ -8,7 +8,6 @@ using BH.oM.Environmental.Properties;
 using BH.oM.Environmental.Interface;
 using BHG = BH.oM.Geometry;
 using BH.Engine;
-using gbXML = XML_Adapter.gbXML;
 using BHE = BH.oM.Environmental;
 using XML_Adapter;
 

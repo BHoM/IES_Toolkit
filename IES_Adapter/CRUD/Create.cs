@@ -4,7 +4,6 @@ using BH.oM.Base;
 using BHG = BH.oM.Geometry;
 using BHE = BH.oM.Environmental;
 using XML_Adapter;
-using gbXML = XML_Adapter.gbXML;
 using BH.oM.XML;
 using BH.Engine.IES;
 using System.Xml;
@@ -72,6 +71,15 @@ namespace BH.Adapter.IES
 
         /***************************************************/
 
+        private bool Create(BHE.Elements.BuildingElement bHoMBuildingElement, BH.oM.XML.gbXML gbx)
+        {
+
+            gbXML.gbXMLSerializer.Serialize(new List<IBHoMObject> { bHoMBuildingElement as IBHoMObject }, gbx);
+
+            return true;
+        }
+
+        /***************************************************/
 
     }
 }
