@@ -21,7 +21,6 @@ namespace BH.Adapter.IES
             Filepath = gbXMLDirectoryPath;
             Filename = gbXMLName;
 
-
             AdapterId = Engine.IES.Convert.AdapterID;
             Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
             Config.ProcessInMemory = false;
