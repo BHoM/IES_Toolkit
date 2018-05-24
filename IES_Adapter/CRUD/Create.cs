@@ -18,8 +18,6 @@ namespace BH.Adapter.IES
 
         protected override bool Create<T>(IEnumerable<T> objects, bool replaceAll = false)
         {
-            bool success = true;
-
             BH.oM.XML.gbXML gbx = new BH.oM.XML.gbXML();
 
             if (typeof(IBHoMObject).IsAssignableFrom(typeof(T)))
@@ -29,19 +27,9 @@ namespace BH.Adapter.IES
                 gbx = new BH.oM.XML.gbXML();
                 gbXML.gbXMLSerializer.Serialize(objects, gbx, false);
                 XMLWriter.Save(Filepath, Filename + "_TAS", gbx);
-
-
-                //foreach (T obj in objects)
-                //{
-                //    success &= Create(obj as dynamic, gbx);
-                //}
-
             }
 
-            //if (success)
-                //XMLWriter.Save(Filepath, Filename, gbx);
-            return success;
-
+            return true;
         }
 
         /***************************************************/
