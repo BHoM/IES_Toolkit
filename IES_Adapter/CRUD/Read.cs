@@ -3,12 +3,12 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using BH.oM.Base;
-using BH.oM.Environmental.Elements;
-using BH.oM.Environmental.Properties;
-using BH.oM.Environmental.Interface;
+using BH.oM.Environment.Elements;
+using BH.oM.Environment.Properties;
+using BH.oM.Environment.Interface;
 using BHG = BH.oM.Geometry;
 using BH.Engine;
-using BHE = BH.oM.Environmental;
+using BHE = BH.oM.Environment;
 using XML_Adapter;
 
 namespace BH.Adapter.IES

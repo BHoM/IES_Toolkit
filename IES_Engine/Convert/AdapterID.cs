@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using BHG = BH.oM.Geometry;
-using BHE = BH.oM.Environmental;
+using BHE = BH.oM.Environment;
 
 
 namespace BH.Engine.IES
