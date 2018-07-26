@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using BH.oM.Base;
 using BHG = BH.oM.Geometry;
-using BHE = BH.oM.Environmental;
+using BHE = BH.oM.Environment;
 using XML_Adapter;
 using BH.oM.XML;
 using BH.Engine.IES;
