@@ -15,7 +15,7 @@ namespace BH.Adapter.IES
         /**** Constructors                              ****/
         /***************************************************/
 
-        public IesAdapter( string gbXMLName, string gbXMLDirectoryPath)
+        /*public IesAdapter( string gbXMLName, string gbXMLDirectoryPath)
         {
 
             Filepath = gbXMLDirectoryPath;
@@ -27,7 +27,7 @@ namespace BH.Adapter.IES
             Config.SeparateProperties = false;  //Set to true after Dependency types have been implemented
             Config.UseAdapterId = false;        //Set to true when NextId method and id tagging has been implemented
 
-        }
+        }*/
 
 
         public override List<IObject> Push(IEnumerable<IObject> objects, string tag = "", Dictionary<string, object> config = null)
