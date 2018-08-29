@@ -29,6 +29,11 @@ namespace BH.Adapter.IES
 
         }*/
 
+        public IesAdapter()
+        {
+            throw new NotImplementedException();
+        }
+
 
         public override List<IObject> Push(IEnumerable<IObject> objects, string tag = "", Dictionary<string, object> config = null)
         {
