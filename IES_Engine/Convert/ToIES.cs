@@ -9,7 +9,6 @@ using BH.oM.Environment.Properties;
 using BH.oM.Environment.Interface;
 using BHG = BH.oM.Geometry;
 using BH.Engine;
-using XML_Adapter;
 
 namespace BH.Engine.TAS
 {
