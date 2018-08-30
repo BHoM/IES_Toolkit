@@ -37,7 +37,7 @@ namespace BH.Adapter.IES
 
         public override List<IObject> Push(IEnumerable<IObject> objects, string tag = "", Dictionary<string, object> config = null)
         {
-            bool success = true;
+            /*bool success = true;
             MethodInfo miToList = typeof(Enumerable).GetMethod("Cast");
             foreach (var typeGroup in objects.GroupBy(x => x.GetType()))
             {
@@ -48,9 +48,9 @@ namespace BH.Adapter.IES
                 success &= Create(list as dynamic, false);
             }
 
-            return success ? objects.ToList() : new List<IObject>();
-        
-           
+            return success ? objects.ToList() : new List<IObject>();*/
+
+            throw new NotImplementedException();           
         }
 
 
