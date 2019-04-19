@@ -5,10 +5,9 @@ using System.Collections.Generic;
 using BH.oM.Base;
 using BH.oM.Environment.Elements;
 using BH.oM.Environment.Properties;
-using BH.oM.Environment.Interface;
-using BHG = BH.oM.Geometry;
+using BH.oM.Geometry;
 using BH.Engine;
-using BHE = BH.oM.Environment;
+using BH.oM.Environment;
 
 namespace BH.Adapter.IES
 {

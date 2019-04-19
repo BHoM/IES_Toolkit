@@ -6,7 +6,6 @@ using BH.oM.Base;
 using System.Linq;
 using System.Reflection;
 
-
 namespace BH.Adapter.IES
 {
     public partial class IesAdapter : BHoMAdapter
@@ -31,6 +30,7 @@ namespace BH.Adapter.IES
 
         public IesAdapter()
         {
+            BH.Engine.Reflection.Compute.RecordError("The IES Adapter has not been fully implemented yet and cannot be used. For queries please contact the Building Environments Development team (https://github.com/BuroHappoldEngineering/BuildingEnvironments_Toolkit/wiki/Roles)");
             throw new NotImplementedException();
         }
 
