@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using BH.oM.Base;
 using BH.oM.Environment.Elements;
-using BH.oM.Environment.Properties;
+using BH.oM.Environment.Fragments;
 using BH.oM.Geometry;
 using BH.Engine;
 using BH.oM.Environment;
