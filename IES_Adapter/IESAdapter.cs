@@ -39,13 +39,6 @@ namespace BH.Adapter.IES
             Config.UseAdapterId = false;        //Set to true when NextId method and id tagging has been implemented
         }
 
-        public IESAdapter()
-        {
-            BH.Engine.Reflection.Compute.RecordError("The IES Adapter has not been fully implemented yet and cannot be used. For queries please contact the Building Environments Development team (https://github.com/BuroHappoldEngineering/BuildingEnvironments_Toolkit/wiki/Roles)");
-            throw new NotImplementedException();
-        }
-
-
         public override List<IObject> Push(IEnumerable<IObject> objects, string tag = "", Dictionary<string, object> config = null)
         {
             /*bool success = true;
