@@ -20,6 +20,17 @@ namespace BH.Engine.IES
        {
             List<string> gemSpace = new List<string>();
 
+            gemSpace.Add("LAYER\n");
+            gemSpace.Add("1\n");
+            gemSpace.Add("COLOUR\n");
+            gemSpace.Add("1\n");
+            gemSpace.Add("CATEGORY\n");
+            gemSpace.Add("1\n");
+            gemSpace.Add("TYPE\n");
+            gemSpace.Add("1\n");
+            gemSpace.Add("COLOURRGB\n");
+            gemSpace.Add("16711690\n");
+
             gemSpace.Add("IES " + panelsAsSpace.ConnectedSpaceName() + "\n");
 
             List<Point> spaceVertices = new List<Point>();

@@ -27,17 +27,6 @@ namespace BH.Adapter.IES
 
             StreamWriter sw = new StreamWriter(_fileSettings.FullFileName());
 
-            sw.WriteLine("LAYER");
-            sw.WriteLine("1");
-            sw.WriteLine("COLOUR");
-            sw.WriteLine("1");
-            sw.WriteLine("CATEGORY");
-            sw.WriteLine("1");
-            sw.WriteLine("TYPE");
-            sw.WriteLine("1");
-            sw.WriteLine("COLOURRGB");
-            sw.WriteLine("16711690");
-
             foreach (List<Panel> space in panelsAsSpaces)
             {
                 List<string> output = space.ToIES();
