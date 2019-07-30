@@ -49,7 +49,7 @@ namespace BH.Engine.IES
                 List<Point> v = p.Vertices();
                 v.RemoveAt(v.Count - 1); //Remove the last point because we don't need duplicated points
 
-                if (!p.NormalAwayFromSpace(panelsAsSpace) && p.ConnectedSpaces[0] == panelsAsSpace.ConnectedSpaceName())
+                if (!p.NormalAwayFromSpace(panelsAsSpace))
                     v.Reverse(); //Reverse the point order if the normal is not away from the space but the first adjacency is this space
 
                 string s = v.Count.ToString() + " ";
