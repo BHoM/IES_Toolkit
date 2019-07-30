@@ -41,20 +41,17 @@ namespace BH.Adapter.IES
 
         public override List<IObject> Push(IEnumerable<IObject> objects, string tag = "", Dictionary<string, object> config = null)
         {
-            /*bool success = true;
-            MethodInfo miToList = typeof(Enumerable).GetMethod("Cast");
+            bool success = true;
+
+            MethodInfo methodInfos = typeof(Enumerable).GetMethod("Cast");
             foreach (var typeGroup in objects.GroupBy(x => x.GetType()))
             {
-                MethodInfo miListObject = miToList.MakeGenericMethod(new[] { typeGroup.Key });
-
-                var list = miListObject.Invoke(typeGroup, new object[] { typeGroup });
-
+                MethodInfo mInfo = methodInfos.MakeGenericMethod(new[] { typeGroup.Key });
+                var list = mInfo.Invoke(typeGroup, new object[] { typeGroup });
                 success &= Create(list as dynamic, false);
             }
 
-            return success ? objects.ToList() : new List<IObject>();*/
-
-            throw new NotImplementedException();           
+            return success ? objects.ToList() : new List<IObject>();
         }
 
 
