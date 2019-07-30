@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using BH.oM.Base;
 using BHG = BH.oM.Geometry;
 using BHE = BH.oM.Environment;
-using BH.Engine.IES;
 
 namespace BH.Adapter.IES
 {
-    public partial class IesAdapter : BHoMAdapter
+    public partial class IESAdapter : BHoMAdapter
     {
         /***************************************************/
         /**** Protected Methods                         ****/
