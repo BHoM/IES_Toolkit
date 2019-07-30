@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Analytical_oM, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BHoM\Build\Analytical_oM.dll</HintPath>
+    </Reference>
     <Reference Include="BHoM, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\BHoM\Build\BHoM.dll</HintPath>
@@ -54,9 +58,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\BHoM\Build\Environment_oM.dll</HintPath>
     </Reference>
+    <Reference Include="Geometry_Engine, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BHoM_Engine\Build\Geometry_Engine.dll</HintPath>
+    </Reference>
     <Reference Include="Geometry_oM, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\BHoM\Build\Geometry_oM.dll</HintPath>
+    </Reference>
+    <Reference Include="Reflection_Engine, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BHoM_Engine\Build\Reflection_Engine.dll</HintPath>
     </Reference>
     <Reference Include="Reflection_oM, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -72,12 +84,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Convert\Environment_oM\Opening.cs" />
+    <Compile Include="Convert\Environment_oM\OpeningType.cs" />
+    <Compile Include="Convert\Environment_oM\Space.cs" />
+    <Compile Include="Create\FileSettings.cs" />
+    <Compile Include="Modify\RoundedPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\BottomLeft.cs" />
+    <Compile Include="Query\FullFileName.cs" />
+    <Compile Include="Query\IsLeft.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Convert\" />
-    <Folder Include="Objectd\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\IES_oM\IES_oM.csproj">
       <Project>{ac4262cd-c25b-43a5-a755-299c468efdbf}</Project>
