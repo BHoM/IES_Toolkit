@@ -36,6 +36,7 @@ namespace BH.Engine.IES
             foreach (Panel p in panelsAsSpace)
             {
                 List<Point> v = p.Vertices();
+                v.RemoveAt(v.Count - 1); //Remove the last point because we don't need duplicated points
 
                 if (!p.NormalAwayFromSpace(panelsAsSpace) && p.ConnectedSpaces[0] == panelsAsSpace.ConnectedSpaceName())
                     v.Reverse(); //Reverse the point order if the normal is not away from the space but the first adjacency is this space
