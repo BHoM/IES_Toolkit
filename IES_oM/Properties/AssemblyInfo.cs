@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("IES_Toolkit")]
+[assembly: AssemblyTitle("IES_oM")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("BuroHappold")]
-[assembly: AssemblyProduct("IES_Toolkit")]
-[assembly: AssemblyCopyright("Copyright © BuroHappold 2018")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("IES_oM")]
+[assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8c300803-9e86-4742-8884-04d41c7b5478")]
+[assembly: Guid("ac4262cd-c25b-43a5-a755-299c468efdbf")]
 
 // Version information for an assembly consists of the following four values:
 //

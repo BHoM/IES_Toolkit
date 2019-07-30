@@ -2,7 +2,7 @@
 
 namespace BH.Adapter.IES
 {
-    public partial class IesAdapter : BHoMAdapter
+    public partial class IESAdapter : BHoMAdapter
     {
         /***************************************************/
         /**** Public Methods                            ****/

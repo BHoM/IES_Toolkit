@@ -6,29 +6,40 @@ using BH.oM.Base;
 using System.Linq;
 using System.Reflection;
 
+using BH.oM.IES.Settings;
+
+using System.ComponentModel;
+using BH.oM.Reflection.Attributes;
+
 namespace BH.Adapter.IES
 {
-    public partial class IesAdapter : BHoMAdapter
+    public partial class IESAdapter : BHoMAdapter
     {
         /***************************************************/
         /**** Constructors                              ****/
         /***************************************************/
 
-        /*public IesAdapter( string gbXMLName, string gbXMLDirectoryPath)
+        [Description("Produces an IES Adapter to allow interopability with IES GEM files and the BHoM")]
+        [Input("fileSettings", "Input the file settings the IES Adapter should use, default null")]
+        [Output("adapter", "Adapter to IES GEM")]
+        public IESAdapter(FileSettings fileSettings = null)
         {
+            if(fileSettings == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Please set the File Settings correctly to enable the IES Adapter to work correctly");
+                return;
+            }
 
-            Filepath = gbXMLDirectoryPath;
-            Filename = gbXMLName;
+            _fileSettings = fileSettings;
 
-            AdapterId = Engine.IES.Convert.AdapterID;
+            AdapterId = "IES_Adapter";
             Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
             Config.ProcessInMemory = false;
             Config.SeparateProperties = false;  //Set to true after Dependency types have been implemented
             Config.UseAdapterId = false;        //Set to true when NextId method and id tagging has been implemented
+        }
 
-        }*/
-
-        public IesAdapter()
+        public IESAdapter()
         {
             BH.Engine.Reflection.Compute.RecordError("The IES Adapter has not been fully implemented yet and cannot be used. For queries please contact the Building Environments Development team (https://github.com/BuroHappoldEngineering/BuildingEnvironments_Toolkit/wiki/Roles)");
             throw new NotImplementedException();
@@ -65,10 +76,7 @@ namespace BH.Adapter.IES
         /**** Public properties                         ****/
         /***************************************************/
 
-        public string Filepath { get; set; }
-        public string Filename { get; set; }
-        
-
+        private FileSettings _fileSettings { get; set; } = null;
     }
 }
 
