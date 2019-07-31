@@ -57,6 +57,7 @@ namespace BH.Engine.IES
         public static Opening ToBHoM(this List<string> openingPts, string openingType)
         {
             List<Point> points = openingPts.Select(x => x.ToBHoMPoint()).ToList();
+            points.Add(points.First());
             /*for(int x = 0; x < points.Count; x++)
             {
                 points[x].X += panelXY.X;
