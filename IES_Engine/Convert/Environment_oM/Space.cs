@@ -80,7 +80,7 @@ namespace BH.Engine.IES
         [Description("Convert an IES string representation of a space into a collection of BHoM Environment Panels")]
         [Input("iesSpace", "The IES representation of a space")]
         [Output("panelsAsSpace", "BHoM Environment Space")]
-        public static List<Panel> ToBHoM(this List<string> iesSpace)
+        public static List<Panel> ToBHoMPanels(this List<string> iesSpace)
         {
             List<Panel> panels = new List<Panel>();
             //Convert the strings which make up the IES Gem file back into BHoM panels.
@@ -99,10 +99,12 @@ namespace BH.Engine.IES
             while(count < iesSpace.Count)
             {
                 //Convert to panels
-                List<string> panelCoord = iesSpace[count].Split(' ').ToList();
+                List<string> panelCoord = iesSpace[count].Trim().Split(' ').ToList();
                 List<Point> pLinePts = new List<Point>();
                 for (int y = 1; y < panelCoord.Count; y++)
-                    pLinePts.Add(bhomPoints[System.Convert.ToInt32(panelCoord[y])]);
+                    pLinePts.Add(bhomPoints[System.Convert.ToInt32(panelCoord[y]) - 1]);
+
+                pLinePts.Add(pLinePts.First());
 
                 Polyline pLine = new Polyline { ControlPoints = pLinePts, };
 

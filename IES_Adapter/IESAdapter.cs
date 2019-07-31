@@ -11,6 +11,8 @@ using BH.oM.IES.Settings;
 using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
 
+using BH.Engine.IES;
+
 namespace BH.Adapter.IES
 {
     public partial class IESAdapter : BHoMAdapter
@@ -54,6 +56,23 @@ namespace BH.Adapter.IES
             return success ? objects.ToList() : new List<IObject>();
         }
 
+        public override IEnumerable<object> Pull(IRequest request, Dictionary<string, object> config = null)
+        {
+            if (!System.IO.File.Exists(_fileSettings.FullFileName()))
+            {
+                BH.Engine.Reflection.Compute.RecordError("File does not exist to pull from");
+                return new List<IBHoMObject>();
+            }
+
+            if (request != null)
+            {
+                FilterRequest filterRequest = request as FilterRequest;
+
+                return Read(filterRequest.Type);
+            }
+            else
+                return Read(null);
+        }
 
         /***************************************************/
         /**** Private Fields                            ****/

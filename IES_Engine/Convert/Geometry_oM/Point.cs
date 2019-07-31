@@ -31,6 +31,7 @@ namespace BH.Engine.IES
         {
             try
             {
+                iesPt = iesPt.Trim();
                 string[] split = iesPt.Split(' ');
                 return new Point
                 {
