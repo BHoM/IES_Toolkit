@@ -76,6 +76,43 @@ namespace BH.Engine.IES
         public static List<Panel> ToBHoM(this List<string> iesSpace)
         {
             //Convert the strings which make up the IES Gem file back into BHoM panels.
+            string spaceName = iesSpace[0]; //First string is the name
+
+            int numCoordinates = System.Convert.ToInt32(iesSpace[1].Split(' ')[0]); //First number is the number of coordinates
+            int numPanels = System.Convert.ToInt32(iesSpace[1].Split(' ')[1]); //Second number is the number of panels (faces) of the space
+
+            List<string> iesPoints = new List<string>();
+            for (int x = 0; x < numCoordinates; x++)
+                iesPoints.Add(iesSpace[x + 2]);
+
+            List<Point> bhomPoints = iesPoints.Select(x => x.ToBHoMPoint()).ToList();
+
+            int count = numCoordinates + 2;
+            while(count < iesSpace.Count)
+            {
+                //Convert to panels
+                List<string> panelCoord = iesSpace[count].Split(' ').ToList();
+                List<Point> pLinePts = new List<Point>();
+                for (int y = 1; y < panelCoord.Count; y++)
+                    pLinePts.Add(bhomPoints[System.Convert.ToInt32(panelCoord[y])]);
+
+                Polyline pLine = new Polyline { ControlPoints = pLinePts, };
+
+                Panel panel = new Panel();
+                panel.ExternalEdges = pLine.ToEdges();
+
+                count++;
+                int numOpenings = System.Convert.ToInt32(iesSpace[count]);
+                count++;
+                if(numOpenings > 0)
+                {
+                    int numCoords = System.Convert.ToInt32(iesSpace[count].Split(' ')[0]);
+                    List<string> openingPts = new List<string>();
+                    for (int x = 0; x < numCoords; x++)
+                        openingPts.Add(iesSpace[count + x]);
+                }
+            }
+
             return null;
         }
     }
