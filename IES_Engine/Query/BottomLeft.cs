@@ -39,8 +39,19 @@ namespace BH.Engine.IES
             };
 
             List<Point> pnts = panel.Vertices();
-            double minZ = pnts.Min(x => x.Z);
-            pnts = pnts.Where(x => x.Z == minZ).ToList();
+            double minZ = pnts.Min(x => Math.Round(x.Z, 6));
+            pnts = pnts.Where(x => Math.Round(x.Z, 6) == minZ).ToList();
+
+            if(pnts.Count == panel.Vertices().Count)
+            {
+                //All the points are on the same Z level - we're looking at a floor/roof
+                Polyline pLine = panel.Polyline();
+                pLine = pLine.Rotate(pLine.Centroid(), new Vector { X = 1, Y = 0, Z = 0 }, 1.5708);
+                pnts = pLine.ControlPoints;
+                minZ = pnts.Min(x => Math.Round(x.Z, 6));
+                pnts = pnts.Where(x => Math.Round(x.Z, 6) == minZ).ToList();
+                line.End = line.Start.Translate(pLine.Normal());
+            }
 
             Point leftMost = null;
             foreach(Point p in pnts)
