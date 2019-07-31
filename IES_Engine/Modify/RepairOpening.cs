@@ -16,7 +16,7 @@ namespace BH.Engine.IES
 {
     public static partial class Modify
     {
-        public static Opening RepairOpening(this Opening opening, Point panelXYZ)
+        public static Opening RepairOpening(this Opening opening, Point panelXYZ, bool useXZ = false, bool useYZ = false)
         {
             //The openings when converted from IES don't have the right coordinates for 3D space, this method will repair them
             Polyline pLine = opening.Polyline();
@@ -25,10 +25,25 @@ namespace BH.Engine.IES
             List<Point> newPts = new List<Point>();
             foreach(Point p in pts)
             {
-                newPts.Add(new Point());
-                newPts.Last().X += panelXYZ.X;
-                newPts.Last().Y += panelXYZ.Y;
-                newPts.Last().Z += panelXYZ.Z;
+                newPts.Add(new Point { X = p.X, Y = p.Y, Z = p.Z });
+                if (!useXZ && !useYZ)
+                {
+                    newPts.Last().X += panelXYZ.X;
+                    newPts.Last().Y += panelXYZ.Y;
+                    newPts.Last().Z = panelXYZ.Z;
+                }
+                else if (useXZ)
+                {
+                    newPts.Last().X += panelXYZ.X;
+                    newPts.Last().Y = panelXYZ.Y;
+                    newPts.Last().Z = p.Y + panelXYZ.Z;
+                }
+                else if (useYZ)
+                {
+                    newPts.Last().X = panelXYZ.X;
+                    newPts.Last().Y = p.X + panelXYZ.Y;
+                    newPts.Last().Z = p.Y + panelXYZ.Z;
+                }
             }
 
             Polyline newPoly = new Polyline { ControlPoints = newPts, };
