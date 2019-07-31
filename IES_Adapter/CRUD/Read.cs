@@ -48,17 +48,24 @@ namespace BH.Adapter.IES
             sr.Close();
 
             iesStrings.RemoveRange(0, 10); //Remove the first 10 items...
-            while(iesStrings.Count > 0)
+            bool endOfFile = false;
+            while(!endOfFile)
             {
                 int nextIndex = iesStrings.IndexOf("LAYER");
-                if (nextIndex == -1) nextIndex = iesStrings.Count; //End of the file
+                if (nextIndex == -1)
+                {
+                    nextIndex = iesStrings.Count; //End of the file
+                    endOfFile = true;
+                }
+
                 List<string> space = new List<string>();
                 for (int x = 0; x < nextIndex; x++)
                     space.Add(iesStrings[x]);
 
                 objects.AddRange(space.ToBHoMPanels());
 
-                iesStrings.RemoveRange(0, nextIndex + 10);
+                if(!endOfFile)
+                    iesStrings.RemoveRange(0, nextIndex + 10);
             }
 
             return objects;

@@ -139,7 +139,16 @@ namespace BH.Engine.IES
             foreach(Panel p in panels)
             {
                 for (int x = 0; x < p.Openings.Count; x++)
-                    p.Openings[x] = p.Openings[x].RepairOpening(p.BottomLeft(panels));
+                {
+                    List<Point> vertices = p.Polyline().IDiscontinuityPoints();
+                    bool useYZ = false;
+                    bool useXZ = false;
+                    if (vertices.Min(y => y.X) == vertices.Max(y => y.X))
+                        useYZ = true;
+                    else if (vertices.Min(y => y.Y) == vertices.Max(y => y.Y))
+                        useXZ = true;
+                    p.Openings[x] = p.Openings[x].RepairOpening(p.BottomLeft(panels), useXZ, useYZ);
+                }
             }
 
             return panels;
