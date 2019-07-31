@@ -42,7 +42,7 @@ namespace BH.Engine.IES
             gemSpace.Add(spaceVertices.Count.ToString() + " " + panelsAsSpace.Count.ToString() + "\n");
 
             foreach (Point p in spaceVertices)
-                gemSpace.Add(" " + p.X.ToString() + " " + p.Y.ToString() + " " + p.Z.ToString() + "\n");
+                gemSpace.Add(p.ToIES());
 
             foreach (Panel p in panelsAsSpace)
             {
@@ -71,6 +71,12 @@ namespace BH.Engine.IES
             }
 
             return gemSpace;
-       }
+        }
+       
+        public static List<Panel> ToBHoM(this List<string> iesSpace)
+        {
+            //Convert the strings which make up the IES Gem file back into BHoM panels.
+            return null;
+        }
     }
 }
