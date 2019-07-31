@@ -16,6 +16,10 @@ namespace BH.Engine.IES
 {
     public static partial class Convert
     {
+
+        [Description("Convert a BHoM Opening Type to an IES string representation for GEM format")]
+        [Input("type", "The BHoM Opening Type to convert")]
+        [Output("iesOpeningType", "The IES string representation of the BHoM opening type")]
         public static string ToIES(this OpeningType type)
         {
             switch(type)
@@ -33,6 +37,19 @@ namespace BH.Engine.IES
                 default:
                     return "2"; //Hole
             }
+        }
+
+        [Description("Convert an IES string representation of a Opening Type to a BHoM Opening Type")]
+        [Input("iesOpeningType", "The IES string representation of an opening type")]
+        [Output("openingType", "The BHoM Opening Type")]
+        public static OpeningType ToBHoMOpeningType(this string iesOpeningType)
+        {
+            if (iesOpeningType == "0")
+                return OpeningType.Window;
+            if (iesOpeningType == "1")
+                return OpeningType.Door;
+
+            return OpeningType.Undefined;
         }
     }
 }

@@ -16,7 +16,12 @@ namespace BH.Engine.IES
 {
     public static partial class Convert
     {
-        public static List<string> ToIES(this Opening opening, Point panelXY)
+
+        [Description("Convert a BHoM Environment Opening to an IES string representation of an opening for GEM format")]
+        [Input("opening", "The BHoM Environment Opening to convert")]
+        [Input("panelXYZ", "The bottom left corner point of the host panel to calculate the opening points from for GEM format")]
+        [Output("iesOpening", "The string representation for IES GEM format")]
+        public static List<string> ToIES(this Opening opening, Point panelXYZ)
         {
             List<string> gemOpening = new List<string>();
 
@@ -34,15 +39,39 @@ namespace BH.Engine.IES
             foreach (Point p in vertices)
             {
                 if (!useXZ && !useYZ)
-                    gemOpening.Add(" " + Math.Abs((p.X - panelXY.X)).ToString() + " " + Math.Abs((p.Y - panelXY.Y)).ToString() + "\n");
+                    gemOpening.Add(" " + Math.Abs((p.X - panelXYZ.X)).ToString() + " " + Math.Abs((p.Y - panelXYZ.Y)).ToString() + "\n");
                 else if (useXZ)
-                    gemOpening.Add(" " + Math.Abs((p.X - panelXY.X)).ToString() + " " + Math.Abs((p.Z - panelXY.Z)).ToString() + "\n");
+                    gemOpening.Add(" " + Math.Abs((p.X - panelXYZ.X)).ToString() + " " + Math.Abs((p.Z - panelXYZ.Z)).ToString() + "\n");
                 else if (useYZ)
-                    gemOpening.Add(" " + Math.Abs((p.Y - panelXY.Y)).ToString() + " " + Math.Abs((p.Z - panelXY.Z)).ToString() + "\n");
+                    gemOpening.Add(" " + Math.Abs((p.Y - panelXYZ.Y)).ToString() + " " + Math.Abs((p.Z - panelXYZ.Z)).ToString() + "\n");
 
             }
 
             return gemOpening;
+        }
+
+        [Description("Convert an IES string representation of an opening to a BHoM Environment Opening")]
+        [Input("openingPts", "The string representations of coordinates that make up the opening")]
+        [Input("openingType", "The IES representation of the opening type")]
+        [Input("panelXYZ", "The bottom left corner of the host panel to calculate the 3d position of the opening from")]
+        [Output("opening", "The BHoM Environment Opening converted from IES GEM format")]
+        public static Opening ToBHoM(this List<string> openingPts, string openingType, Point panelXY)
+        {
+            List<Point> points = openingPts.Select(x => x.ToBHoMPoint()).ToList();
+            for(int x = 0; x < points.Count; x++)
+            {
+                points[x].X += panelXY.X;
+                points[x].Y += panelXY.Y;
+                points[x].Z += panelXY.Z;
+            }
+
+            Polyline pLine = new Polyline { ControlPoints = points, };
+
+            Opening opening = new Opening();
+            opening.Edges = pLine.ToEdges();
+            opening.Type = openingType.ToBHoMOpeningType();
+
+            return opening;
         }
     }
 }
