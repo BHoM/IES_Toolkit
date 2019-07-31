@@ -42,6 +42,17 @@ namespace BH.Engine.IES
             double maxZ = pnts.Max(x => x.Z);
             pnts = pnts.Where(x => x.Z == maxZ).ToList();
 
+            if (pnts.Count == panel.Vertices().Count)
+            {
+                //All the points are on the same Z level - we're looking at a floor/roof
+                Polyline pLine = panel.Polyline();
+                pLine = pLine.Rotate(pLine.Centroid(), new Vector { X = 1, Y = 0, Z = 0 }, 1.5708);
+                pnts = pLine.ControlPoints;
+                maxZ = pnts.Max(x => Math.Round(x.Z, 6));
+                pnts = pnts.Where(x => Math.Round(x.Z, 6) == maxZ).ToList();
+                line.End = line.Start.Translate(pLine.Normal());
+            }
+
             Point leftMost = null;
             foreach (Point p in pnts)
             {
