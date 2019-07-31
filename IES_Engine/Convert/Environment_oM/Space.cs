@@ -16,8 +16,12 @@ namespace BH.Engine.IES
 {
     public static partial class Convert
     {
-       public static List<string> ToIES(this List<Panel> panelsAsSpace)
-       {
+    
+        [Description("Convert a collection of BHoM Environment Panels that represent a single volumetric space into the IES string representation for GEM format")]
+        [Input("panelsAsSpace", "The collection of BHoM Environment Panels that represent a space")]
+        [Output("iesSpace", "The IES string representation of the space for GEM")]
+        public static List<string> ToIES(this List<Panel> panelsAsSpace)
+        {
             List<string> gemSpace = new List<string>();
 
             gemSpace.Add("LAYER\n");
@@ -73,6 +77,9 @@ namespace BH.Engine.IES
             return gemSpace;
         }
        
+        [Description("Convert an IES string representation of a space into a collection of BHoM Environment Panels")]
+        [Input("iesSpace", "The IES representation of a space")]
+        [Output("panelsAsSpace", "BHoM Environment Space")]
         public static List<Panel> ToBHoM(this List<string> iesSpace)
         {
             List<Panel> panels = new List<Panel>();
