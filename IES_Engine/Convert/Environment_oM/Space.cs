@@ -75,6 +75,7 @@ namespace BH.Engine.IES
        
         public static List<Panel> ToBHoM(this List<string> iesSpace)
         {
+            List<Panel> panels = new List<Panel>();
             //Convert the strings which make up the IES Gem file back into BHoM panels.
             string spaceName = iesSpace[0]; //First string is the name
 
@@ -100,20 +101,39 @@ namespace BH.Engine.IES
 
                 Panel panel = new Panel();
                 panel.ExternalEdges = pLine.ToEdges();
+                panel.Openings = new List<Opening>();
 
                 count++;
                 int numOpenings = System.Convert.ToInt32(iesSpace[count]);
                 count++;
-                if(numOpenings > 0)
+                int countOpenings = 0;
+                while(countOpenings < numOpenings)
                 {
-                    int numCoords = System.Convert.ToInt32(iesSpace[count].Split(' ')[0]);
+                    string openingData = iesSpace[count];
+                    int numCoords = System.Convert.ToInt32(openingData.Split(' ')[0]);
+                    count++;
+
                     List<string> openingPts = new List<string>();
                     for (int x = 0; x < numCoords; x++)
                         openingPts.Add(iesSpace[count + x]);
+
+                    panel.Openings.Add(openingPts.ToBHoM(openingData.Split(' ')[1]));
+
+                    count += numCoords;
+                    countOpenings++;
                 }
+
+                panels.Add(panel);
             }
 
-            return null;
+            //Fix the openings now
+            foreach(Panel p in panels)
+            {
+                for (int x = 0; x < p.Openings.Count; x++)
+                    p.Openings[x] = p.Openings[x].RepairOpening(p.BottomLeft(panels));
+            }
+
+            return panels;
         }
     }
 }
