@@ -53,17 +53,16 @@ namespace BH.Engine.IES
         [Description("Convert an IES string representation of an opening to a BHoM Environment Opening")]
         [Input("openingPts", "The string representations of coordinates that make up the opening")]
         [Input("openingType", "The IES representation of the opening type")]
-        [Input("panelXYZ", "The bottom left corner of the host panel to calculate the 3d position of the opening from")]
         [Output("opening", "The BHoM Environment Opening converted from IES GEM format")]
-        public static Opening ToBHoM(this List<string> openingPts, string openingType, Point panelXY)
+        public static Opening ToBHoM(this List<string> openingPts, string openingType)
         {
             List<Point> points = openingPts.Select(x => x.ToBHoMPoint()).ToList();
-            for(int x = 0; x < points.Count; x++)
+            /*for(int x = 0; x < points.Count; x++)
             {
                 points[x].X += panelXY.X;
                 points[x].Y += panelXY.Y;
                 points[x].Z += panelXY.Z;
-            }
+            }*/
 
             Polyline pLine = new Polyline { ControlPoints = points, };
 

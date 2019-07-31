@@ -36,7 +36,7 @@ namespace BH.Engine.IES
                 {
                     X = System.Convert.ToDouble(split[0]),
                     Y = System.Convert.ToDouble(split[1]),
-                    Z = System.Convert.ToDouble(split[2]),
+                    Z = (split.Length > 2 ? System.Convert.ToDouble(split[2]) : 0),
                 };
             }
             catch(Exception e)
