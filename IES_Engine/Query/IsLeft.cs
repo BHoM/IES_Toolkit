@@ -22,22 +22,6 @@ namespace BH.Engine.IES
         [Output("isLeft", "True if the point is on the left hand side of the line. False if it is on the line or on the right hand side")]
         public static bool IsLeft(Line line, Point check)
         {
-            if(line.Start.Z != line.End.Z)
-            {
-                //Change the line to not be 3D...
-                Point s = line.Start;
-                Point e = line.End;
-
-                s.X = line.Start.Y;
-                s.Y = line.Start.Z;
-                s.Z = line.Start.X;
-                e.X = line.End.Y;
-                e.Y = line.End.Z;
-                e.Z = line.End.X;
-                line.Start = s;
-                line.End = e;
-            }
-
             return ((line.End.X - line.Start.X) * (check.Y - line.Start.Y) - (line.End.Y - line.Start.Y) * (check.X - line.Start.X)) > 0;
         }
     }

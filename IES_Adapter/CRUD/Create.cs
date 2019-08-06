@@ -27,11 +27,18 @@ namespace BH.Adapter.IES
 
             StreamWriter sw = new StreamWriter(_fileSettings.FullFileName());
 
-            foreach (List<Panel> space in panelsAsSpaces)
+            try
             {
-                List<string> output = space.ToIES();
-                foreach (string s in output)
-                    sw.Write(s);
+                foreach (List<Panel> space in panelsAsSpaces)
+                {
+                    List<string> output = space.ToIES();
+                    foreach (string s in output)
+                        sw.Write(s);
+                }
+            }
+            catch(Exception e)
+            {
+                BH.Engine.Reflection.Compute.RecordError("An error occurred in exporting the IES GEM file. Error is: " + e.ToString());
             }
 
             sw.Close();
