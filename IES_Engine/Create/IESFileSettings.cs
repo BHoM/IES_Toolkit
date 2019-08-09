@@ -21,7 +21,7 @@ namespace BH.Engine.IES
         [Input("fileName", "Name of GEM file, not including the file extension. Default 'BHoM_GEM_File'")]
         [Input("directory", "Path to GEM file. Defaults to your desktop")]
         [Output("fileSettings", "The file settings to use with the IES adapter for pull and push")]
-        public static IESFileSettings FileSettings(string fileName = "BHoM_GEM_File", string directory = null)
+        public static IESFileSettings IESFileSettings(string fileName = "BHoM_GEM_File", string directory = null)
         {
             if (directory == null)
                 directory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);

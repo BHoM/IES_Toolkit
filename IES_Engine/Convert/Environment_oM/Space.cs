@@ -50,6 +50,9 @@ namespace BH.Engine.IES
 
             foreach (Panel p in panelsAsSpace)
             {
+                if (p.Type == PanelType.Undefined && p.Openings.Count == 0)
+                    p.Openings.Add(new Opening { Edges = new List<Edge>(p.ExternalEdges), Type = OpeningType.Undefined }); //Air walls need the polyline adding as an opening of type hole
+
                 List<Point> v = p.Vertices();
                 v.RemoveAt(v.Count - 1); //Remove the last point because we don't need duplicated points
 
