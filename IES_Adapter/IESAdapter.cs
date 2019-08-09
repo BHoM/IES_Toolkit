@@ -22,17 +22,17 @@ namespace BH.Adapter.IES
         /***************************************************/
 
         [Description("Produces an IES Adapter to allow interopability with IES GEM files and the BHoM")]
-        [Input("fileSettings", "Input the file settings the IES Adapter should use, default null")]
+        [Input("iesFileSettings", "Input the file settings the IES Adapter should use, default null")]
         [Output("adapter", "Adapter to IES GEM")]
-        public IESAdapter(IESFileSettings fileSettings = null)
+        public IESAdapter(IESFileSettings iesFileSettings = null)
         {
-            if(fileSettings == null)
+            if(iesFileSettings == null)
             {
                 BH.Engine.Reflection.Compute.RecordError("Please set the File Settings correctly to enable the IES Adapter to work correctly");
                 return;
             }
 
-            _fileSettings = fileSettings;
+            _fileSettings = iesFileSettings;
 
             AdapterId = "IES_Adapter";
             Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
