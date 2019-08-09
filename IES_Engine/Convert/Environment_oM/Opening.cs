@@ -29,21 +29,24 @@ namespace BH.Engine.IES
 
             gemOpening.Add(vertices.Count.ToString() + " " + opening.Type.ToIES() + "\n");
 
+            double minDist = Math.Min(vertices.Max(x => x.X) - vertices.Min(x => x.X), vertices.Max(x => x.Y) - vertices.Min(x => x.Y));
+            minDist = Math.Min(minDist, vertices.Max(x => x.Z) - vertices.Min(x => x.Z));
+
             bool useYZ = false;
             bool useXZ = false;
-            if (vertices.Min(x => x.X) == vertices.Max(x => x.X))
+            if (vertices.Min(x => Math.Round(x.X, 6)) == vertices.Max(x => Math.Round(x.X, 6)) || (vertices.Max(x => x.X) - vertices.Min(x => x.X)) == minDist)
                 useYZ = true;
-            else if (vertices.Min(x => x.Y) == vertices.Max(x => x.Y))
+            else if (vertices.Min(x => Math.Round(x.Y, 6)) == vertices.Max(x => Math.Round(x.Y, 6)) || (vertices.Max(x => x.Y) - vertices.Min(x => x.Y)) == minDist)
                 useXZ = true;
 
             foreach (Point p in vertices)
             {
                 if (!useXZ && !useYZ)
-                    gemOpening.Add(" " + Math.Abs((p.X - panelXYZ.X)).ToString() + " " + Math.Abs((p.Y - panelXYZ.Y)).ToString() + "\n");
+                    gemOpening.Add(" " + Math.Round(Math.Abs((p.X - panelXYZ.X)), 6).ToString() + " " + Math.Round(Math.Abs((p.Y - panelXYZ.Y)), 6).ToString() + "\n");
                 else if (useXZ)
-                    gemOpening.Add(" " + Math.Abs((p.X - panelXYZ.X)).ToString() + " " + Math.Abs((p.Z - panelXYZ.Z)).ToString() + "\n");
+                    gemOpening.Add(" " + Math.Round(Math.Abs((p.X - panelXYZ.X)), 6).ToString() + " " + Math.Round(Math.Abs((p.Z - panelXYZ.Z)), 6).ToString() + "\n");
                 else if (useYZ)
-                    gemOpening.Add(" " + Math.Abs((p.Y - panelXYZ.Y)).ToString() + " " + Math.Abs((p.Z - panelXYZ.Z)).ToString() + "\n");
+                    gemOpening.Add(" " + Math.Round(Math.Abs((p.Y - panelXYZ.Y)), 6).ToString() + " " + Math.Round(Math.Abs((p.Z - panelXYZ.Z)), 6).ToString() + "\n");
 
             }
 
