@@ -71,9 +71,9 @@ namespace BH.Engine.IES
                 else
                 {
                     gemSpace.Add(p.Openings.Count.ToString() + "\n");
-                    Point panelXY = p.BottomLeft(panelsAsSpace);
+                    Point panelXY = p.BottomRight(panelsAsSpace);
                     foreach (Opening o in p.Openings)
-                        gemSpace.AddRange(o.ToIES(panelXY));
+                        gemSpace.AddRange(o.ToIES(panelsAsSpace, panelXY));
                 }
             }
 

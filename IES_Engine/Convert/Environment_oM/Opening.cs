@@ -19,13 +19,16 @@ namespace BH.Engine.IES
 
         [Description("Convert a BHoM Environment Opening to an IES string representation of an opening for GEM format")]
         [Input("opening", "The BHoM Environment Opening to convert")]
+        [Input("panelsAsSpace", "The panels representing a single space which hosts this opening, used to check the orientation of the opening")]
         [Input("panelXYZ", "The bottom left corner point of the host panel to calculate the opening points from for GEM format")]
         [Output("iesOpening", "The string representation for IES GEM format")]
-        public static List<string> ToIES(this Opening opening, Point panelXYZ)
+        public static List<string> ToIES(this Opening opening, List<Panel> panelsAsSpace, Point panelXYZ)
         {
             List<string> gemOpening = new List<string>();
 
             List<Point> vertices = opening.Polyline().IDiscontinuityPoints();
+            if (!opening.Polyline().NormalAwayFromSpace(panelsAsSpace))
+                vertices.Reverse();
 
             gemOpening.Add(vertices.Count.ToString() + " " + opening.Type.ToIES() + "\n");
 
