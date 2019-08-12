@@ -20,11 +20,11 @@ namespace BH.Engine.IES
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("Gets the bottom left most point of a panel when looking from within the space to the outside")]
-        [Input("panel", "The Environment Panel to get the bottom left most point of")]
+        [Description("Gets the bottom right most point of a panel when looking from within the space to the outside")]
+        [Input("panel", "The Environment Panel to get the bottom right most point of")]
         [Input("panelsAsSpace", "A collection of Environment Panels representing a single space")]
-        [Output("bottomLeftPoint", "The bottom left most point of the panel")]
-        public static Point BottomLeft(this Panel panel, List<Panel> panelsAsSpace)
+        [Output("bottomRightPoint", "The bottom right most point of the panel")]
+        public static Point BottomRight(this Panel panel, List<Panel> panelsAsSpace)
         {
             Vector normal = panel.Polyline().Normal();
             if (!panel.NormalAwayFromSpace(panelsAsSpace))
@@ -45,7 +45,7 @@ namespace BH.Engine.IES
             bool wasFlat = false;
             TransformMatrix transform = null;
 
-            if (pnts.Count == panel.Vertices().Count)
+            if(pnts.Count == panel.Vertices().Count)
             {
                 //All the points are on the same Z level - we're looking at a floor/roof
                 Polyline pLine = panel.Polyline();
@@ -58,17 +58,17 @@ namespace BH.Engine.IES
                 wasFlat = true;
             }
 
-            Point leftMost = null;
-            foreach (Point p in pnts)
+            Point rightMost = null;
+            foreach(Point p in pnts)
             {
                 if (!IsLeft(line, p))
-                    leftMost = p;
+                    rightMost = p;
             }
 
-            if (wasFlat && leftMost != null)
-                leftMost = leftMost.Transform(transform.Invert());
+            if (wasFlat && rightMost != null)
+                rightMost = rightMost.Transform(transform.Invert());
 
-            return leftMost;
+            return rightMost;
         }
     }
 }

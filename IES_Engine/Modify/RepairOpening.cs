@@ -28,7 +28,7 @@ namespace BH.Engine.IES
             else if (vertices.Min(y => y.Y) == vertices.Max(y => y.Y))
                 useXZ = true;
 
-            Point panelXYZ = host.BottomLeft(panelsAsSpace);
+            Point panelXYZ = host.BottomRight(panelsAsSpace);
             Point right = host.TopRight(panelsAsSpace);
 
             bool increaseX = (panelXYZ.X <= right.X);
