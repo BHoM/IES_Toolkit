@@ -39,21 +39,17 @@ namespace BH.Engine.IES
             };
 
             List<Point> pnts = panel.Vertices();
-            double minZ = pnts.Min(x => Math.Round(x.Z, 6));
-            pnts = pnts.Where(x => Math.Round(x.Z, 6) == minZ).ToList();
 
             bool wasFlat = false;
             TransformMatrix transform = null;
 
-            if (pnts.Count == panel.Vertices().Count)
+            if (pnts.Min(x => Math.Round(x.Z, 6)) == pnts.Max(x => Math.Round(x.Z, 6)))
             {
                 //All the points are on the same Z level - we're looking at a floor/roof
                 Polyline pLine = panel.Polyline();
                 transform = BH.Engine.Geometry.Create.RotationMatrix(pLine.Centroid(), new Vector { X = 1, Y = 0, Z = 0 }, 1.5708);
                 pLine = pLine.Transform(transform);
                 pnts = pLine.ControlPoints;
-                minZ = pnts.Min(x => Math.Round(x.Z, 6));
-                pnts = pnts.Where(x => Math.Round(x.Z, 6) == minZ).ToList();
                 line.End = line.Start.Translate(pLine.Normal());
                 wasFlat = true;
             }
@@ -61,7 +57,7 @@ namespace BH.Engine.IES
             Point leftMost = null;
             foreach (Point p in pnts)
             {
-                if (!IsLeft(line, p))
+                if (IsLeft(line, p) && (leftMost == null || leftMost.Z > p.Z))
                     leftMost = p;
             }
 
