@@ -110,7 +110,7 @@ namespace BH.Engine.IES
                     gemOpening.Add(" " + Math.Round(Math.Abs((p.X - panelBottomRightReference.X)), 6).ToString() + " " + Math.Round(Math.Abs((p.Z - panelBottomRightReference.Z)), 6).ToString() + "\n");
                 else if (useYZ)
                     gemOpening.Add(" " + Math.Round(Math.Abs((p.Y - panelBottomRightReference.Y)), 6).ToString() + " " + Math.Round(Math.Abs((p.Z - panelBottomRightReference.Z)), 6).ToString() + "\n");
-
+                    
             }
 
             return gemOpening;
