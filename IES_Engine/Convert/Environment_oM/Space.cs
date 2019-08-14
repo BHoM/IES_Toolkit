@@ -48,6 +48,8 @@ namespace BH.Engine.IES
             foreach (Point p in spaceVertices)
                 gemSpace.Add(p.ToIES());
 
+            Point zero = new Point { X = 0, Y = 0, Z = 0 };
+
             foreach (Panel p in panelsAsSpace)
             {
                 if (p.Type == PanelType.Undefined && p.Openings.Count == 0)
@@ -72,9 +74,12 @@ namespace BH.Engine.IES
                 {
                     gemSpace.Add(p.Openings.Count.ToString() + "\n");
                     //Point panelXY = p.BottomLeft(panelsAsSpace);
-                    Point panelXY = v.Min();
+                    //Point panelXY = v.Min();
+
+                    Point pnt = p.Polyline().Bounds().ToPolyline().BottomRight(panelsAsSpace);
+
                     foreach (Opening o in p.Openings)
-                        gemSpace.AddRange(o.ToIES(panelsAsSpace, panelXY));
+                        gemSpace.AddRange(o.ToIES(panelsAsSpace, pnt));
                 }
             }
 
