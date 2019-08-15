@@ -76,7 +76,13 @@ namespace BH.Engine.IES
                     //Point panelXY = p.BottomLeft(panelsAsSpace);
                     //Point panelXY = v.Min();
 
-                    Point pnt = p.Polyline().Bounds().ToPolyline().BottomRight(panelsAsSpace);
+                    Polyline boundary = p.Polyline().Bounds().ToPolyline();
+                    Point pnt = null;
+                    double dot = boundary.Normal().DotProduct(p.Polyline().Normal());
+                    if (dot > -0.01 && dot < 0.01)
+                        pnt = p.Polyline().BottomRight(panelsAsSpace);
+                    else
+                        pnt = p.Polyline().Bounds().ToPolyline().BottomRight(panelsAsSpace);
 
                     foreach (Opening o in p.Openings)
                         gemSpace.AddRange(o.ToIES(panelsAsSpace, pnt));

@@ -106,11 +106,23 @@ namespace BH.Engine.IES
             {
                 if (!useXZ && !useYZ)
                     gemOpening.Add(" " + Math.Round(Math.Abs((p.X - panelBottomRightReference.X)), 6).ToString() + " " + Math.Round(Math.Abs((p.Y - panelBottomRightReference.Y)), 6).ToString() + "\n");
-                else if (useXZ)
-                    gemOpening.Add(" " + Math.Round(Math.Abs((p.X - panelBottomRightReference.X)), 6).ToString() + " " + Math.Round(Math.Abs((p.Z - panelBottomRightReference.Z)), 6).ToString() + "\n");
-                else if (useYZ)
-                    gemOpening.Add(" " + Math.Round(Math.Abs((p.Y - panelBottomRightReference.Y)), 6).ToString() + " " + Math.Round(Math.Abs((p.Z - panelBottomRightReference.Z)), 6).ToString() + "\n");
-                    
+                else
+                {
+                    if (minDist < 2)
+                    {
+                        if (useXZ)
+                            gemOpening.Add(" " + Math.Round(Math.Abs((p.X - panelBottomRightReference.X)), 6).ToString() + " " + Math.Round(Math.Abs((p.Z - panelBottomRightReference.Z)), 6).ToString() + "\n");
+                        else if (useYZ)
+                            gemOpening.Add(" " + Math.Round(Math.Abs((p.Y - panelBottomRightReference.Y)), 6).ToString() + " " + Math.Round(Math.Abs((p.Z - panelBottomRightReference.Z)), 6).ToString() + "\n");
+                    }
+                    else
+                    {
+                        Point pt = new Point { X = p.X, Y = p.Y, Z = 0 };
+                        Point pt2 = new Point { X = panelBottomRightReference.X, Y = panelBottomRightReference.Y, Z = 0 };
+                        double distance = pt2.Distance(pt);
+                        gemOpening.Add(" " + Math.Round(Math.Abs(distance), 6).ToString() + " " + Math.Round(Math.Abs((p.Z - panelBottomRightReference.Z)), 6).ToString() + "\n");
+                    }
+                }
             }
 
             return gemOpening;
