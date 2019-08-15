@@ -38,17 +38,20 @@ namespace BH.Engine.IES
             Point min = box.Min.RoundedPoint();
             Point max = box.Max.RoundedPoint();
 
+            double minDist = Math.Min(max.X - min.X, max.Y - min.Y);
+            minDist = Math.Min(minDist, max.Z - min.Z);
+
             List<Point> pnts = new List<Point>();
             pnts.Add(min);
 
-            /*if(min.X == max.X || min.Z == max.Z)
+            if((max.X - min.X) == minDist || (max.Z - min.Z) == minDist)
             {
                 //YZ plane
                 pnts.Add(new Point { X = min.X, Y = max.Y, Z = min.Z });
                 pnts.Add(max);
                 pnts.Add(new Point { X = max.X, Y = min.Y, Z = max.Z });
             }
-            else if (min.Y == max.Y)
+            else if ((max.Y - min.Y) == minDist)
             {
                 //XZ
                 pnts.Add(new Point { X = min.X, Y = min.Y, Z = max.Z });
@@ -76,11 +79,11 @@ namespace BH.Engine.IES
                 pnts.Add(new Point { X = x3, Y = y3, Z = min.Z });
                 pnts.Add(max);
                 pnts.Add(new Point { X = x4, Y = y4, Z = max.Z });
-            }*/
+            }
 
-            pnts.Add(new Point { X = min.X, Y = min.Y, Z = max.Z });
+            /*pnts.Add(new Point { X = min.X, Y = min.Y, Z = max.Z });
             pnts.Add(new Point { X = min.X, Y = max.Y, Z = max.Z });
-            pnts.Add(new Point { X = min.X, Y = max.Y, Z = min.Z });
+            pnts.Add(new Point { X = min.X, Y = max.Y, Z = min.Z });*/
 
             pnts.Add(min);
 
