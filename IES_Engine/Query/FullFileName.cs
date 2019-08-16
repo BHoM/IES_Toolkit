@@ -14,7 +14,7 @@ namespace BH.Engine.IES
         /**** Public Methods                            ****/
         /***************************************************/
 
-        public static string FullFileName(this IESFileSettings fileSettings)
+        public static string FullFileName(this FileSettingsIES fileSettings)
         {
             return System.IO.Path.Combine(fileSettings.Directory, fileSettings.FileName + ".gem");
         }

@@ -24,7 +24,7 @@ namespace BH.Adapter.IES
         [Description("Produces an IES Adapter to allow interopability with IES GEM files and the BHoM")]
         [Input("iesFileSettings", "Input the file settings the IES Adapter should use, default null")]
         [Output("adapter", "Adapter to IES GEM")]
-        public IESAdapter(IESFileSettings iesFileSettings = null)
+        public IESAdapter(FileSettingsIES iesFileSettings = null)
         {
             if(iesFileSettings == null)
             {
@@ -85,7 +85,7 @@ namespace BH.Adapter.IES
         /**** Public properties                         ****/
         /***************************************************/
 
-        private IESFileSettings _fileSettings { get; set; } = null;
+        private FileSettingsIES _fileSettings { get; set; } = null;
     }
 }
 

@@ -4,7 +4,7 @@ using BH.oM.Base;
 
 namespace BH.oM.IES.Settings
 {
-    public class IESFileSettings : BHoMObject
+    public class FileSettingsIES : BHoMObject
     {
         /***************************************************/
         /**** Properties                                ****/
