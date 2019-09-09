@@ -22,9 +22,10 @@ namespace BH.Adapter.IES
         /***************************************************/
 
         [Description("Produces an IES Adapter to allow interopability with IES GEM files and the BHoM")]
-        [Input("iesFileSettings", "Input the file settings the IES Adapter should use, default null")]       
+        [Input("iesFileSettings", "Input the file settings the IES Adapter should use, default null")]        
+        [Input("settingsIES", "Input additional settings the adapter should use." )]
         [Output("adapter", "Adapter to IES GEM")]
-        public IESAdapter(FileSettingsIES iesFileSettings = null)
+        public IESAdapter(FileSettingsIES iesFileSettings = null, SettingsIES settingsIES = null)
         {
             if(iesFileSettings == null)
             {
