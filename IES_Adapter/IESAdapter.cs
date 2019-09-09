@@ -22,7 +22,7 @@ namespace BH.Adapter.IES
         /***************************************************/
 
         [Description("Produces an IES Adapter to allow interopability with IES GEM files and the BHoM")]
-        [Input("iesFileSettings", "Input the file settings the IES Adapter should use, default null")]
+        [Input("iesFileSettings", "Input the file settings the IES Adapter should use, default null")]       
         [Output("adapter", "Adapter to IES GEM")]
         public IESAdapter(FileSettingsIES iesFileSettings = null)
         {
@@ -76,14 +76,7 @@ namespace BH.Adapter.IES
 
         /***************************************************/
         /**** Private Fields                            ****/
-        /***************************************************/
-
-        private System.Diagnostics.Process m_IesProcess = new System.Diagnostics.Process();
-
-
-        /***************************************************/
-        /**** Public properties                         ****/
-        /***************************************************/
+        /***************************************************/    
 
         private FileSettingsIES _fileSettings { get; set; } = null;
     }
