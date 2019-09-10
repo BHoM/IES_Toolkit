@@ -11,6 +11,7 @@ using BH.Engine.Reflection;
 using BH.oM.Environment.Elements;
 using BH.Engine.Environment;
 using BH.Engine.Geometry;
+using BH.oM.IES.Settings; 
 
 namespace BH.Engine.IES
 {
@@ -20,7 +21,7 @@ namespace BH.Engine.IES
         [Description("Convert a BHoM Opening Type to an IES string representation for GEM format")]
         [Input("type", "The BHoM Opening Type to convert")]
         [Output("iesOpeningType", "The IES string representation of the BHoM opening type")]
-        public static string ToIES(this OpeningType type)
+        public static string ToIES(this OpeningType type, SettingsIES settings)
         {
             switch(type)
             {
@@ -42,7 +43,7 @@ namespace BH.Engine.IES
         [Description("Convert an IES string representation of a Opening Type to a BHoM Opening Type")]
         [Input("iesOpeningType", "The IES string representation of an opening type")]
         [Output("openingType", "The BHoM Opening Type")]
-        public static OpeningType ToBHoMOpeningType(this string iesOpeningType)
+        public static OpeningType ToBHoMOpeningType(this string iesOpeningType, SettingsIES settings)
         {
             if (iesOpeningType == "0")
                 return OpeningType.Window;

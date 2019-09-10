@@ -11,6 +11,7 @@ using BH.Engine.Reflection;
 using BH.oM.Environment.Elements;
 using BH.Engine.Environment;
 using BH.Engine.Geometry;
+using BH.oM.IES.Settings;
 
 namespace BH.Engine.IES
 {
@@ -22,7 +23,7 @@ namespace BH.Engine.IES
         [Input("panelsAsSpace", "The panels representing a single space which hosts this opening, used to check the orientation of the opening")]
         [Input("panelXYZ", "The bottom left corner point of the host panel to calculate the opening points from for GEM format")]
         [Output("iesOpening", "The string representation for IES GEM format")]
-        public static List<string> ToIES(this Opening opening, List<Panel> panelsAsSpace, Point panelBottomRightReference)
+        public static List<string> ToIES(this Opening opening, List<Panel> panelsAsSpace, Point panelBottomRightReference, SettingsIES settings)
         {
             /*List<string> gemOpening = new List<string>();
             List<Point> vertices = opening.Polyline().IDiscontinuityPoints();
@@ -90,7 +91,7 @@ namespace BH.Engine.IES
             if (!opening.Polyline().NormalAwayFromSpace(panelsAsSpace))
                 vertices.Reverse();
 
-            gemOpening.Add(vertices.Count.ToString() + " " + opening.Type.ToIES() + "\n");
+            gemOpening.Add(vertices.Count.ToString() + " " + opening.Type.ToIES(settings) + "\n");
 
             double minDist = Math.Min(vertices.Max(x => x.X) - vertices.Min(x => x.X), vertices.Max(x => x.Y) - vertices.Min(x => x.Y));
             minDist = Math.Min(minDist, vertices.Max(x => x.Z) - vertices.Min(x => x.Z));
@@ -132,9 +133,9 @@ namespace BH.Engine.IES
         [Input("openingPts", "The string representations of coordinates that make up the opening")]
         [Input("openingType", "The IES representation of the opening type")]
         [Output("opening", "The BHoM Environment Opening converted from IES GEM format")]
-        public static Opening ToBHoM(this List<string> openingPts, string openingType)
+        public static Opening ToBHoM(this List<string> openingPts, string openingType, SettingsIES settings)
         {
-            List<Point> points = openingPts.Select(x => x.ToBHoMPoint()).ToList();
+            List<Point> points = openingPts.Select(x => x.ToBHoMPoint(settings)).ToList();
             points.Add(points.First());
             /*for(int x = 0; x < points.Count; x++)
             {
@@ -147,7 +148,7 @@ namespace BH.Engine.IES
 
             Opening opening = new Opening();
             opening.Edges = pLine.ToEdges();
-            opening.Type = openingType.ToBHoMOpeningType();
+            opening.Type = openingType.ToBHoMOpeningType(settings);
 
             return opening;
         }

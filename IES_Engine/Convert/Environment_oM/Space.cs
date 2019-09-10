@@ -11,18 +11,19 @@ using BH.Engine.Reflection;
 using BH.oM.Environment.Elements;
 using BH.Engine.Environment;
 using BH.Engine.Geometry;
+using BH.oM.IES.Settings;
+
 
 namespace BH.Engine.IES
 {
     public static partial class Convert
-    {
-    
+    {   
         [Description("Convert a collection of BHoM Environment Panels that represent a single volumetric space into the IES string representation for GEM format")]
         [Input("panelsAsSpace", "The collection of BHoM Environment Panels that represent a space")]
         [Output("iesSpace", "The IES string representation of the space for GEM")]
-        public static List<string> ToIES(this List<Panel> panelsAsSpace)
+        public static List<string> ToIES(this List<Panel> panelsAsSpace, SettingsIES settings) 
         {
-            List<string> gemSpace = new List<string>();
+            List<string> gemSpace = new List<string>(); 
 
             gemSpace.Add("LAYER\n");
             gemSpace.Add("1\n");
@@ -46,7 +47,7 @@ namespace BH.Engine.IES
             gemSpace.Add(spaceVertices.Count.ToString() + " " + panelsAsSpace.Count.ToString() + "\n");
 
             foreach (Point p in spaceVertices)
-                gemSpace.Add(p.ToIES());
+                gemSpace.Add(p.ToIES(settings));
 
             Point zero = new Point { X = 0, Y = 0, Z = 0 };
 
@@ -78,14 +79,14 @@ namespace BH.Engine.IES
 
                     Polyline boundary = p.Polyline().Bounds().ToPolyline();
                     Point pnt = null;
-                    double dot = boundary.Normal().DotProduct(p.Polyline().Normal());
+                    double dot = boundary.Normal(settings.PlanarTolerance).DotProduct(p.Polyline().Normal(settings.PlanarTolerance));
                     if (dot > -0.01 && dot < 0.01)
                         pnt = p.Polyline().BottomRight(panelsAsSpace);
                     else
                         pnt = p.Polyline().Bounds().ToPolyline().BottomRight(panelsAsSpace);
 
                     foreach (Opening o in p.Openings)
-                        gemSpace.AddRange(o.ToIES(panelsAsSpace, pnt));
+                        gemSpace.AddRange(o.ToIES(panelsAsSpace, pnt, settings));
                 }
             }
 
@@ -95,7 +96,7 @@ namespace BH.Engine.IES
         [Description("Convert an IES string representation of a space into a collection of BHoM Environment Panels")]
         [Input("iesSpace", "The IES representation of a space")]
         [Output("panelsAsSpace", "BHoM Environment Space")]
-        public static List<Panel> ToBHoMPanels(this List<string> iesSpace)
+        public static List<Panel> ToBHoMPanels(this List<string> iesSpace, SettingsIES settings)
         {
             List<Panel> panels = new List<Panel>();
             //Convert the strings which make up the IES Gem file back into BHoM panels.
@@ -108,7 +109,7 @@ namespace BH.Engine.IES
             for (int x = 0; x < numCoordinates; x++)
                 iesPoints.Add(iesSpace[x + 2]);
 
-            List<Point> bhomPoints = iesPoints.Select(x => x.ToBHoMPoint()).ToList();
+            List<Point> bhomPoints = iesPoints.Select(x => x.ToBHoMPoint(settings)).ToList();
 
             int count = numCoordinates + 2;
             while(count < iesSpace.Count)
@@ -141,7 +142,7 @@ namespace BH.Engine.IES
                     for (int x = 0; x < numCoords; x++)
                         openingPts.Add(iesSpace[count + x]);
 
-                    panel.Openings.Add(openingPts.ToBHoM(openingData.Split(' ')[1]));
+                    panel.Openings.Add(openingPts.ToBHoM(openingData.Split(' ')[1], settings));
 
                     count += numCoords;
                     countOpenings++;
@@ -159,7 +160,7 @@ namespace BH.Engine.IES
                 }
             }
 
-            return panels;
+            return panels;          
         }
     }
 }
