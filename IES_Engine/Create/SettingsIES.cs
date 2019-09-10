@@ -18,8 +18,8 @@ namespace BH.Engine.IES
         /***************************************************/
 
         [Description("Create a SettingsIES object for use with the IES Adapter")]
-        [Input("planarTolerance", "Set tolarance for planar surfaces")]     // need to come up with description 
-        [Output("settingsIES", "The IES settings to use with the IES adapter push")]
+        [Input("planarTolerance", "Set tolarance for planar surfaces")]     
+        [Output("settingsIES", "The IES settings to use with the IES adapter for pull and push")]
         public static SettingsIES SettingsIES(double planarTolerance = BH.oM.Geometry.Tolerance.Distance)
         {
             return new SettingsIES

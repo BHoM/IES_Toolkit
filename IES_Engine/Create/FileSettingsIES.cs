@@ -20,7 +20,7 @@ namespace BH.Engine.IES
         [Description("Create a FileSettings object for use with the IES Adapter")]
         [Input("fileName", "Name of GEM file, not including the file extension. Default 'BHoM_GEM_File'")]
         [Input("directory", "Path to GEM file. Defaults to your desktop")]
-        [Output("fileSettingsIES", "The file settings to use with the IES adapter for pull and push")]
+        [Output("iesFileSettings", "The file settings to use with the IES adapter for pull and push")]
         public static FileSettingsIES FileSettingsIES(string fileName = "BHoM_GEM_File", string directory = null)
         {
             if (directory == null)

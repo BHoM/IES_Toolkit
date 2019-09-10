@@ -22,18 +22,19 @@ namespace BH.Adapter.IES
         /***************************************************/
 
         [Description("Produces an IES Adapter to allow interopability with IES GEM files and the BHoM")]
-        [Input("iesFileSettings", "Input the file settings the IES Adapter should use, default null")]        
-        [Input("settingsIES", "Input additional settings the adapter should use." )]
+        [Input("iesFileSettings", "Input the file settings the IES Adapter should use, default null")]
+        [Input("settingsIES", "Input additional settings the adapter should use.")]
         [Output("adapter", "Adapter to IES GEM")]
         public IESAdapter(FileSettingsIES iesFileSettings = null, SettingsIES settingsIES = null)
         {
-            if(iesFileSettings == null)
+            if (iesFileSettings == null)
             {
                 BH.Engine.Reflection.Compute.RecordError("Please set the File Settings correctly to enable the IES Adapter to work correctly");
                 return;
             }
 
             _fileSettings = iesFileSettings;
+            _settingsIES = settingsIES;
 
             AdapterId = "IES_Adapter";
             Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
@@ -44,6 +45,11 @@ namespace BH.Adapter.IES
 
         public override List<IObject> Push(IEnumerable<IObject> objects, string tag = "", Dictionary<string, object> config = null)
         {
+            if (_settingsIES == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Please set some IES Settings on the IES Adapter before pushing");
+                return new List<IObject>();
+            }
             bool success = true;
 
             MethodInfo methodInfos = typeof(Enumerable).GetMethod("Cast");
@@ -77,9 +83,10 @@ namespace BH.Adapter.IES
 
         /***************************************************/
         /**** Private Fields                            ****/
-        /***************************************************/    
+        /***************************************************/
 
         private FileSettingsIES _fileSettings { get; set; } = null;
+        private SettingsIES _settingsIES { get; set; } = null; 
     }
 }
 
