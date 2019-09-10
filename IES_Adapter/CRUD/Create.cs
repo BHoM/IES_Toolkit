@@ -31,7 +31,7 @@ namespace BH.Adapter.IES
             {
                 foreach (List<Panel> space in panelsAsSpaces)
                 {
-                    List<string> output = space.ToIES();
+                    List<string> output = space.ToIES(_settingsIES);
                     foreach (string s in output)
                         sw.Write(s);
                 }
