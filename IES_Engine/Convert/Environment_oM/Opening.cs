@@ -88,7 +88,7 @@ namespace BH.Engine.IES
             List<string> gemOpening = new List<string>();
 
             List<Point> vertices = opening.Polyline().IDiscontinuityPoints();
-            if (!opening.Polyline().NormalAwayFromSpace(panelsAsSpace))
+            if (!opening.Polyline().NormalAwayFromSpace(panelsAsSpace, settings.PlanarTolerance))
                 vertices.Reverse();
 
             gemOpening.Add(vertices.Count.ToString() + " " + opening.Type.ToIES(settings) + "\n");
