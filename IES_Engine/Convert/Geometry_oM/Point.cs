@@ -19,6 +19,7 @@ namespace BH.Engine.IES
     {
         [Description("Convert a BHoM Geometry Point into an IES string representation for GEM files")]
         [Input("pt", "BHoM Geometry Point to convert")]
+        [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("iesPt", "The IES string representation of the point")]
         public static string ToIES(this Point pt, SettingsIES settings)
         {
@@ -27,6 +28,7 @@ namespace BH.Engine.IES
 
         [Description("Convert an IES point representation to a BHoM point")]
         [Input("iesPt", "The IES string representation of a point to convert")]
+        [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("point", "A BHoM Geometry Point")]
         public static Point ToBHoMPoint(this string iesPt, SettingsIES settings)
         {

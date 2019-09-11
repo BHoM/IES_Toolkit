@@ -33,6 +33,12 @@ namespace BH.Adapter.IES
                 return;
             }
 
+            if (settingsIES == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Please set some IES Settings on the IES Adapter before pushing");
+                return;
+            }            
+
             _fileSettings = iesFileSettings;
             _settingsIES = settingsIES;
 
@@ -45,11 +51,6 @@ namespace BH.Adapter.IES
 
         public override List<IObject> Push(IEnumerable<IObject> objects, string tag = "", Dictionary<string, object> config = null)
         {
-            if (_settingsIES == null)
-            {
-                BH.Engine.Reflection.Compute.RecordError("Please set some IES Settings on the IES Adapter before pushing");
-                return new List<IObject>();
-            }
             bool success = true;
 
             MethodInfo methodInfos = typeof(Enumerable).GetMethod("Cast");

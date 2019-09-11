@@ -13,13 +13,13 @@ using BH.Engine.Environment;
 using BH.Engine.Geometry;
 using BH.oM.IES.Settings;
 
-
 namespace BH.Engine.IES
 {
     public static partial class Convert
     {   
         [Description("Convert a collection of BHoM Environment Panels that represent a single volumetric space into the IES string representation for GEM format")]
         [Input("panelsAsSpace", "The collection of BHoM Environment Panels that represent a space")]
+        [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("iesSpace", "The IES string representation of the space for GEM")]
         public static List<string> ToIES(this List<Panel> panelsAsSpace, SettingsIES settings) 
         {
@@ -95,6 +95,7 @@ namespace BH.Engine.IES
        
         [Description("Convert an IES string representation of a space into a collection of BHoM Environment Panels")]
         [Input("iesSpace", "The IES representation of a space")]
+        [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("panelsAsSpace", "BHoM Environment Space")]
         public static List<Panel> ToBHoMPanels(this List<string> iesSpace, SettingsIES settings)
         {
@@ -160,7 +161,7 @@ namespace BH.Engine.IES
                 }
             }
 
-            return panels;          
+            return panels;
         }
     }
 }

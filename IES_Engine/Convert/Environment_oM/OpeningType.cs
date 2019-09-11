@@ -20,6 +20,7 @@ namespace BH.Engine.IES
 
         [Description("Convert a BHoM Opening Type to an IES string representation for GEM format")]
         [Input("type", "The BHoM Opening Type to convert")]
+        [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("iesOpeningType", "The IES string representation of the BHoM opening type")]
         public static string ToIES(this OpeningType type, SettingsIES settings)
         {
@@ -42,6 +43,7 @@ namespace BH.Engine.IES
 
         [Description("Convert an IES string representation of a Opening Type to a BHoM Opening Type")]
         [Input("iesOpeningType", "The IES string representation of an opening type")]
+        [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("openingType", "The BHoM Opening Type")]
         public static OpeningType ToBHoMOpeningType(this string iesOpeningType, SettingsIES settings)
         {
