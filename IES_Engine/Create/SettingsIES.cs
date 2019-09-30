@@ -18,13 +18,15 @@ namespace BH.Engine.IES
         /***************************************************/
 
         [Description("Create a SettingsIES object for use with the IES Adapter")]
-        [Input("planarTolerance", "Set tolarance for planar surfaces")]     
+        [Input("planarTolerance", "Set tolarance for planar surfaces")]
+        [Input("decimalPlaces", "Set how many decimal places coordinates should have on export")]
         [Output("settingsIES", "The IES settings to use with the IES adapter for pull and push")]
-        public static SettingsIES SettingsIES(double planarTolerance = BH.oM.Geometry.Tolerance.Distance)
+        public static SettingsIES SettingsIES(double planarTolerance = BH.oM.Geometry.Tolerance.Distance, int decimalPlaces = 6)
         {
             return new SettingsIES
             {
                 PlanarTolerance = planarTolerance,
+                DecimalPlaces = decimalPlaces,
             };
         }            
     }
