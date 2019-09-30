@@ -23,7 +23,7 @@ namespace BH.Engine.IES
         [Output("iesPt", "The IES string representation of the point")]
         public static string ToIES(this Point pt, SettingsIES settings)
         {
-            return " " + Math.Round(pt.X, 6).ToString() + " " + Math.Round(pt.Y, 6).ToString() + " " + Math.Round(pt.Z, 6).ToString() + "\n";
+            return " " + Math.Round(pt.X, settings.DecimalPlaces).ToString() + " " + Math.Round(pt.Y, settings.DecimalPlaces).ToString() + " " + Math.Round(pt.Z, settings.DecimalPlaces).ToString() + "\n";
         }
 
         [Description("Convert an IES point representation to a BHoM point")]
