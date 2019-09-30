@@ -10,7 +10,8 @@ namespace BH.oM.IES.Settings
         /**** Properties                                ****/
         /***************************************************/
 
-        public double PlanarTolerance { get; set; } = BH.oM.Geometry.Tolerance.Distance; 
+        public double PlanarTolerance { get; set; } = BH.oM.Geometry.Tolerance.Distance;
+        public int DecimalPlaces { get; set; } = 6;
 
         /***************************************************/
     }
