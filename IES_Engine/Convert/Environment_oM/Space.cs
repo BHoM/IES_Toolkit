@@ -74,16 +74,6 @@ namespace BH.Engine.IES
                 else
                 {
                     gemSpace.Add(p.Openings.Count.ToString() + "\n");
-                    //Point panelXY = p.BottomLeft(panelsAsSpace);
-                    //Point panelXY = v.Min();
-
-                    /*Polyline boundary = p.Polyline().Bounds().ToPolyline();
-                    Point pnt = null;
-                    double dot = boundary.Normal(settings.PlanarTolerance).DotProduct(p.Polyline().Normal(settings.PlanarTolerance));
-                    if (dot > -0.01 && dot < 0.01)
-                        pnt = p.Polyline().BottomRight(panelsAsSpace);
-                    else
-                        pnt = p.Polyline().Bounds().ToPolyline().BottomRight(panelsAsSpace);*/
 
                     Point pnt = p.Polyline().Bounds().Min;
 
