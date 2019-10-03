@@ -94,8 +94,11 @@ namespace BH.Engine.IES
 
             gemOpening.Add(vertices.Count.ToString() + " " + opening.Type.ToIES(settings) + "\n");
 
-            double minDist = Math.Min(vertices.Max(x => x.X) - vertices.Min(x => x.X), vertices.Max(x => x.Y) - vertices.Min(x => x.Y));
-            minDist = Math.Min(minDist, vertices.Max(x => x.Z) - vertices.Min(x => x.Z));
+            double xDist = vertices.Max(x => x.X) - vertices.Min(x => x.X);
+            double yDist = vertices.Max(x => x.Y) - vertices.Min(x => x.Y);
+            double zDist = vertices.Max(x => x.Z) - vertices.Min(x => x.Z);
+
+            double minDist = Math.Min(xDist, Math.Min(yDist, zDist));
 
             bool useYZ = false;
             bool useXZ = false;
@@ -106,24 +109,21 @@ namespace BH.Engine.IES
 
             foreach (Point p in vertices)
             {
-                if (!useXZ && !useYZ)
-                    gemOpening.Add(" " + Math.Round(Math.Abs((p.X - panelBottomRightReference.X)), 6).ToString() + " " + Math.Round(Math.Abs((p.Y - panelBottomRightReference.Y)), 6).ToString() + "\n");
+                if (minDist < 2)
+                {
+                    if (!useXZ && !useYZ)
+                        gemOpening.Add(" " + Math.Round(Math.Abs((p.X - panelBottomRightReference.X)), 6).ToString() + " " + Math.Round(Math.Abs((p.Y - panelBottomRightReference.Y)), 6).ToString() + "\n");
+                    if (useXZ)
+                        gemOpening.Add(" " + Math.Round(Math.Abs((p.X - panelBottomRightReference.X)), 6).ToString() + " " + Math.Round(Math.Abs((p.Z - panelBottomRightReference.Z)), 6).ToString() + "\n");
+                    else if (useYZ)
+                        gemOpening.Add(" " + Math.Round(Math.Abs((p.Y - panelBottomRightReference.Y)), 6).ToString() + " " + Math.Round(Math.Abs((p.Z - panelBottomRightReference.Z)), 6).ToString() + "\n");
+                }
                 else
                 {
-                    if (minDist < 2)
-                    {
-                        if (useXZ)
-                            gemOpening.Add(" " + Math.Round(Math.Abs((p.X - panelBottomRightReference.X)), 6).ToString() + " " + Math.Round(Math.Abs((p.Z - panelBottomRightReference.Z)), 6).ToString() + "\n");
-                        else if (useYZ)
-                            gemOpening.Add(" " + Math.Round(Math.Abs((p.Y - panelBottomRightReference.Y)), 6).ToString() + " " + Math.Round(Math.Abs((p.Z - panelBottomRightReference.Z)), 6).ToString() + "\n");
-                    }
-                    else
-                    {
-                        Point pt = new Point { X = p.X, Y = p.Y, Z = 0 };
-                        Point pt2 = new Point { X = panelBottomRightReference.X, Y = panelBottomRightReference.Y, Z = 0 };
-                        double distance = pt2.Distance(pt);
-                        gemOpening.Add(" " + Math.Round(Math.Abs(distance), 6).ToString() + " " + Math.Round(Math.Abs((p.Z - panelBottomRightReference.Z)), 6).ToString() + "\n");
-                    }
+                    Point pt = new Point { X = p.X, Y = p.Y, Z = 0 };
+                    Point pt2 = new Point { X = panelBottomRightReference.X, Y = panelBottomRightReference.Y, Z = 0 };
+                    double distance = pt2.Distance(pt);
+                    gemOpening.Add(" " + Math.Round(Math.Abs(distance), 6).ToString() + " " + Math.Round(Math.Abs((p.Z - panelBottomRightReference.Z)), 6).ToString() + "\n");
                 }
             }
 

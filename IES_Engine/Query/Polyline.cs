@@ -31,16 +31,56 @@ namespace BH.Engine.IES
             if((max.X - min.X) == minDist || (max.Z - min.Z) == minDist)
             {
                 //YZ plane
-                pnts.Add(new Point { X = min.X, Y = max.Y, Z = min.Z });
+                /*pnts.Add(new Point { X = min.X, Y = max.Y, Z = min.Z });
                 pnts.Add(max);
-                pnts.Add(new Point { X = max.X, Y = min.Y, Z = max.Z });
+                pnts.Add(new Point { X = max.X, Y = min.Y, Z = max.Z });*/
+
+                double x1 = min.Z;
+                double x2 = max.Z;
+                double y1 = min.Y;
+                double y2 = max.Y;
+
+                double xc = (x1 + x2) / 2;
+                double xd = (x1 - x2) / 2;
+
+                double yc = (y1 + y2) / 2;
+                double yd = (y1 - y2) / 2;
+
+                double x3 = xc - yd;
+                double x4 = xc + yd;
+                double y3 = yc + xd;
+                double y4 = yc - xd;
+
+                pnts.Add(new Point { X = min.X, Y = y3, Z = x3 });
+                pnts.Add(max);
+                pnts.Add(new Point { X = max.X, Y = y4, Z = x4 });
             }
             else if ((max.Y - min.Y) == minDist)
             {
                 //XZ
-                pnts.Add(new Point { X = min.X, Y = min.Y, Z = max.Z });
+                /*pnts.Add(new Point { X = min.X, Y = min.Y, Z = max.Z });
                 pnts.Add(max);
-                pnts.Add(new Point { X = max.X, Y = max.Y, Z = min.Z });
+                pnts.Add(new Point { X = max.X, Y = max.Y, Z = min.Z });*/
+
+                double x1 = min.X;
+                double x2 = max.X;
+                double y1 = min.Z;
+                double y2 = max.Z;
+
+                double xc = (x1 + x2) / 2;
+                double xd = (x1 - x2) / 2;
+
+                double yc = (y1 + y2) / 2;
+                double yd = (y1 - y2) / 2;
+
+                double x3 = xc - yd;
+                double x4 = xc + yd;
+                double y3 = yc + xd;
+                double y4 = yc - xd;
+
+                pnts.Add(new Point { X = x3, Y = min.Y, Z = y3 });
+                pnts.Add(max);
+                pnts.Add(new Point { X = x4, Y = max.Y, Z = y4 });
             }
             else
             {

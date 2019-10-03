@@ -59,7 +59,7 @@ namespace BH.Engine.IES
                 List<Point> v = p.Vertices();
                 v.RemoveAt(v.Count - 1); //Remove the last point because we don't need duplicated points
 
-                if (!p.NormalAwayFromSpace(panelsAsSpace, settings.PlanarTolerance))
+                if (!p.NormalAwayFromSpace(panelsAsSpace, settings.PlanarTolerance) && p.ConnectedSpaces[0] == panelsAsSpace.ConnectedSpaceName())
                     v.Reverse(); //Reverse the point order if the normal is not away from the space but the first adjacency is this space
 
                 string s = v.Count.ToString() + " ";
@@ -77,13 +77,15 @@ namespace BH.Engine.IES
                     //Point panelXY = p.BottomLeft(panelsAsSpace);
                     //Point panelXY = v.Min();
 
-                    Polyline boundary = p.Polyline().Bounds().ToPolyline();
+                    /*Polyline boundary = p.Polyline().Bounds().ToPolyline();
                     Point pnt = null;
                     double dot = boundary.Normal(settings.PlanarTolerance).DotProduct(p.Polyline().Normal(settings.PlanarTolerance));
                     if (dot > -0.01 && dot < 0.01)
                         pnt = p.Polyline().BottomRight(panelsAsSpace);
                     else
-                        pnt = p.Polyline().Bounds().ToPolyline().BottomRight(panelsAsSpace);
+                        pnt = p.Polyline().Bounds().ToPolyline().BottomRight(panelsAsSpace);*/
+
+                    Point pnt = p.Polyline().Bounds().Min;
 
                     foreach (Opening o in p.Openings)
                         gemSpace.AddRange(o.ToIES(panelsAsSpace, pnt, settings));
