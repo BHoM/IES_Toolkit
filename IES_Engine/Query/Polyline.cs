@@ -31,10 +31,6 @@ namespace BH.Engine.IES
             if((max.X - min.X) == minDist || (max.Z - min.Z) == minDist)
             {
                 //YZ plane
-                /*pnts.Add(new Point { X = min.X, Y = max.Y, Z = min.Z });
-                pnts.Add(max);
-                pnts.Add(new Point { X = max.X, Y = min.Y, Z = max.Z });*/
-
                 double x1 = min.Z;
                 double x2 = max.Z;
                 double y1 = min.Y;
@@ -58,10 +54,6 @@ namespace BH.Engine.IES
             else if ((max.Y - min.Y) == minDist)
             {
                 //XZ
-                /*pnts.Add(new Point { X = min.X, Y = min.Y, Z = max.Z });
-                pnts.Add(max);
-                pnts.Add(new Point { X = max.X, Y = max.Y, Z = min.Z });*/
-
                 double x1 = min.X;
                 double x2 = max.X;
                 double y1 = min.Z;
@@ -104,10 +96,6 @@ namespace BH.Engine.IES
                 pnts.Add(max);
                 pnts.Add(new Point { X = x4, Y = y4, Z = max.Z });
             }
-
-            /*pnts.Add(new Point { X = min.X, Y = min.Y, Z = max.Z });
-            pnts.Add(new Point { X = min.X, Y = max.Y, Z = max.Z });
-            pnts.Add(new Point { X = min.X, Y = max.Y, Z = min.Z });*/
 
             pnts.Add(min);
 
