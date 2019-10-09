@@ -26,11 +26,20 @@ namespace BH.Engine.IES
         [Output("TopRightPoint", "The top right most point of the panel")]
         public static Point TopRight(this Panel panel, List<Panel> panelsAsSpace)
         {
-            Vector normal = panel.Polyline().Normal();
-            if (!panel.NormalAwayFromSpace(panelsAsSpace))
-                normal = panel.Polyline().Flip().Normal();
+            return panel.Polyline().TopRight(panelsAsSpace);
+        }
 
-            Point centre = panel.Polyline().Centroid();
+        [Description("Gets the top right most point of a polyline when looking from within the space to the outside")]
+        [Input("polyline", "The BHoM Geometry Polyline to get the bottom right most point of")]
+        [Input("panelsAsSpace", "A collection of Environment Panels representing a single space")]
+        [Output("topRightPoint", "The top right most point of the panel")]
+        public static Point TopRight(this Polyline polyline, List<Panel> panelsAsSpace)
+        {
+            Vector normal = polyline.Normal();
+            if (!polyline.NormalAwayFromSpace(panelsAsSpace))
+                normal = polyline.Flip().Normal();
+
+            Point centre = polyline.Centroid();
 
             Line line = new Line
             {
@@ -38,29 +47,32 @@ namespace BH.Engine.IES
                 End = centre.Translate(normal),
             };
 
-            List<Point> pnts = panel.Vertices();
-            double maxZ = pnts.Max(x => x.Z);
-            pnts = pnts.Where(x => x.Z == maxZ).ToList();
+            List<Point> pnts = polyline.DiscontinuityPoints();
 
-            if (pnts.Count == panel.Vertices().Count)
+            bool wasFlat = false;
+            TransformMatrix transform = null;
+
+            if (pnts.Min(x => Math.Round(x.Z, 6)) == pnts.Max(x => Math.Round(x.Z, 6)))
             {
                 //All the points are on the same Z level - we're looking at a floor/roof
-                Polyline pLine = panel.Polyline();
-                pLine = pLine.Rotate(pLine.Centroid(), new Vector { X = 1, Y = 0, Z = 0 }, 1.5708);
-                pnts = pLine.ControlPoints;
-                maxZ = pnts.Max(x => Math.Round(x.Z, 6));
-                pnts = pnts.Where(x => Math.Round(x.Z, 6) == maxZ).ToList();
-                line.End = line.Start.Translate(pLine.Normal());
+                transform = BH.Engine.Geometry.Create.RotationMatrix(polyline.Centroid(), new Vector { X = 1, Y = 0, Z = 0 }, 1.5708);
+                polyline = polyline.Transform(transform);
+                pnts = polyline.ControlPoints;
+                line.End = line.Start.Translate(polyline.Normal());
+                wasFlat = true;
             }
 
-            Point leftMost = null;
+            Point rightMost = null;
             foreach (Point p in pnts)
             {
-                if (!IsLeft(line, p))
-                    leftMost = p;
+                if (!IsLeft(line, p) && (rightMost == null || rightMost.Z < p.Z))
+                    rightMost = p;
             }
 
-            return leftMost;
+            if (wasFlat && rightMost != null)
+                rightMost = rightMost.Transform(transform.Invert());
+
+            return rightMost;
         }
     }
 }
