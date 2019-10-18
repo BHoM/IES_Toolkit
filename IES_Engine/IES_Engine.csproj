@@ -92,6 +92,7 @@
   <ItemGroup>
     <Compile Include="Convert\Environment_oM\Opening.cs" />
     <Compile Include="Convert\Environment_oM\OpeningType.cs" />
+    <Compile Include="Convert\Environment_oM\Panel.cs" />
     <Compile Include="Convert\Environment_oM\Space.cs" />
     <Compile Include="Convert\Geometry_oM\Point.cs" />
     <Compile Include="Create\SettingsIES.cs" />
