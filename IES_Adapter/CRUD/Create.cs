@@ -24,6 +24,7 @@ namespace BH.Adapter.IES
             List<Panel> panels = bhomObjects.Panels();
 
             List<List<Panel>> panelsAsSpaces = panels.ToSpaces();
+            List<Panel> panelsAsShade = panels.PanelsByType(PanelType.Shade);
 
             StreamWriter sw = new StreamWriter(_fileSettings.FullFileName());
 
@@ -35,6 +36,7 @@ namespace BH.Adapter.IES
                     foreach (string s in output)
                         sw.Write(s);
                 }
+                    sw.Write(panelsAsShade.ToIESShades(_settingsIES));
             }
             catch(Exception e)
             {
