@@ -40,7 +40,7 @@ namespace BH.Engine.IES
                 gemPanel.Add("IES IES_SHD_" + (x + 1).ToString() + "\n");
                 List<Point> points = panelsAsShade[x].Vertices().Select(y => y.RoundedPoint()).ToList();
                 points = points.Distinct().ToList();
-                gemPanel.Add(points.Count.ToString() + " 1");
+                gemPanel.Add(points.Count.ToString() + " 1\n");
 
                 string s = points.Count.ToString();
 
