@@ -38,6 +38,10 @@ namespace BH.Engine.IES
             Vector translateVector = xyRefPoint - panelBottomRightReference;
 
             Vector rotationVector = new Vector { X = 0, Y = 0, Z = 1 };
+            if (openingCurve.ControlPoints.Max(x => x.Z) - openingCurve.ControlPoints.Min(x => x.Z) <= BH.oM.Geometry.Tolerance.Distance)
+                rotationVector = new Vector { X = 1, Y = 0, Z = 0, }; //Handle horizontal openings
+
+
             double rotationAngle = planeNormal.Angle(zVector);
             TransformMatrix rotateMatrix = BH.Engine.Geometry.Create.RotationMatrix(panelBottomRightReference, rotationVector, rotationAngle);
 
@@ -46,9 +50,17 @@ namespace BH.Engine.IES
 
             List<Point> vertices = openingTranslated.IDiscontinuityPoints();
 
-            if((vertices.Max(x => x.Y) - vertices.Min(x => x.Y)) >= BH.oM.Geometry.Tolerance.Distance)
+            gemOpening.Add(vertices.Count.ToString() + " " + opening.Type.ToIES(settings) + "\n");
+
+            if ((vertices.Max(x => x.Y) - vertices.Min(x => x.Y)) >= BH.oM.Geometry.Tolerance.Distance)
             {
-                openingCurve = opening.Polyline().Flip();
+                foreach (Point p in vertices)
+                {
+                    Vector direction = p.RoundedPoint() - xyRefPoint.RoundedPoint();
+                    gemOpening.Add(" " + Math.Abs(direction.X).ToString() + " " + Math.Abs(direction.Y).ToString() + "\n");
+                }
+
+                /*openingCurve = opening.Polyline().Flip();
                 openingPlane = openingCurve.IFitPlane();
                 planeNormal = openingPlane.Normal;
 
@@ -58,16 +70,16 @@ namespace BH.Engine.IES
                 openingTransformed = openingCurve.Transform(rotateMatrix);
                 openingTranslated = openingTransformed.Translate(translateVector);
 
-                vertices = openingTranslated.IDiscontinuityPoints();
+                vertices = openingTranslated.IDiscontinuityPoints();*/
             }
-
-            gemOpening.Add(vertices.Count.ToString() + " " + opening.Type.ToIES(settings) + "\n");
-
-            foreach(Point p in vertices)
+            else
             {
-                Vector direction = p.RoundedPoint() - xyRefPoint.RoundedPoint();
-                gemOpening.Add(" " + Math.Abs(direction.X).ToString() + " " + Math.Abs(direction.Z).ToString() + "\n");
-            }
+                foreach (Point p in vertices)
+                {
+                    Vector direction = p.RoundedPoint() - xyRefPoint.RoundedPoint();
+                    gemOpening.Add(" " + Math.Abs(direction.X).ToString() + " " + Math.Abs(direction.Z).ToString() + "\n");
+                }
+            }            
 
             return gemOpening;
         }
