@@ -47,7 +47,7 @@ namespace BH.Engine.IES
                 foreach(Point p in points)
                 {
                     gemPanel.Add(p.ToIES(settings));
-                    s += " " + points.IndexOf(p).ToString();
+                    s += " " + (points.IndexOf(p) + 1).ToString();
                 }
                 s += "\n";
                 gemPanel.Add(s);
