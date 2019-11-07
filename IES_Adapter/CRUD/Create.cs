@@ -36,7 +36,8 @@ namespace BH.Adapter.IES
                     foreach (string s in output)
                         sw.Write(s);
                 }
-                    sw.Write(panelsAsShade.ToIESShades(_settingsIES));
+
+                panelsAsShade.ToIESShades(_settingsIES).ForEach(x => sw.Write(x));
             }
             catch(Exception e)
             {
