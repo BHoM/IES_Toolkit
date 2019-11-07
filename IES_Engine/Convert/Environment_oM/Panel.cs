@@ -51,7 +51,7 @@ namespace BH.Engine.IES
                 }
                 s += "\n";
                 gemPanel.Add(s);
-                gemPanel.Add("0");
+                gemPanel.Add("0\n");
             }
 
             return gemPanel;
