@@ -27,8 +27,18 @@ namespace BH.Engine.IES
         public static List<string> ToIES(this Opening opening, List<Panel> panelsAsSpace, Point panelBottomRightReference, SettingsIES settings)
         {
             List<string> gemOpening = new List<string>();
-            
+
             Polyline openingCurve = opening.Polyline();
+
+            Vector rotationVector = new Vector { X = 0, Y = 0, Z = 1 };
+            bool isFuckingHorizontal = false;
+            if (openingCurve.ControlPoints.Max(x => x.Z) - openingCurve.ControlPoints.Min(x => x.Z) <= BH.oM.Geometry.Tolerance.Distance)
+            {
+                rotationVector = new Vector { X = 1, Y = 0, Z = 0, }; //Handle horizontal openings
+                isFuckingHorizontal = true;
+
+                panelBottomRightReference = openingCurve.Bounds().Max;
+            }
 
             Vector zVector = new Vector { X = 0, Y = 1, Z = 0 };
             Plane openingPlane = openingCurve.IFitPlane();
@@ -36,11 +46,6 @@ namespace BH.Engine.IES
 
             Point xyRefPoint = new Point {X =  0, Y = 0, Z = 0};
             Vector translateVector = xyRefPoint - panelBottomRightReference;
-
-            Vector rotationVector = new Vector { X = 0, Y = 0, Z = 1 };
-            if (openingCurve.ControlPoints.Max(x => x.Z) - openingCurve.ControlPoints.Min(x => x.Z) <= BH.oM.Geometry.Tolerance.Distance)
-                rotationVector = new Vector { X = 1, Y = 0, Z = 0, }; //Handle horizontal openings
-
 
             double rotationAngle = planeNormal.Angle(zVector);
             TransformMatrix rotateMatrix = BH.Engine.Geometry.Create.RotationMatrix(panelBottomRightReference, rotationVector, rotationAngle);
@@ -50,30 +55,32 @@ namespace BH.Engine.IES
 
             List<Point> vertices = openingTranslated.IDiscontinuityPoints();
 
-            gemOpening.Add(vertices.Count.ToString() + " " + opening.Type.ToIES(settings) + "\n");
-
             if ((vertices.Max(x => x.Y) - vertices.Min(x => x.Y)) >= BH.oM.Geometry.Tolerance.Distance)
             {
+                gemOpening.Add(vertices.Count.ToString() + " " + opening.Type.ToIES(settings) + "\n");
                 foreach (Point p in vertices)
                 {
                     Vector direction = p.RoundedPoint() - xyRefPoint.RoundedPoint();
                     gemOpening.Add(" " + Math.Abs(direction.X).ToString() + " " + Math.Abs(direction.Y).ToString() + "\n");
                 }
-
-                /*openingCurve = opening.Polyline().Flip();
-                openingPlane = openingCurve.IFitPlane();
-                planeNormal = openingPlane.Normal;
-
-                rotationAngle = planeNormal.Angle(zVector);
-                rotateMatrix = BH.Engine.Geometry.Create.RotationMatrix(panelBottomRightReference, rotationVector, rotationAngle);
-
-                openingTransformed = openingCurve.Transform(rotateMatrix);
-                openingTranslated = openingTransformed.Translate(translateVector);
-
-                vertices = openingTranslated.IDiscontinuityPoints();*/
             }
             else
             {
+                /*if (isFuckingHorizontal)
+                {
+                    //Rotate the opening again to make it flat on an axis
+                    Point p1 = new Point { X = 10, Y = 0, Z = 0 };
+                    Point p2 = new Point { X = 0, Y = 0, Z = 0 };
+                    Point p3 = openingTranslated.ControlPoints[(openingTranslated.ControlPoints.IndexOf(p2) + 1) % openingTranslated.ControlPoints.Count];
+
+                    double angle = Math.PI - BH.Engine.Geometry.Query.Angle(p1, p2, p3); //Hack 101 when you consider how the angle is coming out of the query method...
+                    rotationVector = new Vector { X = 0, Y = 1, Z = 0 };
+                    rotateMatrix = BH.Engine.Geometry.Create.RotationMatrix(p2, rotationVector, angle);
+                    openingTranslated = openingTranslated.Transform(rotateMatrix);
+                    vertices = openingTranslated.IDiscontinuityPoints();
+                }*/
+
+                gemOpening.Add(vertices.Count.ToString() + " " + opening.Type.ToIES(settings) + "\n");
                 foreach (Point p in vertices)
                 {
                     Vector direction = p.RoundedPoint() - xyRefPoint.RoundedPoint();
