@@ -10,6 +10,8 @@ using System.IO;
 using System.Linq;
 using BH.Engine.IES;
 
+using BH.oM.Adapter;
+
 namespace BH.Adapter.IES
 {
     public partial class IESAdapter : BHoMAdapter
@@ -18,7 +20,7 @@ namespace BH.Adapter.IES
         /**** Protected Methods                         ****/
         /***************************************************/
 
-        protected override bool Create<T>(IEnumerable<T> objects)
+        protected override bool ICreate<T>(IEnumerable<T> objects, ActionConfig actionConfig = null)
         {
             List<IBHoMObject> bhomObjects = objects.Select(x => (IBHoMObject)x).ToList();
             List<Panel> panels = bhomObjects.Panels();
