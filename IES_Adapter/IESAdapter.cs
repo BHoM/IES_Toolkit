@@ -42,41 +42,7 @@ namespace BH.Adapter.IES
             _fileSettings = iesFileSettings;
             _settingsIES = settingsIES;
 
-            AdapterId = "IES_Adapter";
-            Config.UseAdapterId = false;        //Set to true when NextId method and id tagging has been implemented
-        }
-
-        public override List<IObject> Push(IEnumerable<IObject> objects, string tag = "", Dictionary<string, object> config = null)
-        {
-            bool success = true;
-
-            MethodInfo methodInfos = typeof(Enumerable).GetMethod("Cast");
-            foreach (var typeGroup in objects.GroupBy(x => x.GetType()))
-            {
-                MethodInfo mInfo = methodInfos.MakeGenericMethod(new[] { typeGroup.Key });
-                var list = mInfo.Invoke(typeGroup, new object[] { typeGroup });
-                success &= Create(list as dynamic);
-            }
-
-            return success ? objects.ToList() : new List<IObject>();
-        }
-
-        public override IEnumerable<object> Pull(IRequest request, Dictionary<string, object> config = null)
-        {
-            if (!System.IO.File.Exists(_fileSettings.FullFileName()))
-            {
-                BH.Engine.Reflection.Compute.RecordError("File does not exist to pull from");
-                return new List<IBHoMObject>();
-            }
-
-            if (request != null && request is FilterRequest)
-            {
-                FilterRequest filterRequest = request as FilterRequest;
-
-                return Read(filterRequest.Type);
-            }
-            else
-                return Read(null);
+            AdapterIdName = "IES_Adapter";
         }
 
         /***************************************************/

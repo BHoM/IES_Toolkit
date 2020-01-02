@@ -12,6 +12,8 @@ using BH.oM.Environment;
 using System.IO;
 using BH.Engine.IES;
 
+using BH.oM.Adapter;
+
 namespace BH.Adapter.IES
 {
     public partial class IESAdapter : BHoMAdapter
@@ -20,19 +22,14 @@ namespace BH.Adapter.IES
         /**** Public Methods                            ****/
         /***************************************************/
 
-        protected override IEnumerable<IBHoMObject> Read(Type type, IList indices = null)
+        protected override IEnumerable<IBHoMObject> IRead(Type type, IList indices = null, ActionConfig actionConfig = null)
         {
-            return Read(type);
+            return ReadFullGEM();
         }
 
         /***************************************************/
         /**** Private Methods                           ****/
         /***************************************************/
-
-        private IEnumerable<IBHoMObject> Read(Type type = null)
-        {
-           return ReadFullGEM();
-        }
 
         private IEnumerable<IBHoMObject> ReadFullGEM()
         {
