@@ -32,12 +32,12 @@ namespace BH.Adapter.IES
             {
                 foreach (List<Panel> space in panelsAsSpaces)
                 {
-                    List<string> output = space.ToIES(_settingsIES);
+                    List<string> output = space.FromSpace(_settingsIES);
                     foreach (string s in output)
                         sw.Write(s);
                 }
 
-                panelsAsShade.ToIESShades(_settingsIES).ForEach(x => sw.Write(x));
+                panelsAsShade.FromPanel(_settingsIES).ForEach(x => sw.Write(x));
             }
             catch(Exception e)
             {

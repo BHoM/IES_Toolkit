@@ -24,7 +24,7 @@ namespace BH.Engine.IES
         [Input("panelXYZ", "The bottom left corner point of the host panel to calculate the opening points from for GEM format")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("iesOpening", "The string representation for IES GEM format")]
-        public static List<string> ToIES(this Opening opening, List<Panel> panelsAsSpace, Point panelBottomRightReference, SettingsIES settings)
+        public static List<string> FromOpening(this Opening opening, List<Panel> panelsAsSpace, Point panelBottomRightReference, SettingsIES settings)
         {
             List<string> gemOpening = new List<string>();
 
@@ -52,7 +52,7 @@ namespace BH.Engine.IES
 
             List<Point> vertices = openingTranslated.IDiscontinuityPoints();
 
-            gemOpening.Add(vertices.Count.ToString() + " " + opening.Type.ToIES(settings) + "\n");
+            gemOpening.Add(vertices.Count.ToString() + " " + opening.Type.FromOpeningType(settings) + "\n");
 
             if ((vertices.Max(x => x.Y) - vertices.Min(x => x.Y)) >= BH.oM.Geometry.Tolerance.Distance)
             {
@@ -79,9 +79,9 @@ namespace BH.Engine.IES
         [Input("openingType", "The IES representation of the opening type")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("opening", "The BHoM Environment Opening converted from IES GEM format")]
-        public static Opening ToBHoM(this List<string> openingPts, string openingType, SettingsIES settings)
+        public static Opening ToOpening(this List<string> openingPts, string openingType, SettingsIES settings)
         {
-            List<Point> points = openingPts.Select(x => x.ToBHoMPoint(settings)).ToList();
+            List<Point> points = openingPts.Select(x => x.ToPoint(settings)).ToList();
             points.Add(points.First());
             /*for(int x = 0; x < points.Count; x++)
             {
@@ -94,7 +94,7 @@ namespace BH.Engine.IES
 
             Opening opening = new Opening();
             opening.Edges = pLine.ToEdges();
-            opening.Type = openingType.ToBHoMOpeningType(settings);
+            opening.Type = openingType.ToOpeningType(settings);
 
             return opening;
         }

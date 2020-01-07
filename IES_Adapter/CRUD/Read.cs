@@ -62,7 +62,7 @@ namespace BH.Adapter.IES
                 for (int x = 0; x < nextIndex; x++)
                     space.Add(iesStrings[x]);
 
-                objects.AddRange(space.ToBHoMPanels(_settingsIES));
+                objects.AddRange(space.ToSpace(_settingsIES));
 
                 if(!endOfFile)
                     iesStrings.RemoveRange(0, nextIndex + 10);

@@ -21,7 +21,7 @@ namespace BH.Engine.IES
         [Input("panelsAsSpace", "The collection of BHoM Environment Panels that represent a space")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("iesSpace", "The IES string representation of the space for GEM")]
-        public static List<string> ToIES(this List<Panel> panelsAsSpace, SettingsIES settings) 
+        public static List<string> FromSpace(this List<Panel> panelsAsSpace, SettingsIES settings) 
         {
             List<string> gemSpace = new List<string>(); 
 
@@ -47,7 +47,7 @@ namespace BH.Engine.IES
             gemSpace.Add(spaceVertices.Count.ToString() + " " + panelsAsSpace.Count.ToString() + "\n");
 
             foreach (Point p in spaceVertices)
-                gemSpace.Add(p.ToIES(settings));
+                gemSpace.Add(p.FromPoint(settings));
 
             Point zero = new Point { X = 0, Y = 0, Z = 0 };
 
@@ -95,7 +95,7 @@ namespace BH.Engine.IES
                     }
 
                     foreach (Opening o in p.Openings)
-                        gemSpace.AddRange(o.ToIES(panelsAsSpace, pnt, settings));
+                        gemSpace.AddRange(o.FromOpening(panelsAsSpace, pnt, settings));
                 }
             }
 
@@ -106,7 +106,7 @@ namespace BH.Engine.IES
         [Input("iesSpace", "The IES representation of a space")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("panelsAsSpace", "BHoM Environment Space")]
-        public static List<Panel> ToBHoMPanels(this List<string> iesSpace, SettingsIES settings)
+        public static List<Panel> ToSpace(this List<string> iesSpace, SettingsIES settings)
         {
             List<Panel> panels = new List<Panel>();
             //Convert the strings which make up the IES Gem file back into BHoM panels.
@@ -119,7 +119,7 @@ namespace BH.Engine.IES
             for (int x = 0; x < numCoordinates; x++)
                 iesPoints.Add(iesSpace[x + 2]);
 
-            List<Point> bhomPoints = iesPoints.Select(x => x.ToBHoMPoint(settings)).ToList();
+            List<Point> bhomPoints = iesPoints.Select(x => x.ToPoint(settings)).ToList();
 
             int count = numCoordinates + 2;
             while(count < iesSpace.Count)
@@ -152,7 +152,7 @@ namespace BH.Engine.IES
                     for (int x = 0; x < numCoords; x++)
                         openingPts.Add(iesSpace[count + x]);
 
-                    panel.Openings.Add(openingPts.ToBHoM(openingData.Split(' ')[1], settings));
+                    panel.Openings.Add(openingPts.ToOpening(openingData.Split(' ')[1], settings));
 
                     count += numCoords;
                     countOpenings++;
