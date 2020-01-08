@@ -21,7 +21,7 @@ namespace BH.Engine.IES
         [Input("panelsAsSpace", "The collection of BHoM Environment Panels that represent shading elements")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("iesSpace", "The IES string representation of shade for GEM")]
-        public static List<string> ToIESShades(this List<Panel> panelsAsShade, SettingsIES settings)
+        public static List<string> ToIESShading(this List<Panel> panelsAsShade, SettingsIES settings)
         {
             List<string> gemPanel = new List<string>();
 

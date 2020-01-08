@@ -79,9 +79,9 @@ namespace BH.Engine.IES
         [Input("openingType", "The IES representation of the opening type")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("opening", "The BHoM Environment Opening converted from IES GEM format")]
-        public static Opening ToBHoM(this List<string> openingPts, string openingType, SettingsIES settings)
+        public static Opening FromIES(this List<string> openingPts, string openingType, SettingsIES settings)
         {
-            List<Point> points = openingPts.Select(x => x.ToBHoMPoint(settings)).ToList();
+            List<Point> points = openingPts.Select(x => x.FromIES(settings)).ToList();
             points.Add(points.First());
             /*for(int x = 0; x < points.Count; x++)
             {
@@ -94,7 +94,7 @@ namespace BH.Engine.IES
 
             Opening opening = new Opening();
             opening.Edges = pLine.ToEdges();
-            opening.Type = openingType.ToBHoMOpeningType(settings);
+            opening.Type = openingType.FromIESOpeningType(settings);
 
             return opening;
         }

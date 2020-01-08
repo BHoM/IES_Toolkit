@@ -30,7 +30,7 @@ namespace BH.Engine.IES
         [Input("iesPt", "The IES string representation of a point to convert")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("point", "A BHoM Geometry Point")]
-        public static Point ToBHoMPoint(this string iesPt, SettingsIES settings)
+        public static Point FromIES(this string iesPt, SettingsIES settings)
         {
             try
             {
