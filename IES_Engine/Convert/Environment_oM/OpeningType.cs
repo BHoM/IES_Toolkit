@@ -45,7 +45,7 @@ namespace BH.Engine.IES
         [Input("iesOpeningType", "The IES string representation of an opening type")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("openingType", "The BHoM Opening Type")]
-        public static OpeningType ToBHoMOpeningType(this string iesOpeningType, SettingsIES settings)
+        public static OpeningType FromIESOpeningType(this string iesOpeningType, SettingsIES settings)
         {
             if (iesOpeningType == "0")
                 return OpeningType.Window;
