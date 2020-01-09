@@ -17,7 +17,7 @@ namespace BH.Engine.IES
         [Description("Get a 2d polyline representation of a BHoM BoundingBox")]
         [Input("box", "The BHoM bounding box")]
         [Output("polyline", "The 2d polyline representation of the box")]
-        public static Polyline ToPolyline(this BoundingBox box)
+        public static Polyline Polyline(this BoundingBox box)
         {
             Point min = box.Min.RoundedPoint();
             Point max = box.Max.RoundedPoint();
