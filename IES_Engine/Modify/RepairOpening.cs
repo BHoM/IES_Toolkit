@@ -17,7 +17,11 @@ namespace BH.Engine.IES
 {
     public static partial class Modify
     {
-        //public static Opening RepairOpening(this Opening opening, Point panelXYZ, bool useXZ = false, bool useYZ = false)
+        [Description("The openings when converted from IES do not have the right coordinates for 3D space, this method will repair them.")]
+        [Input("opening", "The broken environment opening pulled from IES.")]
+        [Input("host", "The host panel for the opening.")]
+        [Input("panelsAsSpace", "A collection of panels defining the space around the opening.")]
+        [Output("repairedOpening", "The repaired environment opening.")]
         public static Opening RepairOpening(this Opening opening, Panel host, List<Panel> panelsAsSpace)
         {
             List<Point> vertices = host.Polyline().IDiscontinuityPoints();
