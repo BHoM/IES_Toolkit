@@ -90,11 +90,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Convert\Environment_oM\Opening.cs" />
-    <Compile Include="Convert\Environment_oM\OpeningType.cs" />
-    <Compile Include="Convert\Environment_oM\Panel.cs" />
-    <Compile Include="Convert\Environment_oM\Space.cs" />
-    <Compile Include="Convert\Geometry_oM\Point.cs" />
+    <Compile Include="Convert\Environment\Opening.cs" />
+    <Compile Include="Convert\Environment\OpeningType.cs" />
+    <Compile Include="Convert\Environment\Panel.cs" />
+    <Compile Include="Convert\Environment\Space.cs" />
+    <Compile Include="Convert\Geometry\Point.cs" />
     <Compile Include="Create\SettingsIES.cs" />
     <Compile Include="Create\FileSettingsIES.cs" />
     <Compile Include="Modify\RepairOpening.cs" />
