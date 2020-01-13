@@ -27,6 +27,7 @@ namespace BH.Engine.IES
         [Input("planarTolerance", "Set tolarance for planar surfaces")]
         [Input("decimalPlaces", "Set how many decimal places coordinates should have on export")]
         [Output("settingsIES", "The IES settings to use with the IES adapter for pull and push")]
+        [Deprecated("3.1", "Deprecated in favour of default create components produced by BHoM")]
         public static SettingsIES SettingsIES(double planarTolerance = BH.oM.Geometry.Tolerance.Distance, int decimalPlaces = 6)
         {
             return new SettingsIES
