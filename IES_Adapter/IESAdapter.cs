@@ -27,6 +27,9 @@ namespace BH.Adapter.IES
         [Output("adapter", "Adapter to IES GEM")]
         public IESAdapter(FileSettingsIES iesFileSettings = null, SettingsIES settingsIES = null)
         {
+            // This asks the base adapter to only Create the objects.
+            m_AdapterSettings.DefaultPushType = oM.Adapter.PushType.CreateOnly;
+
             if (iesFileSettings == null)
             {
                 BH.Engine.Reflection.Compute.RecordError("Please set the File Settings correctly to enable the IES Adapter to work correctly");
