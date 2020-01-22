@@ -35,6 +35,12 @@ namespace BH.Adapter.IES
         {
             List<IBHoMObject> objects = new List<IBHoMObject>();
 
+            if (!System.IO.File.Exists(_fileSettings.FullFileName()))
+            {
+                BH.Engine.Reflection.Compute.RecordError("File does not exist to pull from");
+                return new List<IBHoMObject>();
+            }
+
             StreamReader sr = new StreamReader(_fileSettings.FullFileName());
 
             List<string> iesStrings = new List<string>();
