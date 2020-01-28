@@ -18,10 +18,10 @@ namespace BH.Engine.IES
     public static partial class Convert
     {
         [Description("Convert a collection of BHoM Environment Panels that represent shading elements into the IES string representation for GEM format")]
-        [Input("panelsAsSpace", "The collection of BHoM Environment Panels that represent shading elements")]
+        [Input("panelsAsShade", "The collection of BHoM Environment Panels that represent shading elements")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("iesSpace", "The IES string representation of shade for GEM")]
-        public static List<string> ToIESShading(this List<Panel> panelsAsShade, SettingsIES settings)
+        public static List<string> ToIESShading(this List<Panel> panelsAsShade, SettingsIES settingsIES)
         {
             List<string> gemPanel = new List<string>();
 
@@ -46,7 +46,7 @@ namespace BH.Engine.IES
 
                 foreach(Point p in points)
                 {
-                    gemPanel.Add(p.ToIES(settings));
+                    gemPanel.Add(p.ToIES(settingsIES));
                     s += " " + (points.IndexOf(p) + 1).ToString();
                 }
                 s += "\n";
