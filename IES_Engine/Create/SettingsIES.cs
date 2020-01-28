@@ -18,6 +18,7 @@ namespace BH.Engine.IES
         /***************************************************/
 
         [Deprecated("3.0", "Deprecated to expose Decimal Places settings", null, "SettingsIES(double planarTolerance = BH.oM.Geometry.Distance.Tolerance, int decimalPlaces = 6")]
+        [Input("planarTolerance", "Set tolarance for planar surfaces")]
         public static SettingsIES SettingsIES(double planarTolerance = BH.oM.Geometry.Tolerance.Distance)
         {
             return SettingsIES(planarTolerance, 6);
