@@ -21,16 +21,16 @@ namespace BH.Engine.IES
         [Input("pt", "BHoM Geometry Point to convert")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("iesPt", "The IES string representation of the point")]
-        public static string ToIES(this Point pt, SettingsIES settings)
+        public static string ToIES(this Point pt, SettingsIES settingsIES)
         {
-            return " " + Math.Round(pt.X, settings.DecimalPlaces).ToString() + " " + Math.Round(pt.Y, settings.DecimalPlaces).ToString() + " " + Math.Round(pt.Z, settings.DecimalPlaces).ToString() + "\n";
+            return " " + Math.Round(pt.X, settingsIES.DecimalPlaces).ToString() + " " + Math.Round(pt.Y, settingsIES.DecimalPlaces).ToString() + " " + Math.Round(pt.Z, settingsIES.DecimalPlaces).ToString() + "\n";
         }
 
         [Description("Convert an IES point representation to a BHoM point")]
         [Input("iesPt", "The IES string representation of a point to convert")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("point", "A BHoM Geometry Point")]
-        public static Point FromIES(this string iesPt, SettingsIES settings)
+        public static Point FromIES(this string iesPt, SettingsIES settingsIES)
         {
             try
             {
