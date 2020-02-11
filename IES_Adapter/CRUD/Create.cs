@@ -11,6 +11,7 @@ using System.Linq;
 using BH.Engine.IES;
 
 using BH.oM.Adapter;
+using BH.Engine.Adapter;
 
 namespace BH.Adapter.IES
 {
@@ -28,7 +29,7 @@ namespace BH.Adapter.IES
             List<List<Panel>> panelsAsSpaces = panels.ToSpaces();
             List<Panel> panelsAsShade = panels.PanelsByType(PanelType.Shade);
 
-            StreamWriter sw = new StreamWriter(_fileSettings.FullFileName());
+            StreamWriter sw = new StreamWriter(_fileSettings.GetFullFileName());
 
             try
             {
