@@ -13,6 +13,7 @@ using System.IO;
 using BH.Engine.IES;
 
 using BH.oM.Adapter;
+using BH.Engine.Adapter;
 
 namespace BH.Adapter.IES
 {
@@ -35,13 +36,13 @@ namespace BH.Adapter.IES
         {
             List<IBHoMObject> objects = new List<IBHoMObject>();
 
-            if (!System.IO.File.Exists(_fileSettings.FullFileName()))
+            if (!System.IO.File.Exists(_fileSettings.GetFullFileName()))
             {
                 BH.Engine.Reflection.Compute.RecordError("File does not exist to pull from");
                 return new List<IBHoMObject>();
             }
 
-            StreamReader sr = new StreamReader(_fileSettings.FullFileName());
+            StreamReader sr = new StreamReader(_fileSettings.GetFullFileName());
 
             List<string> iesStrings = new List<string>();
             string line = "";
