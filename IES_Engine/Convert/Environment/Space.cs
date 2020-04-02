@@ -143,6 +143,7 @@ namespace BH.Engine.IES
 
             List<Point> bhomPoints = iesPoints.Select(x => x.FromIES(settingsIES)).ToList();
 
+            //Number of coordinated + 2 to get on to the line of the fist panel in GEM
             int count = numCoordinates + 2;
             while(count < iesSpace.Count)
             {
@@ -152,6 +153,7 @@ namespace BH.Engine.IES
                 for (int y = 1; y < panelCoord.Count; y++)
                     pLinePts.Add(bhomPoints[System.Convert.ToInt32(panelCoord[y]) - 1]);
 
+                //Add first point to close polyline
                 pLinePts.Add(pLinePts.First());
 
                 Polyline pLine = new Polyline { ControlPoints = pLinePts, };

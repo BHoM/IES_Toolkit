@@ -91,7 +91,7 @@ namespace BH.Engine.IES
                     Vector direction = p.RoundedPoint() - xyRefPoint.RoundedPoint();
                     gemOpening.Add(" " + Math.Abs(direction.X).ToString() + " " + Math.Abs(direction.Z).ToString() + "\n");
                 }
-            }            
+            }
 
             return gemOpening;
         }
@@ -105,12 +105,6 @@ namespace BH.Engine.IES
         {
             List<Point> points = openingPts.Select(x => x.FromIES(settingsIES)).ToList();
             points.Add(points.First());
-            /*for(int x = 0; x < points.Count; x++)
-            {
-                points[x].X += panelXY.X;
-                points[x].Y += panelXY.Y;
-                points[x].Z += panelXY.Z;
-            }*/
 
             Polyline pLine = new Polyline { ControlPoints = points, };
 
