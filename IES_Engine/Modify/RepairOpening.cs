@@ -44,55 +44,42 @@ namespace BH.Engine.IES
         [Input("host", "The host panel for the opening.")]
         [Input("panelsAsSpace", "A collection of panels defining the space around the opening.")]
         [Output("repairedOpening", "The repaired environment opening.")]
-        public static Opening RepairOpening(this Opening opening, Panel host, List<Panel> panelsAsSpace)
+        public static Opening RepairOpening(this Opening opening, Panel host, /*Point panelBottomRightReference */List<Panel> panelAsSpace)
         {
-            List<Point> vertices = host.Polyline().IDiscontinuityPoints();
-            bool useYZ = false;
-            bool useXZ = false;
-            if (vertices.Min(y => y.X) == vertices.Max(y => y.X))
-                useYZ = true;
-            else if (vertices.Min(y => y.Y) == vertices.Max(y => y.Y))
-                useXZ = true;
+          //  List<Point> vertices = host.Polyline().IDiscontinuityPoints(); // from start
 
-            Point panelXYZ = host.BottomRight(panelsAsSpace);
-            Point right = host.TopRight(panelsAsSpace);
+            //List<string> gemOpening = new List<string>();
 
-            bool increaseX = (panelXYZ.X <= right.X);
-            bool increaseY = (panelXYZ.Y <= right.Y);
-            bool increaseZ = (panelXYZ.Z <= right.Z);
+            Polyline openingCurve = opening.Polyline();
 
-            //The openings when converted from IES don't have the right coordinates for 3D space, this method will repair them
-            Polyline pLine = opening.Polyline();
-            List<Point> pts = pLine.ControlPoints;
+            Point panelBottomRightReference = host.BottomRight(panelAsSpace);
 
-            List<Point> newPts = new List<Point>();
-            foreach(Point p in pts)
+            Vector rotationVector = new Vector { X = 0, Y = 0, Z = -1 };  // negativ for att fa tillbaka!!
+            if (openingCurve.ControlPoints.Max(x => x.Z) - openingCurve.ControlPoints.Min(x => x.Z) <= BH.oM.Geometry.Tolerance.Distance)
             {
-                newPts.Add(new Point());
-                if (!useXZ && !useYZ)
-                {
-                    newPts.Last().X = (increaseX ? p.X + panelXYZ.X : Math.Abs(p.X - panelXYZ.X));
-                    newPts.Last().Y = (increaseY ? p.Y + panelXYZ.Y : Math.Abs(p.Y - panelXYZ.Y));
-                    newPts.Last().Z = panelXYZ.Z;
-                }
-                else if (useXZ)
-                {
-                    newPts.Last().X = (increaseX ? p.X + panelXYZ.X : Math.Abs(p.X - panelXYZ.X));
-                    newPts.Last().Y = panelXYZ.Y;
-                    newPts.Last().Z = (increaseZ ? p.Y + panelXYZ.Z : Math.Abs(p.Y - panelXYZ.Z));
-                }
-                else if (useYZ)
-                {
-                    newPts.Last().X = panelXYZ.X;
-                    newPts.Last().Y = (increaseY ? p.X + panelXYZ.Y : Math.Abs(p.X - panelXYZ.Y));
-                    newPts.Last().Z = (increaseZ ? p.Y + panelXYZ.Z : Math.Abs(p.Y - panelXYZ.Z));
-                }
+                rotationVector = new Vector { X = -1, Y = 0, Z = 0, }; //Handle horizontal openings
+                panelBottomRightReference = openingCurve.Bounds().Max;
             }
 
-            Polyline newPoly = new Polyline { ControlPoints = newPts, };
+            Vector zVector = new Vector { X = 0, Y = -1, Z = 0 };  // negativ for att fa tillbaka!!
+            Plane openingPlane = openingCurve.IFitPlane();
+            Vector planeNormal = openingPlane.Normal;
+
+            Point xyRefPoint = new Point { X = 0, Y = 0, Z = 0 };
+            Vector translateVector = panelBottomRightReference - xyRefPoint;   //  andra ordning
+
+            double rotationAngle = planeNormal.Angle(zVector);
+            TransformMatrix rotateMatrix = BH.Engine.Geometry.Create.RotationMatrix(panelBottomRightReference, rotationVector, rotationAngle);
+
+            Polyline openingTransformed = openingCurve.Transform(rotateMatrix);
+            Polyline openingTranslated = openingTransformed.Translate(translateVector);
+
+            //  List<Point> vertices = openingTranslated.IDiscontinuityPoints();
+
+           // Polyline newPoly = new Polyline { ControlPoints = openingTranslated.IDiscontinuityPoints(), };  // from start
 
             Opening newOpening = opening.GetShallowClone(true) as Opening;
-            newOpening.Edges = newPoly.ToEdges();
+            newOpening.Edges = openingTranslated.ToEdges();
 
             return newOpening;
         }

@@ -131,6 +131,7 @@ namespace BH.Engine.IES
         public static List<Panel> FromIES(this List<string> iesSpace, SettingsIES settingsIES)
         {
             List<Panel> panels = new List<Panel>();
+
             //Convert the strings which make up the IES Gem file back into BHoM panels.
             string spaceName = iesSpace[0]; //First string is the name
 
