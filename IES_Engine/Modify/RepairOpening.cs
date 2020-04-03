@@ -35,6 +35,8 @@ using BH.Engine.Geometry;
 using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
 
+using BH.oM.Geometry.CoordinateSystem;
+
 namespace BH.Engine.IES
 {
     public static partial class Modify
@@ -44,44 +46,55 @@ namespace BH.Engine.IES
         [Input("host", "The host panel for the opening.")]
         [Input("panelsAsSpace", "A collection of panels defining the space around the opening.")]
         [Output("repairedOpening", "The repaired environment opening.")]
-        public static Opening RepairOpening(this Opening opening, Panel host, /*Point panelBottomRightReference */List<Panel> panelAsSpace)
+        public static Opening RepairOpening(this Opening opening, Panel host, List<Panel> panelAsSpace)
         {
-          //  List<Point> vertices = host.Polyline().IDiscontinuityPoints(); // from start
-
-            //List<string> gemOpening = new List<string>();
-
             Polyline openingCurve = opening.Polyline();
 
-            Point panelBottomRightReference = host.BottomRight(panelAsSpace);
+            Point panelBottomRightReference = host.BottomRight(panelAsSpace);  // .Bounds().Min
+            Point panelBottomLeftReference = host.BottomLeft(panelAsSpace);
+            Point panelTopRightReference = host.TopRight(panelAsSpace);
 
-            Vector rotationVector = new Vector { X = 0, Y = 0, Z = -1 };  // negativ for att fa tillbaka!!
-            if (openingCurve.ControlPoints.Max(x => x.Z) - openingCurve.ControlPoints.Min(x => x.Z) <= BH.oM.Geometry.Tolerance.Distance)
-            {
-                rotationVector = new Vector { X = -1, Y = 0, Z = 0, }; //Handle horizontal openings
-                panelBottomRightReference = openingCurve.Bounds().Max;
-            }
+            Vector xVector = panelBottomLeftReference - panelBottomRightReference;
+            Vector yVector = panelTopRightReference - panelBottomRightReference;
 
-            Vector zVector = new Vector { X = 0, Y = -1, Z = 0 };  // negativ for att fa tillbaka!!
-            Plane openingPlane = openingCurve.IFitPlane();
-            Vector planeNormal = openingPlane.Normal;
+            Cartesian localCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(panelBottomRightReference, xVector, yVector);
 
-            Point xyRefPoint = new Point { X = 0, Y = 0, Z = 0 };
-            Vector translateVector = panelBottomRightReference - xyRefPoint;   //  andra ordning
+            TransformMatrix transformMatrix = BH.Engine.Geometry.Create.OrientationMatrixGlobalToLocal(localCartesian);
 
-            double rotationAngle = planeNormal.Angle(zVector);
-            TransformMatrix rotateMatrix = BH.Engine.Geometry.Create.RotationMatrix(panelBottomRightReference, rotationVector, rotationAngle);
-
-            Polyline openingTransformed = openingCurve.Transform(rotateMatrix);
-            Polyline openingTranslated = openingTransformed.Translate(translateVector);
-
-            //  List<Point> vertices = openingTranslated.IDiscontinuityPoints();
-
-           // Polyline newPoly = new Polyline { ControlPoints = openingTranslated.IDiscontinuityPoints(), };  // from start
+            Polyline openingTransformed = openingCurve.Transform(transformMatrix);
 
             Opening newOpening = opening.GetShallowClone(true) as Opening;
-            newOpening.Edges = openingTranslated.ToEdges();
+            newOpening.Edges = openingTransformed.ToEdges();
 
             return newOpening;
+
+
+            /* Vector rotationVector = new Vector { X = 0, Y = 0, Z = -1 };  // negativ for att fa tillbaka!!
+             if (openingCurve.ControlPoints.Max(x => x.Z) - openingCurve.ControlPoints.Min(x => x.Z) <= BH.oM.Geometry.Tolerance.Distance)
+             {
+                 rotationVector = new Vector { X = -1, Y = 0, Z = 0, }; //Handle horizontal openings
+                 panelBottomRightReference = openingCurve.Bounds().Max;
+             }
+
+             Vector zVector = new Vector { X = 0, Y = -1, Z = 0 };  // negativ for att fa tillbaka!!
+             Plane openingPlane = openingCurve.IFitPlane();
+             Vector planeNormal = openingPlane.Normal;
+
+             Point xyRefPoint = new Point { X = 0, Y = 0, Z = 0 };
+             Vector translateVector = panelBottomRightReference - xyRefPoint;   //  andra ordning
+
+             double rotationAngle = planeNormal.Angle(zVector);
+             TransformMatrix rotateMatrix = BH.Engine.Geometry.Create.RotationMatrix(panelBottomRightReference, rotationVector, rotationAngle);
+
+             Polyline openingTransformed = openingCurve.Transform(rotateMatrix);
+             Polyline openingTranslated = openingTransformed.Translate(translateVector);
+
+             //  List<Point> vertices = openingTranslated.IDiscontinuityPoints();
+
+            // Polyline newPoly = new Polyline { ControlPoints = openingTranslated.IDiscontinuityPoints(), };  // from start
+
+             Opening newOpening = opening.GetShallowClone(true) as Opening;
+             newOpening.Edges = openingTranslated.ToEdges();   */
         }
     }
 }
