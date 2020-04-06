@@ -49,8 +49,9 @@ namespace BH.Engine.IES
         public static Opening RepairOpening(this Opening opening, Panel host, List<Panel> panelAsSpace)
         {
             Polyline openingCurve = opening.Polyline();
+            Polyline hostCurve = host.Polyline();
 
-            Point panelBottomRightReference = host.BottomRight(panelAsSpace);  // .Bounds().Min
+            Point panelBottomRightReference = host.BottomRight(panelAsSpace);
             Point panelBottomLeftReference = host.BottomLeft(panelAsSpace);
             Point panelTopRightReference = host.TopRight(panelAsSpace);
 
@@ -60,6 +61,25 @@ namespace BH.Engine.IES
             Cartesian localCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(panelBottomRightReference, xVector, yVector);
 
             TransformMatrix transformMatrix = BH.Engine.Geometry.Create.OrientationMatrixGlobalToLocal(localCartesian);
+
+            hostCurve = hostCurve.Transform(transformMatrix);
+            double minX = hostCurve.ControlPoints.Select(a => a.X).Min();
+            if (minX < 0)
+            {
+                Vector translateVectorX = new Vector { X = minX, Y = 0, Z = 0 };
+                panelBottomRightReference =panelBottomRightReference.Translate(translateVectorX);
+            }
+
+            double minY = hostCurve.ControlPoints.Select(a => a.Y).Min();
+            if (minY < 0)
+            {
+                Vector translateVectorY = new Vector { X = 0, Y = minY, Z = 0 };
+                panelBottomRightReference = panelBottomRightReference.Translate(translateVectorY);
+            }
+
+            localCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(panelBottomRightReference, xVector, yVector);
+
+            transformMatrix = BH.Engine.Geometry.Create.OrientationMatrixLocalToGlobal(localCartesian);
 
             Polyline openingTransformed = openingCurve.Transform(transformMatrix);
 
