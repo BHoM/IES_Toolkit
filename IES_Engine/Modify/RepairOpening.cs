@@ -58,18 +58,6 @@ namespace BH.Engine.IES
             Vector xVector = panelBottomLeftReference - panelBottomRightReference;
             Vector yVector = panelTopRightReference - panelBottomRightReference;
 
-            double degrees = BH.Engine.Geometry.Query.Angle(panelBottomLeftReference, panelBottomRightReference, panelTopRightReference);
-            degrees = BH.Engine.Environment.Convert.ToDegrees(degrees);
-
-            if(degrees > 90)
-            {
-                //This means something need to work out what
-                if (panelBottomRightReference.X == panelBottomLeftReference.X)
-                    panelBottomRightReference.X = panelTopRightReference.X;
-                else
-                    panelBottomRightReference.X = panelBottomLeftReference.X;
-            }
-
             /*double minX = hostCurve.ControlPoints.Select(a => a.X).Min();
             if (minX < panelBottomRightReference.X)
             {
@@ -77,11 +65,29 @@ namespace BH.Engine.IES
                 panelBottomRightReference = panelBottomRightReference.Translate(translateVectorX);
             }*/
 
+            Point worldOrigin = new Point { X = 0, Y = 0, Z = 0 };
+            Cartesian worldCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(worldOrigin, Vector.XAxis, Vector.YAxis);
             Cartesian localCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(panelBottomRightReference, xVector, yVector);
 
-            TransformMatrix transformMatrix = BH.Engine.Geometry.Create.OrientationMatrixGlobalToLocal(localCartesian);
+            //TransformMatrix transformMatrix = BH.Engine.Geometry.Create.OrientationMatrixGlobalToLocal(localCartesian);
 
-            Polyline openingTransformed = openingCurve.Transform(transformMatrix);
+            Polyline hostTransformed = hostCurve.Orient(localCartesian, worldCartesian);
+            Polyline openingTranslated = openingCurve.Clone();
+
+            double minX = hostTransformed.ControlPoints.Select(x => x.X).Min();
+            double minY = hostTransformed.ControlPoints.Select(x => x.Y).Min();
+            if (minX < 0)
+            {
+                Vector translateVectorX = new Vector { X = minX, Y = 0, Z = 0 };
+                openingTranslated = openingTranslated.Translate(translateVectorX);
+            }
+            if(minY < 0)
+            {
+                Vector translateVectorY = new Vector { X = 0, Y = minY, Z = 0 };
+                openingTranslated = openingTranslated.Translate(translateVectorY);
+            }
+
+            Polyline openingTransformed = openingTranslated.Orient(worldCartesian, localCartesian);
 
             Opening newOpening = opening.GetShallowClone(true) as Opening;
             newOpening.Edges = openingTransformed.ToEdges();
