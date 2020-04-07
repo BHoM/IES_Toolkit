@@ -58,28 +58,28 @@ namespace BH.Engine.IES
             Vector xVector = panelBottomLeftReference - panelBottomRightReference;
             Vector yVector = panelTopRightReference - panelBottomRightReference;
 
+            double degrees = BH.Engine.Geometry.Query.Angle(panelBottomLeftReference, panelBottomRightReference, panelTopRightReference);
+            degrees = BH.Engine.Environment.Convert.ToDegrees(degrees);
+
+            if(degrees > 90)
+            {
+                //This means something need to work out what
+                if (panelBottomRightReference.X == panelBottomLeftReference.X)
+                    panelBottomRightReference.X = panelTopRightReference.X;
+                else
+                    panelBottomRightReference.X = panelBottomLeftReference.X;
+            }
+
+            /*double minX = hostCurve.ControlPoints.Select(a => a.X).Min();
+            if (minX < panelBottomRightReference.X)
+            {
+                Vector translateVectorX = new Vector { X = Math.Min(panelBottomRightReference.X, minX) - Math.Max(panelBottomRightReference.X, minX), Y = 0, Z = 0 };
+                panelBottomRightReference = panelBottomRightReference.Translate(translateVectorX);
+            }*/
+
             Cartesian localCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(panelBottomRightReference, xVector, yVector);
 
             TransformMatrix transformMatrix = BH.Engine.Geometry.Create.OrientationMatrixGlobalToLocal(localCartesian);
-
-            hostCurve = hostCurve.Transform(transformMatrix);
-            double minX = hostCurve.ControlPoints.Select(a => a.X).Min();
-            if (minX < 0)
-            {
-                Vector translateVectorX = new Vector { X = minX, Y = 0, Z = 0 };
-                panelBottomRightReference =panelBottomRightReference.Translate(translateVectorX);
-            }
-
-            double minY = hostCurve.ControlPoints.Select(a => a.Y).Min();
-            if (minY < 0)
-            {
-                Vector translateVectorY = new Vector { X = 0, Y = minY, Z = 0 };
-                panelBottomRightReference = panelBottomRightReference.Translate(translateVectorY);
-            }
-
-            localCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(panelBottomRightReference, xVector, yVector);
-
-            transformMatrix = BH.Engine.Geometry.Create.OrientationMatrixLocalToGlobal(localCartesian);
 
             Polyline openingTransformed = openingCurve.Transform(transformMatrix);
 
@@ -87,6 +87,35 @@ namespace BH.Engine.IES
             newOpening.Edges = openingTransformed.ToEdges();
 
             return newOpening;
+            /* Cartesian localCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(panelBottomRightReference, xVector, yVector);
+
+             TransformMatrix transformMatrix = BH.Engine.Geometry.Create.OrientationMatrixGlobalToLocal(localCartesian);
+
+             hostCurve = hostCurve.Transform(transformMatrix);
+             double minX = hostCurve.ControlPoints.Select(a => a.X).Min();
+             if (minX < 0)
+             {
+                 Vector translateVectorX = new Vector { X = minX, Y = 0, Z = 0 };
+                 panelBottomRightReference =panelBottomRightReference.Translate(translateVectorX);
+             }
+
+             double minY = hostCurve.ControlPoints.Select(a => a.Y).Min();
+             if (minY < 0)
+             {
+                 Vector translateVectorY = new Vector { X = 0, Y = minY, Z = 0 };
+                 panelBottomRightReference = panelBottomRightReference.Translate(translateVectorY);
+             }
+
+             localCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(panelBottomRightReference, xVector, yVector);
+
+             transformMatrix = BH.Engine.Geometry.Create.OrientationMatrixLocalToGlobal(localCartesian);
+
+             Polyline openingTransformed = openingCurve.Transform(transformMatrix);
+
+             Opening newOpening = opening.GetShallowClone(true) as Opening;
+             newOpening.Edges = openingTransformed.ToEdges();
+
+             return newOpening; */
 
 
             /* Vector rotationVector = new Vector { X = 0, Y = 0, Z = -1 };  // negativ for att fa tillbaka!!
