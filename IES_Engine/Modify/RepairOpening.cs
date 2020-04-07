@@ -58,18 +58,9 @@ namespace BH.Engine.IES
             Vector xVector = panelBottomLeftReference - panelBottomRightReference;
             Vector yVector = panelTopRightReference - panelBottomRightReference;
 
-            /*double minX = hostCurve.ControlPoints.Select(a => a.X).Min();
-            if (minX < panelBottomRightReference.X)
-            {
-                Vector translateVectorX = new Vector { X = Math.Min(panelBottomRightReference.X, minX) - Math.Max(panelBottomRightReference.X, minX), Y = 0, Z = 0 };
-                panelBottomRightReference = panelBottomRightReference.Translate(translateVectorX);
-            }*/
-
             Point worldOrigin = new Point { X = 0, Y = 0, Z = 0 };
             Cartesian worldCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(worldOrigin, Vector.XAxis, Vector.YAxis);
             Cartesian localCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(panelBottomRightReference, xVector, yVector);
-
-            //TransformMatrix transformMatrix = BH.Engine.Geometry.Create.OrientationMatrixGlobalToLocal(localCartesian);
 
             Polyline hostTransformed = hostCurve.Orient(localCartesian, worldCartesian);
             Polyline openingTranslated = openingCurve.Clone();
@@ -93,63 +84,6 @@ namespace BH.Engine.IES
             newOpening.Edges = openingTransformed.ToEdges();
 
             return newOpening;
-            /* Cartesian localCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(panelBottomRightReference, xVector, yVector);
-
-             TransformMatrix transformMatrix = BH.Engine.Geometry.Create.OrientationMatrixGlobalToLocal(localCartesian);
-
-             hostCurve = hostCurve.Transform(transformMatrix);
-             double minX = hostCurve.ControlPoints.Select(a => a.X).Min();
-             if (minX < 0)
-             {
-                 Vector translateVectorX = new Vector { X = minX, Y = 0, Z = 0 };
-                 panelBottomRightReference =panelBottomRightReference.Translate(translateVectorX);
-             }
-
-             double minY = hostCurve.ControlPoints.Select(a => a.Y).Min();
-             if (minY < 0)
-             {
-                 Vector translateVectorY = new Vector { X = 0, Y = minY, Z = 0 };
-                 panelBottomRightReference = panelBottomRightReference.Translate(translateVectorY);
-             }
-
-             localCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(panelBottomRightReference, xVector, yVector);
-
-             transformMatrix = BH.Engine.Geometry.Create.OrientationMatrixLocalToGlobal(localCartesian);
-
-             Polyline openingTransformed = openingCurve.Transform(transformMatrix);
-
-             Opening newOpening = opening.GetShallowClone(true) as Opening;
-             newOpening.Edges = openingTransformed.ToEdges();
-
-             return newOpening; */
-
-
-            /* Vector rotationVector = new Vector { X = 0, Y = 0, Z = -1 };  // negativ for att fa tillbaka!!
-             if (openingCurve.ControlPoints.Max(x => x.Z) - openingCurve.ControlPoints.Min(x => x.Z) <= BH.oM.Geometry.Tolerance.Distance)
-             {
-                 rotationVector = new Vector { X = -1, Y = 0, Z = 0, }; //Handle horizontal openings
-                 panelBottomRightReference = openingCurve.Bounds().Max;
-             }
-
-             Vector zVector = new Vector { X = 0, Y = -1, Z = 0 };  // negativ for att fa tillbaka!!
-             Plane openingPlane = openingCurve.IFitPlane();
-             Vector planeNormal = openingPlane.Normal;
-
-             Point xyRefPoint = new Point { X = 0, Y = 0, Z = 0 };
-             Vector translateVector = panelBottomRightReference - xyRefPoint;   //  andra ordning
-
-             double rotationAngle = planeNormal.Angle(zVector);
-             TransformMatrix rotateMatrix = BH.Engine.Geometry.Create.RotationMatrix(panelBottomRightReference, rotationVector, rotationAngle);
-
-             Polyline openingTransformed = openingCurve.Transform(rotateMatrix);
-             Polyline openingTranslated = openingTransformed.Translate(translateVector);
-
-             //  List<Point> vertices = openingTranslated.IDiscontinuityPoints();
-
-            // Polyline newPoly = new Polyline { ControlPoints = openingTranslated.IDiscontinuityPoints(), };  // from start
-
-             Opening newOpening = opening.GetShallowClone(true) as Opening;
-             newOpening.Edges = openingTranslated.ToEdges();   */
         }
     }
 }
