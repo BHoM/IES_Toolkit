@@ -69,6 +69,7 @@ namespace BH.Engine.IES
             Polyline hostTransformed = hostCurve.Orient(localCartesian, worldCartesian);
             Polyline openingTranslated = openingCurve.Orient(localCartesian, worldCartesian);
 
+            //If the orientation to 0,0,0 returns a negative X or Y point, translate the opening appropriately so that the bottom right reference would (if we wanted it) become 0,0,0 of the bounds of the host panel
             double minX = hostTransformed.ControlPoints.Select(x => x.X).Min();
             double minY = hostTransformed.ControlPoints.Select(x => x.Y).Min();
             if (minX < 0)
@@ -87,47 +88,6 @@ namespace BH.Engine.IES
 
             foreach (Point p in vertices)
                 gemOpening.Add(" " + Math.Abs(p.X).ToString() + " " + Math.Abs(p.Y).ToString() + "\n");
-
-            /*Vector rotationVector = new Vector { X = 0, Y = 0, Z = 1 };
-            if (openingCurve.ControlPoints.Max(x => x.Z) - openingCurve.ControlPoints.Min(x => x.Z) <= BH.oM.Geometry.Tolerance.Distance)
-            {
-                rotationVector = new Vector { X = 1, Y = 0, Z = 0, }; //Handle horizontal openings
-                panelBottomRightReference = openingCurve.Bounds().Max;
-            }
-
-            Vector zVector = new Vector { X = 0, Y = 1, Z = 0 };
-            Plane openingPlane = openingCurve.IFitPlane();
-            Vector planeNormal = openingPlane.Normal;
-
-            Point xyRefPoint = new Point {X =  0, Y = 0, Z = 0};
-            Vector translateVector = xyRefPoint - panelBottomRightReference;
-
-            double rotationAngle = planeNormal.Angle(zVector);
-            TransformMatrix rotateMatrix = BH.Engine.Geometry.Create.RotationMatrix(panelBottomRightReference, rotationVector, rotationAngle);
-
-            Polyline openingTransformed = openingCurve.Transform(rotateMatrix);
-            Polyline openingTranslated = openingTransformed.Translate(translateVector);
-
-            List<Point> vertices = openingTranslated.IDiscontinuityPoints();
-
-            gemOpening.Add(vertices.Count.ToString() + " " + opening.Type.ToIES(settingsIES) + "\n");
-
-            if ((vertices.Max(x => x.Y) - vertices.Min(x => x.Y)) >= BH.oM.Geometry.Tolerance.Distance)
-            {
-                foreach (Point p in vertices)
-                {
-                    Vector direction = p.RoundedPoint() - xyRefPoint.RoundedPoint();
-                    gemOpening.Add(" " + Math.Abs(direction.X).ToString() + " " + Math.Abs(direction.Y).ToString() + "\n");
-                }
-            }
-            else
-            {
-                foreach (Point p in vertices)
-                {
-                    Vector direction = p.RoundedPoint() - xyRefPoint.RoundedPoint();
-                    gemOpening.Add(" " + Math.Abs(direction.X).ToString() + " " + Math.Abs(direction.Z).ToString() + "\n");
-                }
-            }*/
 
             return gemOpening;
         }

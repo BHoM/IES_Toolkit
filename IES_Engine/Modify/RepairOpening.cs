@@ -65,6 +65,7 @@ namespace BH.Engine.IES
             Polyline hostTransformed = hostCurve.Orient(localCartesian, worldCartesian);
             Polyline openingTranslated = openingCurve.Clone();
 
+            //If the orientation to 0,0,0 returns a negative X or Y point, translate the opening appropriately so that the bottom right reference would (if we wanted it) become 0,0,0 of the bounds of the host panel
             double minX = hostTransformed.ControlPoints.Select(x => x.X).Min();
             double minY = hostTransformed.ControlPoints.Select(x => x.Y).Min();
             if (minX < 0)
