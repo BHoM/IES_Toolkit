@@ -117,7 +117,7 @@ namespace BH.Engine.IES
                     }
 
                     foreach (Opening o in p.Openings)
-                        gemSpace.AddRange(o.ToIES(panelsAsSpace, pnt, settingsIES));
+                        gemSpace.AddRange(o.ToIES(p, panelsAsSpace, settingsIES));
                 }
             }
 
