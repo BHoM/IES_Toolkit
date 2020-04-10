@@ -104,17 +104,22 @@ namespace BH.Engine.IES
 
             Point zeroReference = null;
             BoundingBox bounds = hostPanel.Bounds();
+            Vector xVector = new Vector { X = -1, Y = 0, Z = 0 };
+            Vector yVector = new Vector { X = 0, Y = 1, Z = 0 };
 
-            if(hostPanel.Type == PanelType.Floor || hostPanel.Type == PanelType.FloorExposed || hostPanel.Type == PanelType.FloorRaised)
+            if (hostPanel.Type == PanelType.Floor || hostPanel.Type == PanelType.FloorExposed || hostPanel.Type == PanelType.FloorRaised)
                 zeroReference = new Point { X = bounds.Max.X, Y = bounds.Min.Y, Z = bounds.Min.Z };
             else
+            {
                 zeroReference = new Point { X = bounds.Max.X, Y = bounds.Max.Y, Z = bounds.Max.Z };
+                yVector.Y = -1;
+            }
 
             Polyline openingCurve = opening.Polyline();
 
             Point worldOrigin = new Point { X = 0, Y = 0, Z = 0 };
             Cartesian worldCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(worldOrigin, Vector.XAxis, Vector.YAxis);
-            Cartesian localCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(zeroReference, Vector.XAxis, Vector.YAxis);
+            Cartesian localCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(zeroReference, xVector, yVector);
 
             Polyline openingTranslated = openingCurve.Orient(localCartesian, worldCartesian);
 

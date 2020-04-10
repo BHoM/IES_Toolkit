@@ -51,6 +51,15 @@ namespace BH.Engine.IES
             Polyline openingCurve = opening.Polyline();
             Polyline hostCurve = host.Polyline();
 
+            if (hostCurve.ControlPoints.Select(x => x.Z).Max() == hostCurve.ControlPoints.Select(x => x.Z).Min())
+            {
+                //Horizontal openings are handled slightly differently
+                if (panelAsSpace.Select(x => x.Polyline().ControlPoints.Select(y => y.Z).Max()).Max() == hostCurve.ControlPoints.Select(x => x.Z).Max())
+                    return opening.RepairOpening(host, PanelType.Roof); //If the maximum Z level of the space is equal to the Z level of this panel
+                else
+                    return opening.RepairOpening(host, PanelType.Floor);
+            }
+
             Point panelBottomRightReference = host.BottomRight(panelAsSpace);
             Point panelBottomLeftReference = host.BottomLeft(panelAsSpace);
             Point panelTopRightReference = host.TopRight(panelAsSpace);
@@ -83,6 +92,40 @@ namespace BH.Engine.IES
 
             Opening newOpening = opening.GetShallowClone(true) as Opening;
             newOpening.Edges = openingTransformed.ToEdges();
+
+            return newOpening;
+        }
+
+        [Description("The openings when converted from IES do not have the right coordinates for 3D space, this method will repair them. This method is for horizontal openings (openings on roofs and floors)")]
+        [Input("opening", "The broken environment opening pulled from IES.")]
+        [Input("hostPanel", "The host panel for the opening.")]
+        [Input("hostType", "Determines whether the host panel is the floor of the space it is part of, or the ceiling.")]
+        [Output("repairedOpening", "The repaired environment opening.")]
+        public static Opening RepairOpening(this Opening opening, Panel hostPanel, PanelType hostType)
+        {
+            Point zeroReference = null;
+            BoundingBox bounds = hostPanel.Bounds();
+            Vector xVector = new Vector { X = -1, Y = 0, Z = 0 };
+            Vector yVector = new Vector { X = 0, Y = 1, Z = 0 };
+
+            if (hostType == PanelType.Floor || hostType == PanelType.FloorExposed || hostType == PanelType.FloorRaised)
+                zeroReference = new Point { X = bounds.Max.X, Y = bounds.Min.Y, Z = bounds.Min.Z };
+            else
+            {
+                zeroReference = new Point { X = bounds.Max.X, Y = bounds.Max.Y, Z = bounds.Max.Z };
+                yVector.Y = -1;
+            }
+
+            Polyline openingCurve = opening.Polyline();
+
+            Point worldOrigin = new Point { X = 0, Y = 0, Z = 0 };
+            Cartesian worldCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(worldOrigin, Vector.XAxis, Vector.YAxis);
+            Cartesian localCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(zeroReference, xVector, yVector);
+
+            Polyline openingTranslated = openingCurve.Orient(worldCartesian, localCartesian);
+
+            Opening newOpening = opening.GetShallowClone(true) as Opening;
+            newOpening.Edges = openingTranslated.ToEdges();
 
             return newOpening;
         }
