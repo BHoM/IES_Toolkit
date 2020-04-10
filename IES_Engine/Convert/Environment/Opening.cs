@@ -42,10 +42,9 @@ namespace BH.Engine.IES
     public static partial class Convert
     {
 
-        [Description("Convert a BHoM Environment Opening to an IES string representation of an opening for GEM format")]
+        [Description("Convert a BHoM Environment Opening to an IES string representation of an opening for GEM format - this is for vertical openings (openings on walls)")]
         [Input("opening", "The BHoM Environment Opening to convert")]
         [Input("panelsAsSpace", "The panels representing a single space which hosts this opening, used to check the orientation of the opening")]
-        [Input("panelBottomRightReference", "The bottom right corner point of the host panel to calculate the opening points from for GEM format")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("iesOpening", "The string representation for IES GEM format")]
         public static List<string> ToIES(this Opening opening, Panel hostPanel, List<Panel> panelsAsSpace, SettingsIES settingsIES)
@@ -54,6 +53,9 @@ namespace BH.Engine.IES
 
             Polyline openingCurve = opening.Polyline();
             Polyline hostCurve = hostPanel.Polyline();
+
+            if (hostCurve.ControlPoints.Select(x => x.Z).Max() == hostCurve.ControlPoints.Select(x => x.Z).Min())
+                return opening.ToIES(hostPanel, settingsIES); //Horizontal openings are handled slightly differently
 
             Point panelBottomRightReference = hostPanel.BottomRight(panelsAsSpace);
             Point panelBottomLeftReference = hostPanel.BottomLeft(panelsAsSpace);
@@ -82,6 +84,39 @@ namespace BH.Engine.IES
                 Vector translateVectorY = new Vector { X = 0, Y = -minY, Z = 0 };
                 openingTranslated = openingTranslated.Translate(translateVectorY);
             }
+
+            List<Point> vertices = openingTranslated.IDiscontinuityPoints();
+            gemOpening.Add(vertices.Count.ToString() + " " + opening.Type.ToIES(settingsIES) + "\n");
+
+            foreach (Point p in vertices)
+                gemOpening.Add(" " + Math.Abs(p.X).ToString() + " " + Math.Abs(p.Y).ToString() + "\n");
+
+            return gemOpening;
+        }
+
+        [Description("Convert a BHoM Environment Opening to an IES string representation of an opening for GEM format - this is for horizontal openings (openings on roofs and floors)")]
+        [Input("opening", "The BHoM Environment Opening to convert")]
+        [Input("settingsIES", "The IES settings to use with the IES adapter")]
+        [Output("iesOpening", "The string representation for IES GEM format")]
+        public static List<string> ToIES(this Opening opening, Panel hostPanel, SettingsIES settingsIES)
+        {
+            List<string> gemOpening = new List<string>();
+
+            Point zeroReference = null;
+            BoundingBox bounds = hostPanel.Bounds();
+
+            if(hostPanel.Type == PanelType.Floor || hostPanel.Type == PanelType.FloorExposed || hostPanel.Type == PanelType.FloorRaised)
+                zeroReference = new Point { X = bounds.Max.X, Y = bounds.Min.Y, Z = bounds.Min.Z };
+            else
+                zeroReference = new Point { X = bounds.Max.X, Y = bounds.Max.Y, Z = bounds.Max.Z };
+
+            Polyline openingCurve = opening.Polyline();
+
+            Point worldOrigin = new Point { X = 0, Y = 0, Z = 0 };
+            Cartesian worldCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(worldOrigin, Vector.XAxis, Vector.YAxis);
+            Cartesian localCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(zeroReference, Vector.XAxis, Vector.YAxis);
+
+            Polyline openingTranslated = openingCurve.Orient(localCartesian, worldCartesian);
 
             List<Point> vertices = openingTranslated.IDiscontinuityPoints();
             gemOpening.Add(vertices.Count.ToString() + " " + opening.Type.ToIES(settingsIES) + "\n");
