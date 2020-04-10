@@ -162,6 +162,8 @@ namespace BH.Engine.IES
                 Panel panel = new Panel();
                 panel.ExternalEdges = pLine.ToEdges();
                 panel.Openings = new List<Opening>();
+                panel.ConnectedSpaces = new List<string>();
+                panel.ConnectedSpaces.Add(spaceName);
 
                 count++;
                 int numOpenings = System.Convert.ToInt32(iesSpace[count]);
