@@ -46,7 +46,7 @@ namespace BH.Engine.IES
         [Input("host", "The host panel for the opening.")]
         [Input("panelsAsSpace", "A collection of panels defining the space around the opening.")]
         [Output("repairedOpening", "The repaired environment opening.")]
-        public static Opening RepairOpening(this Opening opening, Panel host, List<Panel> panelAsSpace)
+        public static Opening RepairOpening(this Opening opening, Panel host, List<Panel> panelsAsSpace)
         {
             Polyline openingCurve = opening.Polyline();
             Polyline hostCurve = host.Polyline();
@@ -54,15 +54,15 @@ namespace BH.Engine.IES
             if (hostCurve.ControlPoints.Select(x => x.Z).Max() == hostCurve.ControlPoints.Select(x => x.Z).Min())
             {
                 //Horizontal openings are handled slightly differently
-                if (panelAsSpace.Select(x => x.Polyline().ControlPoints.Select(y => y.Z).Max()).Max() == hostCurve.ControlPoints.Select(x => x.Z).Max())
+                if (panelsAsSpace.Select(x => x.Polyline().ControlPoints.Select(y => y.Z).Max()).Max() == hostCurve.ControlPoints.Select(x => x.Z).Max())
                     return opening.RepairOpening(host, PanelType.Roof); //If the maximum Z level of the space is equal to the Z level of this panel
                 else
                     return opening.RepairOpening(host, PanelType.Floor);
             }
 
-            Point panelBottomRightReference = host.BottomRight(panelAsSpace);
-            Point panelBottomLeftReference = host.BottomLeft(panelAsSpace);
-            Point panelTopRightReference = host.TopRight(panelAsSpace);
+            Point panelBottomRightReference = host.BottomRight(panelsAsSpace);
+            Point panelBottomLeftReference = host.BottomLeft(panelsAsSpace);
+            Point panelTopRightReference = host.TopRight(panelsAsSpace);
 
             Vector xVector = panelBottomLeftReference - panelBottomRightReference;
             Vector yVector = panelTopRightReference - panelBottomRightReference;
