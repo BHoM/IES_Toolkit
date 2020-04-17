@@ -62,6 +62,7 @@ namespace BH.Engine.IES
             Point panelTopRightReference = hostPanel.TopRight(panelsAsSpace);
 
             Vector xVector = panelBottomLeftReference - panelBottomRightReference;
+            xVector.Z = 0;
             Vector yVector = panelTopRightReference - panelBottomRightReference;
 
             Point worldOrigin = new Point { X = 0, Y = 0, Z = 0 };
