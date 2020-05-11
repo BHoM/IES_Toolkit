@@ -2,7 +2,7 @@
 
 # IES_Toolkit 
 
-The IES_Toolkit allows interoperability between the BHoM and IES. Enables creation, manipulation and reading of models via the `gem` file formate for IES.
+The IES_Toolkit allows interoperability between the BHoM and IES. Enables creation, manipulation and reading of models via the `gem` file format for IES.
 
 ...
 
