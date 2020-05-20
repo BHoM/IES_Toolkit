@@ -58,6 +58,7 @@ namespace BH.Engine.IES
                 case OpeningType.Door:
                 case OpeningType.VehicleDoor:
                     return "1";
+                case OpeningType.Hole:
                 default:
                     return "2"; //Hole
             }
@@ -73,6 +74,8 @@ namespace BH.Engine.IES
                 return OpeningType.Window;
             if (iesOpeningType == "1")
                 return OpeningType.Door;
+            if (iesOpeningType == "2")
+                return OpeningType.Hole;
 
             return OpeningType.Undefined;
         }
