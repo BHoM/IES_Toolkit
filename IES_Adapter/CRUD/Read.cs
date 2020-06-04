@@ -73,15 +73,15 @@ namespace BH.Adapter.IES
 
             sr.Close();
 
-            int numbersOfSkip = 10;
+            int linesToSkip = 10;
 
             if (iesStrings.First() != "LAYER") //Check if it is a 2019 GEM file
             {
                 iesStrings.RemoveRange(0, 4);
-                numbersOfSkip = 12;
+                linesToSkip = 12;
             }
 
-            iesStrings.RemoveRange(0, numbersOfSkip); //Remove the first 10 items...
+            iesStrings.RemoveRange(0, linesToSkip); //Remove the first 10 items...
             bool endOfFile = false;
             while(!endOfFile)
             {
@@ -99,7 +99,7 @@ namespace BH.Adapter.IES
                 objects.AddRange(space.FromIES(_settingsIES));
 
                 if(!endOfFile)
-                    iesStrings.RemoveRange(0, nextIndex + numbersOfSkip);
+                    iesStrings.RemoveRange(0, nextIndex + linesToSkip);
             }
 
             return objects;
