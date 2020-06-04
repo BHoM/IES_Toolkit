@@ -57,7 +57,7 @@ namespace BH.Engine.IES
             try
             {
                 iesPt = iesPt.Trim();
-                string[] split = iesPt.Split(' ');
+                string[] split = System.Text.RegularExpressions.Regex.Split(iesPt, @"\s+");
                 return new Point
                 {
                     X = System.Convert.ToDouble(split[0]),
