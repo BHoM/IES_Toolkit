@@ -37,7 +37,7 @@ using BH.oM.IES.Settings;
 
 using BH.oM.Geometry.CoordinateSystem;
 
-namespace BH.Engine.IES
+namespace BH.Engine.Adapters.IES
 {
     public static partial class Convert
     {

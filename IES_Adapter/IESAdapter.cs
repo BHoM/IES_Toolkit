@@ -34,7 +34,7 @@ using BH.oM.IES.Settings;
 using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
 
-using BH.Engine.IES;
+using BH.Engine.Adapters.IES;
 
 namespace BH.Adapter.IES
 {
