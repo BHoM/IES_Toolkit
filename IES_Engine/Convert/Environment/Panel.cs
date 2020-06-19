@@ -35,7 +35,7 @@ using BH.Engine.Environment;
 using BH.Engine.Geometry;
 using BH.oM.IES.Settings;
 
-namespace BH.Engine.IES
+namespace BH.Engine.Adapters.IES
 {
     public static partial class Convert
     {

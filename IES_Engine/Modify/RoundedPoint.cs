@@ -31,7 +31,7 @@ using BH.oM.Geometry;
 using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
 
-namespace BH.Engine.IES
+namespace BH.Engine.Adapters.IES
 {
     public static partial class Modify
     {

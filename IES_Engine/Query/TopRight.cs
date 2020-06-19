@@ -34,7 +34,7 @@ using BH.Engine.Geometry;
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
 
-namespace BH.Engine.IES
+namespace BH.Engine.Adapters.IES
 {
     public static partial class Query
     {

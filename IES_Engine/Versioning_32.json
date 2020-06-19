@@ -1,0 +1,18 @@
+{
+  "Namespace": {
+    "ToNew": {
+      "BH.Engine.XML":  "BH.Engine.Adapters.IES"
+    },
+    "ToOld": {
+      "BH.Engine.Adapters.XML": "BH.Engine.IES"
+    }
+  },
+  "Type": {
+    "ToNew": {
+      
+    },
+    "ToOld": {
+      
+    }
+  }
+}
