@@ -64,6 +64,12 @@ namespace BH.Engine.Adapters.IES
             Point panelBottomLeftReference = host.BottomLeft(panelsAsSpace);
             Point panelTopRightReference = host.TopRight(panelsAsSpace);
 
+            if(panelBottomRightReference == null || panelBottomLeftReference == null || panelTopRightReference == null)
+            {
+                BH.Engine.Reflection.Compute.RecordWarning("An error occurred in attempting to repair opening with GUID " + opening.BHoM_Guid + " hosted by the panel with GUID " + host.BHoM_Guid + " . The opening on this panel may not be correctly pulled and should be investigated.");
+                return opening;
+            }
+
             Vector xVector = panelBottomLeftReference - panelBottomRightReference;
             xVector.Z = 0;
             Vector yVector = panelTopRightReference - panelBottomRightReference;
