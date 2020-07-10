@@ -188,13 +188,21 @@ namespace BH.Engine.Adapters.IES
                 panels.Add(panel);
             }
 
-            //Fix the openings now
-            foreach(Panel p in panels)
+            if (settingsIES.PullOpenings)
             {
-                for (int x = 0; x < p.Openings.Count; x++)
+                //Fix the openings now
+                foreach (Panel p in panels)
                 {
-                    p.Openings[x] = p.Openings[x].RepairOpening(p, panels);
+                    for (int x = 0; x < p.Openings.Count; x++)
+                    {
+                        p.Openings[x] = p.Openings[x].RepairOpening(p, panels);
+                    }
                 }
+            }
+            else
+            {
+                foreach(Panel p in panels)
+                    p.Openings = new List<Opening>();
             }
 
             return panels;

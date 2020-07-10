@@ -36,6 +36,8 @@ using BH.Engine.Adapters.IES;
 
 using BH.oM.Adapter;
 using BH.Engine.Adapter;
+using BH.Engine.Environment;
+using BH.Engine.Geometry;
 
 namespace BH.Adapter.IES
 {
@@ -47,6 +49,9 @@ namespace BH.Adapter.IES
 
         protected override IEnumerable<IBHoMObject> IRead(Type type, IList indices = null, ActionConfig actionConfig = null)
         {
+            if (type == typeof(Space))
+                return ReadSpaces();
+
             return ReadFullGEM();
         }
 
@@ -100,6 +105,28 @@ namespace BH.Adapter.IES
 
                 if(!endOfFile)
                     iesStrings.RemoveRange(0, nextIndex + linesToSkip);
+            }
+
+            return objects;
+        }
+
+        private IEnumerable<IBHoMObject> ReadSpaces()
+        {
+            _settingsIES.PullOpenings = false; //Override and not pull openings when pulling spaces
+            List<IBHoMObject> gemObjects = ReadFullGEM().ToList();
+
+            List<Panel> panels = gemObjects.Select(x => x as Panel).ToList();
+            List<List<Panel>> panelsAsSpaces = panels.ToSpaces();
+
+            List<IBHoMObject> objects = new List<IBHoMObject>();
+            foreach(List<Panel> space in panelsAsSpaces)
+            {
+                objects.Add(new Space
+                {
+                    Perimeter = space.FloorGeometry(),
+                    Location = space.FloorGeometry().Centre(),
+                    Name = space.ConnectedSpaceName(),
+                });
             }
 
             return objects;
