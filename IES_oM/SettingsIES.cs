@@ -40,6 +40,9 @@ namespace BH.oM.IES.Settings
         [Description("Set how many decimal places coordinates should have on export, default is set to 6")]
         public virtual int DecimalPlaces { get; set; } = 6;
 
+        [Description("Determine whether or not openings should be pulled from the GEM file when pulling a GEM file. Only valid if pulling Panels which host openings. Default is True, to pull openings when pulling panels.")]
+        public virtual bool PullOpenings { get; set; } = true;
+
         /***************************************************/
     }
 }
