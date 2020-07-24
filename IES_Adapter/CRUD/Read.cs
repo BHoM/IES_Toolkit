@@ -121,10 +121,16 @@ namespace BH.Adapter.IES
             List<IBHoMObject> objects = new List<IBHoMObject>();
             foreach(List<Panel> space in panelsAsSpaces)
             {
+                Polyline perim = space.FloorGeometry();
+                Point centre = perim != null ? perim.Centre() : null;
+
+                if (perim == null)
+                    BH.Engine.Reflection.Compute.RecordWarning("The space " + space.ConnectedSpaceName() + " did not return a valid floor geometry from its panels. The geometry is null but the space has been pulled. You may wish to investigate and fix manually.");
+
                 objects.Add(new Space
                 {
-                    Perimeter = space.FloorGeometry(),
-                    Location = space.FloorGeometry().Centre(),
+                    Perimeter = perim,
+                    Location = centre,
                     Name = space.ConnectedSpaceName(),
                 });
             }
