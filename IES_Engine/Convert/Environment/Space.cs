@@ -45,6 +45,11 @@ namespace BH.Engine.Adapters.IES
         [Output("iesSpace", "The IES string representation of the space for GEM")]
         public static List<string> ToIES(this List<Panel> panelsAsSpace, SettingsIES settingsIES) 
         {
+            List<Panel> panels = panelsAsSpace.Where(x => x.ExternalEdges.Count > 0).ToList();
+
+            if (panels.Count != panelsAsSpace.Count)
+                BH.Engine.Reflection.Compute.RecordWarning("The space " + panelsAsSpace.ConnectedSpaceName() + " has panels which did not contain geometry. Panels without valid geometry cannot be converted for IES to handle and have been ignored.");
+
             List<string> gemSpace = new List<string>(); 
 
             gemSpace.Add("LAYER\n");
@@ -58,22 +63,22 @@ namespace BH.Engine.Adapters.IES
             gemSpace.Add("COLOURRGB\n");
             gemSpace.Add("16711690\n");
 
-            gemSpace.Add("IES " + panelsAsSpace.ConnectedSpaceName() + "\n");
+            gemSpace.Add("IES " + panels.ConnectedSpaceName() + "\n");
 
             List<Point> spaceVertices = new List<Point>();
-            foreach(Panel p in panelsAsSpace)
+            foreach(Panel p in panels)
                 spaceVertices.AddRange(p.Vertices().Select(x => x.RoundedPoint()));
 
             spaceVertices = spaceVertices.Distinct().ToList();
 
-            gemSpace.Add(spaceVertices.Count.ToString() + " " + panelsAsSpace.Count.ToString() + "\n");
+            gemSpace.Add(spaceVertices.Count.ToString() + " " + panels.Count.ToString() + "\n");
 
             foreach (Point p in spaceVertices)
                 gemSpace.Add(p.ToIES(settingsIES));
 
             Point zero = new Point { X = 0, Y = 0, Z = 0 };
 
-            foreach (Panel p in panelsAsSpace)
+            foreach (Panel p in panels)
             {
                 if (p.Type == PanelType.Air && p.Openings.Count == 0)
                     p.Openings.Add(new Opening { Edges = new List<Edge>(p.ExternalEdges), Type = OpeningType.Hole }); //Air walls need the polyline adding as an opening of type hole
@@ -81,7 +86,7 @@ namespace BH.Engine.Adapters.IES
                 List<Point> v = p.Vertices();
                 v.RemoveAt(v.Count - 1); //Remove the last point because we don't need duplicated points
 
-                if (!p.NormalAwayFromSpace(panelsAsSpace, settingsIES.PlanarTolerance) && p.ConnectedSpaces[0] == panelsAsSpace.ConnectedSpaceName())
+                if (!p.NormalAwayFromSpace(panels, settingsIES.PlanarTolerance) && p.ConnectedSpaces[0] == panels.ConnectedSpaceName())
                     v.Reverse(); //Reverse the point order if the normal is not away from the space but the first adjacency is this space
 
                 string s = v.Count.ToString() + " ";
@@ -98,8 +103,8 @@ namespace BH.Engine.Adapters.IES
                     gemSpace.Add(p.Openings.Count.ToString() + "\n");
 
                     //Point pnt = p.Polyline().Bounds().Min;
-                    Point bottomRightPnt = p.Polyline().BottomRight(panelsAsSpace);
-                    Point topRightPnt = p.Polyline().TopRight(panelsAsSpace);
+                    Point bottomRightPnt = p.Polyline().BottomRight(panels);
+                    Point topRightPnt = p.Polyline().TopRight(panels);
                     Point centrePnt = p.Polyline().Centroid();
 
                     Point checkBottom = new Point { X = bottomRightPnt.X, Y = bottomRightPnt.Y, Z = centrePnt.Z };
@@ -117,7 +122,7 @@ namespace BH.Engine.Adapters.IES
                     }
 
                     foreach (Opening o in p.Openings)
-                        gemSpace.AddRange(o.ToIES(p, panelsAsSpace, settingsIES));
+                        gemSpace.AddRange(o.ToIES(p, panels, settingsIES));
                 }
             }
 
