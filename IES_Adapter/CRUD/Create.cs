@@ -49,7 +49,7 @@ namespace BH.Adapter.IES
             List<Panel> panels = bhomObjects.Panels();
 
             List<List<Panel>> panelsAsSpaces = panels.ToSpaces();
-            List<Panel> panelsAsShade = panels.PanelsByType(PanelType.Shade);
+            List<Panel> panelsAsShade = panels.FilterPanelsByType(PanelType.Shade).Item1;
 
             StreamWriter sw = new StreamWriter(_fileSettings.GetFullFileName());
 
