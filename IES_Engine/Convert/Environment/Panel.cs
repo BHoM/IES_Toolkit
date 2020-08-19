@@ -45,9 +45,14 @@ namespace BH.Engine.Adapters.IES
         [Output("iesSpace", "The IES string representation of shade for GEM")]
         public static List<string> ToIESShading(this List<Panel> panelsAsShade, SettingsIES settingsIES)
         {
+            List<Panel> panels = panelsAsShade.Where(x => x.ExternalEdges.Count > 0).ToList();
+
+            if (panels.Count != panelsAsShade.Count)
+                BH.Engine.Reflection.Compute.RecordWarning("The panels for shading contain panels which did not contain geometry. Panels without valid geometry cannot be converted for IES to handle and have been ignored.");
+
             List<string> gemPanel = new List<string>();
 
-            for (int x = 0; x < panelsAsShade.Count; x++)
+            for (int x = 0; x < panels.Count; x++)
             {
                 gemPanel.Add("LAYER\n");
                 gemPanel.Add("64\n");
@@ -60,7 +65,7 @@ namespace BH.Engine.Adapters.IES
                 gemPanel.Add("COLOURRGB\n");
                 gemPanel.Add("65280\n");
                 gemPanel.Add("IES IES_SHD_" + (x + 1).ToString() + "\n");
-                List<Point> points = panelsAsShade[x].Vertices().Select(y => y.RoundedPoint()).ToList();
+                List<Point> points = panels[x].Vertices().Select(y => y.RoundedPoint()).ToList();
                 points = points.Distinct().ToList();
                 gemPanel.Add(points.Count.ToString() + " 1\n");
 
