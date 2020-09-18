@@ -90,7 +90,7 @@ namespace BH.Engine.Adapters.IES
             gemOpening.Add(vertices.Count.ToString() + " " + opening.Type.ToIES(settingsIES) + "\n");
 
             foreach (Point p in vertices)
-                gemOpening.Add(" " + Math.Abs(p.X).ToString() + " " + Math.Abs(p.Y).ToString() + "\n");
+                gemOpening.Add(" " + Math.Abs(Math.Round(p.X, settingsIES.DecimalPlaces)).ToString() + " " + Math.Abs(Math.Round(p.Y, settingsIES.DecimalPlaces)).ToString() + "\n");
 
             return gemOpening;
         }
