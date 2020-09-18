@@ -33,7 +33,7 @@ using BH.Engine.Reflection;
 using BH.oM.Environment.Elements;
 using BH.Engine.Environment;
 using BH.Engine.Geometry;
-using BH.oM.IES.Settings; 
+using BH.oM.IES.Settings;
 
 namespace BH.Engine.Adapters.IES
 {

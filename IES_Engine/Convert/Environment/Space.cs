@@ -67,7 +67,7 @@ namespace BH.Engine.Adapters.IES
 
             List<Point> spaceVertices = new List<Point>();
             foreach(Panel p in panels)
-                spaceVertices.AddRange(p.Vertices().Select(x => x.RoundedPoint()));
+                spaceVertices.AddRange(p.Vertices().Select(x => x.RoundedPoint(settingsIES.DecimalPlaces)));
 
             spaceVertices = spaceVertices.Distinct().ToList();
 
