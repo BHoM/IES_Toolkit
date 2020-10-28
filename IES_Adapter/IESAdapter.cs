@@ -73,8 +73,6 @@ namespace BH.Adapter.IES
 
             _fileSettings = fileSettings;
             _settingsIES = settingsIES;
-
-            AdapterIdName = "IES_Adapter";
         }
 
         /***************************************************/
