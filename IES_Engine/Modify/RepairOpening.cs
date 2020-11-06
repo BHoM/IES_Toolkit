@@ -37,6 +37,8 @@ using BH.oM.Reflection.Attributes;
 
 using BH.oM.Geometry.CoordinateSystem;
 
+using BH.Engine.Base;
+
 namespace BH.Engine.Adapters.IES
 {
     public static partial class Modify
@@ -79,7 +81,7 @@ namespace BH.Engine.Adapters.IES
             Cartesian localCartesian = BH.Engine.Geometry.Create.CartesianCoordinateSystem(panelBottomRightReference, xVector, yVector);
 
             Polyline hostTransformed = hostCurve.Orient(localCartesian, worldCartesian);
-            Polyline openingTranslated = openingCurve.Clone();
+            Polyline openingTranslated = openingCurve.DeepClone();
 
             //If the orientation to 0,0,0 returns a negative X or Y point, translate the opening appropriately so that the bottom right reference would (if we wanted it) become 0,0,0 of the bounds of the host panel
             double minX = hostTransformed.ControlPoints.Select(x => x.X).Min();
@@ -97,7 +99,7 @@ namespace BH.Engine.Adapters.IES
 
             Polyline openingTransformed = openingTranslated.Orient(worldCartesian, localCartesian);
 
-            Opening newOpening = opening.GetShallowClone(true) as Opening;
+            Opening newOpening = opening.ShallowClone();
             newOpening.Edges = openingTransformed.ToEdges();
 
             return newOpening;
@@ -131,7 +133,7 @@ namespace BH.Engine.Adapters.IES
 
             Polyline openingTranslated = openingCurve.Orient(worldCartesian, localCartesian);
 
-            Opening newOpening = opening.GetShallowClone(true) as Opening;
+            Opening newOpening = opening.ShallowClone();
             newOpening.Edges = openingTranslated.ToEdges();
 
             return newOpening;

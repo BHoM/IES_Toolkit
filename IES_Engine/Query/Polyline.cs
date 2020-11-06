@@ -27,6 +27,7 @@ using System.Linq;
 
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
+using BH.Engine.Geometry;
 
 namespace BH.Engine.Adapters.IES
 {
@@ -41,8 +42,8 @@ namespace BH.Engine.Adapters.IES
         [Output("polyline", "The 2d polyline representation of the box")]
         public static Polyline Polyline(this BoundingBox box)
         {
-            Point min = box.Min.RoundedPoint();
-            Point max = box.Max.RoundedPoint();
+            Point min = box.Min.RoundCoordinates();
+            Point max = box.Max.RoundCoordinates();
 
             double minDist = Math.Min(max.X - min.X, max.Y - min.Y);
             minDist = Math.Min(minDist, max.Z - min.Z);

@@ -65,7 +65,7 @@ namespace BH.Engine.Adapters.IES
                 gemPanel.Add("COLOURRGB\n");
                 gemPanel.Add("65280\n");
                 gemPanel.Add("IES IES_SHD_" + (x + 1).ToString() + "\n");
-                List<Point> points = panels[x].Vertices().Select(y => y.RoundedPoint()).ToList();
+                List<Point> points = panels[x].Vertices().Select(y => y.RoundCoordinates(settingsIES.DecimalPlaces)).ToList();
                 points = points.Distinct().ToList();
                 gemPanel.Add(points.Count.ToString() + " 1\n");
 
