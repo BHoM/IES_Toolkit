@@ -101,7 +101,6 @@
     <Compile Include="Convert\Geometry\Point.cs" />
     <Compile Include="Create\SettingsIES.cs" />
     <Compile Include="Modify\RepairOpening.cs" />
-    <Compile Include="Modify\RoundedPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\Polyline.cs" />
   </ItemGroup>

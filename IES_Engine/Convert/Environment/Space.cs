@@ -67,7 +67,7 @@ namespace BH.Engine.Adapters.IES
 
             List<Point> spaceVertices = new List<Point>();
             foreach(Panel p in panels)
-                spaceVertices.AddRange(p.Vertices().Select(x => x.RoundedPoint(settingsIES.DecimalPlaces)));
+                spaceVertices.AddRange(p.Vertices().Select(x => x.RoundCoordinates(settingsIES.DecimalPlaces)));
 
             spaceVertices = spaceVertices.Distinct().ToList();
 
@@ -91,7 +91,7 @@ namespace BH.Engine.Adapters.IES
 
                 string s = v.Count.ToString() + " ";
                 foreach(Point pt in v)
-                    s += (spaceVertices.IndexOf(pt.RoundedPoint()) + 1) + " ";
+                    s += (spaceVertices.IndexOf(pt.RoundCoordinates(settingsIES.DecimalPlaces)) + 1) + " ";
 
                 s += "\n";
                 gemSpace.Add(s);
