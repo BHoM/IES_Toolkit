@@ -51,6 +51,8 @@ namespace BH.Adapter.IES
         {
             if (type == typeof(Space))
                 return ReadSpaces();
+            else if (type == typeof(Panel))
+                return ReadPanels();
 
             return ReadFullGEM();
         }
@@ -59,14 +61,24 @@ namespace BH.Adapter.IES
         /**** Private Methods                           ****/
         /***************************************************/
 
-        private IEnumerable<IBHoMObject> ReadFullGEM()
+        private List<IBHoMObject> ReadFullGEM()
         {
-            List<IBHoMObject> objects = new List<IBHoMObject>();
+            List<Panel> panels = ReadPanels();
+            List<Space> spaces = ReadSpaces(panels);
 
+            List<IBHoMObject> objects = new List<IBHoMObject>();
+            objects.AddRange(panels);
+            objects.AddRange(spaces);
+
+            return objects;
+        }
+
+        private List<Panel> ReadPanels()
+        {
             if (!System.IO.File.Exists(_fileSettings.GetFullFileName()))
             {
                 BH.Engine.Reflection.Compute.RecordError("File does not exist to pull from");
-                return new List<IBHoMObject>();
+                return new List<Panel>();
             }
 
             StreamReader sr = new StreamReader(_fileSettings.GetFullFileName());
@@ -86,6 +98,8 @@ namespace BH.Adapter.IES
                 linesToSkip = 12;
             }
 
+            List<Panel> panels = new List<Panel>();
+
             iesStrings.RemoveRange(0, linesToSkip); //Remove the first 10 items...
             bool endOfFile = false;
             while(!endOfFile)
@@ -101,25 +115,27 @@ namespace BH.Adapter.IES
                 for (int x = 0; x < nextIndex; x++)
                     space.Add(iesStrings[x]);
 
-                objects.AddRange(space.FromIES(_settingsIES));
+                panels.AddRange(space.FromIES(_settingsIES));
 
                 if(!endOfFile)
                     iesStrings.RemoveRange(0, nextIndex + linesToSkip);
             }
 
-            return objects;
+            return panels;
         }
 
         private IEnumerable<IBHoMObject> ReadSpaces()
         {
             _settingsIES.PullOpenings = false; //Override and not pull openings when pulling spaces
-            List<IBHoMObject> gemObjects = ReadFullGEM().ToList();
+            return ReadSpaces(ReadPanels());
+        }
 
-            List<Panel> panels = gemObjects.Select(x => x as Panel).ToList();
+        private List<Space> ReadSpaces(List<Panel> panels)
+        {
             List<List<Panel>> panelsAsSpaces = panels.ToSpaces();
 
-            List<IBHoMObject> objects = new List<IBHoMObject>();
-            foreach(List<Panel> space in panelsAsSpaces)
+            List<Space> spaces = new List<Space>();
+            foreach (List<Panel> space in panelsAsSpaces)
             {
                 Polyline perim = space.FloorGeometry();
                 Point centre = perim != null ? perim.Centre() : null;
@@ -127,7 +143,7 @@ namespace BH.Adapter.IES
                 if (perim == null)
                     BH.Engine.Reflection.Compute.RecordWarning("The space " + space.ConnectedSpaceName() + " did not return a valid floor geometry from its panels. The geometry is null but the space has been pulled. You may wish to investigate and fix manually.");
 
-                objects.Add(new Space
+                spaces.Add(new Space
                 {
                     Perimeter = perim,
                     Location = centre,
@@ -135,7 +151,7 @@ namespace BH.Adapter.IES
                 });
             }
 
-            return objects;
+            return spaces;
         }
     }
 }
