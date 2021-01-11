@@ -138,7 +138,7 @@ namespace BH.Adapter.IES
             foreach (List<Panel> space in panelsAsSpaces)
             {
                 Polyline perim = space.FloorGeometry();
-                Point centre = perim != null ? perim.Centre() : null;
+                Point centre = perim != null ? perim.Centroid() : null;
 
                 if (perim == null)
                     BH.Engine.Reflection.Compute.RecordWarning("The space " + space.ConnectedSpaceName() + " did not return a valid floor geometry from its panels. The geometry is null but the space has been pulled. You may wish to investigate and fix manually.");
