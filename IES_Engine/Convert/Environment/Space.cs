@@ -139,6 +139,11 @@ namespace BH.Engine.Adapters.IES
 
             //Convert the strings which make up the IES Gem file back into BHoM panels.
             string spaceName = iesSpace[0]; //First string is the name
+            if(spaceName.StartsWith("IES"))
+            {
+                spaceName = spaceName.Substring(3);
+                spaceName = spaceName.Trim();
+            }
 
             int numCoordinates = System.Convert.ToInt32(iesSpace[1].Split(' ')[0]); //First number is the number of coordinates
             int numPanels = System.Convert.ToInt32(iesSpace[1].Split(' ')[1]); //Second number is the number of panels (faces) of the space
