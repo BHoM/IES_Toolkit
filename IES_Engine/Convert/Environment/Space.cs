@@ -66,7 +66,7 @@ namespace BH.Engine.Adapters.IES
             gemSpace.Add("IES " + panels.ConnectedSpaceName() + "\n");
 
             List<Point> spaceVertices = new List<Point>();
-            foreach(Panel p in panels)
+            foreach (Panel p in panels)
                 spaceVertices.AddRange(p.Vertices().Select(x => x.RoundCoordinates(settingsIES.DecimalPlaces)));
 
             spaceVertices = spaceVertices.Distinct().ToList();
@@ -86,7 +86,7 @@ namespace BH.Engine.Adapters.IES
                 List<Point> v = p.Vertices();
                 v.RemoveAt(v.Count - 1); //Remove the last point because we don't need duplicated points
 
-                if (!p.NormalAwayFromSpace(panels, settingsIES.PlanarTolerance) && p.ConnectedSpaces[0] == panels.ConnectedSpaceName())
+                if (!p.NormalAwayFromSpace(panels, settingsIES.PlanarTolerance)/* && p.ConnectedSpaces[0] == panels.ConnectedSpaceName()*/)
                     v.Reverse(); //Reverse the point order if the normal is not away from the space but the first adjacency is this space
 
                 string s = v.Count.ToString() + " ";
