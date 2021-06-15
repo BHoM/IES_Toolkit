@@ -34,6 +34,7 @@ using BH.Engine.Adapters.IES;
 
 using BH.oM.Adapter;
 using BH.Engine.Adapter;
+using BH.oM.Reflection;
 
 namespace BH.Adapter.IES
 {
@@ -48,8 +49,10 @@ namespace BH.Adapter.IES
             List<IBHoMObject> bhomObjects = objects.Select(x => (IBHoMObject)x).ToList();
             List<Panel> panels = bhomObjects.Panels();
 
-            List<List<Panel>> panelsAsSpaces = panels.ToSpaces();
-            List<Panel> panelsAsShade = panels.FilterPanelsByType(PanelType.Shade).Item1;
+            Output<List<Panel>, List<Panel>> filteredPanels = panels.FilterPanelsByType(PanelType.Shade);
+          
+            List<List<Panel>> panelsAsSpaces = filteredPanels.Item2.ToSpaces();
+            List<Panel> panelsAsShade = filteredPanels.Item1;
 
             StreamWriter sw = new StreamWriter(_fileSettings.GetFullFileName());
 
