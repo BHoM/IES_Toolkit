@@ -87,22 +87,6 @@ namespace BH.Engine.Adapters.IES
                 {
                     gemPanel.Add(panels[x].Openings.Count.ToString() + "\n");
 
-                    Point bottomRightPnt = panels[x].Polyline().BottomRight(panels);
-                    Point topRightPnt = panels[x].Polyline().TopRight(panels);
-                    Point centrePnt = panels[x].Polyline().Centroid();
-
-                    Point checkBottom = new Point { X = bottomRightPnt.X, Y = bottomRightPnt.Y, Z = centrePnt.Z };
-                    Point checkTop = new Point { X = topRightPnt.X, Y = topRightPnt.Y, Z = centrePnt.Z };
-
-                    Point pnt = null;
-                    if (checkTop.Distance(centrePnt) < checkBottom.Distance(centrePnt))
-                        pnt = bottomRightPnt;
-                    else
-                    {
-                        pnt = topRightPnt;
-                        pnt.Z = bottomRightPnt.Z;
-                    }
-
                     foreach (Opening o in panels[x].Openings)
                         gemPanel.AddRange(o.ToIES(panels[x], new List<Panel> { panels[x] }, settingsIES));
                 }
@@ -133,7 +117,7 @@ namespace BH.Engine.Adapters.IES
             List<string> panelCoord = iesPanel[count].Trim().Split(' ').ToList();
             List<Point> pLinePts = new List<Point>();
             for (int y = 1; y < panelCoord.Count; y++)
-                pLinePts.Add(bhomPoints[System.Convert.ToInt32(panelCoord[y]) - 1]); //Add coordinate points in order, necessary?
+                pLinePts.Add(bhomPoints[System.Convert.ToInt32(panelCoord[y]) - 1]); //Add coordinate points in order
                 
             pLinePts.Add(pLinePts.First()); //Add first point to close polyline
 

@@ -102,25 +102,6 @@ namespace BH.Engine.Adapters.IES
                 {
                     gemSpace.Add(p.Openings.Count.ToString() + "\n");
 
-                    //Point pnt = p.Polyline().Bounds().Min;
-                    Point bottomRightPnt = p.Polyline().BottomRight(panels);
-                    Point topRightPnt = p.Polyline().TopRight(panels);
-                    Point centrePnt = p.Polyline().Centroid();
-
-                    Point checkBottom = new Point { X = bottomRightPnt.X, Y = bottomRightPnt.Y, Z = centrePnt.Z };
-                    Point checkTop = new Point { X = topRightPnt.X, Y = topRightPnt.Y, Z = centrePnt.Z };
-
-                    //Point pnt = p.Polyline().Bounds().ToPolyline().BottomRight(panelsAsSpace);
-
-                    Point pnt = null;
-                    if (checkTop.Distance(centrePnt) < checkBottom.Distance(centrePnt))
-                        pnt = bottomRightPnt;
-                    else
-                    {
-                        pnt = topRightPnt;
-                        pnt.Z = bottomRightPnt.Z;
-                    }
-
                     foreach (Opening o in p.Openings)
                         gemSpace.AddRange(o.ToIES(p, panels, settingsIES));
                 }
