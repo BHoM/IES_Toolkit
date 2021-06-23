@@ -100,9 +100,14 @@ namespace BH.Adapter.IES
 
             List<Panel> panels = new List<Panel>();
 
+            PanelType panelType = PanelType.Undefined;
+            if (iesStrings[7] == "4")
+                panelType = PanelType.Shade;
+
             iesStrings.RemoveRange(0, linesToSkip); //Remove the first 10 items...
             bool endOfFile = false;
-            while(!endOfFile)
+
+            while (!endOfFile)
             {
                 int nextIndex = iesStrings.IndexOf("LAYER");
                 if (nextIndex == -1)
@@ -115,10 +120,25 @@ namespace BH.Adapter.IES
                 for (int x = 0; x < nextIndex; x++)
                     space.Add(iesStrings[x]);
 
-                panels.AddRange(space.FromIES(_settingsIES));
+                if (panelType == PanelType.Shade)
+                {
+                    panels.Add(space.FromIESShading(_settingsIES)); //Make a shade panel
+                }
 
-                if(!endOfFile)
+                else
+                {
+                    panels.AddRange(space.FromIES(_settingsIES));
+                }
+
+                if (!endOfFile)
+                {
+                    if (iesStrings[nextIndex + 7] == "4")
+                        panelType = PanelType.Shade;
+                    else
+                        panelType = PanelType.Undefined;
+
                     iesStrings.RemoveRange(0, nextIndex + linesToSkip);
+                }
             }
 
             return panels;

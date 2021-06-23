@@ -65,6 +65,7 @@ namespace BH.Engine.Adapters.IES
                 gemPanel.Add("COLOURRGB\n");
                 gemPanel.Add("65280\n");
                 gemPanel.Add("IES IES_SHD_" + (x + 1).ToString() + "\n");
+
                 List<Point> points = panels[x].Vertices().Select(y => y.RoundCoordinates(settingsIES.DecimalPlaces)).ToList();
                 points = points.Distinct().ToList();
                 gemPanel.Add(points.Count.ToString() + " 1\n");
@@ -78,10 +79,105 @@ namespace BH.Engine.Adapters.IES
                 }
                 s += "\n";
                 gemPanel.Add(s);
-                gemPanel.Add("0\n");
+ 
+                // Add Openings
+                if (panels[x].Openings.Count == 0)
+                    gemPanel.Add("0\n");
+                else
+                {
+                    gemPanel.Add(panels[x].Openings.Count.ToString() + "\n");
+
+                    Point bottomRightPnt = panels[x].Polyline().BottomRight(panels);
+                    Point topRightPnt = panels[x].Polyline().TopRight(panels);
+                    Point centrePnt = panels[x].Polyline().Centroid();
+
+                    Point checkBottom = new Point { X = bottomRightPnt.X, Y = bottomRightPnt.Y, Z = centrePnt.Z };
+                    Point checkTop = new Point { X = topRightPnt.X, Y = topRightPnt.Y, Z = centrePnt.Z };
+
+                    Point pnt = null;
+                    if (checkTop.Distance(centrePnt) < checkBottom.Distance(centrePnt))
+                        pnt = bottomRightPnt;
+                    else
+                    {
+                        pnt = topRightPnt;
+                        pnt.Z = bottomRightPnt.Z;
+                    }
+
+                    foreach (Opening o in panels[x].Openings)
+                        gemPanel.AddRange(o.ToIES(panels[x], new List<Panel> { panels[x] }, settingsIES));
+                }
             }
 
-            return gemPanel;
+                return gemPanel;
+        }
+
+        [Description("Convert an IES string representation of a space into a collection of BHoM Environment Panels")]
+        [Input("iesSpace", "The IES representation of a space")]
+        [Input("settingsIES", "The IES settings to use with the IES adapter")]
+        [Output("panelsAsSpace", "BHoM Environment Space")]
+        public static Panel FromIESShading(this List<string> iesPanel, SettingsIES settingsIES)
+        {
+            Panel panel = new Panel();
+
+            int numCoordinates = System.Convert.ToInt32(iesPanel[1].Split(' ')[0]);
+
+            List<string> iesPoints = new List<string>(); //Add the coordinate pts to a list
+            for (int x = 0; x < numCoordinates; x++)
+                iesPoints.Add(iesPanel[x + 2]);
+
+            List<Point> bhomPoints = iesPoints.Select(x => x.FromIES(settingsIES)).ToList();
+            
+            int count = numCoordinates + 2; //Number of coordinates + 2 to get on to the line of the panel in GEM
+
+            //Convert to panels
+            List<string> panelCoord = iesPanel[count].Trim().Split(' ').ToList();
+            List<Point> pLinePts = new List<Point>();
+            for (int y = 1; y < panelCoord.Count; y++)
+                pLinePts.Add(bhomPoints[System.Convert.ToInt32(panelCoord[y]) - 1]); //Add coordinate points in order, necessary?
+                
+            pLinePts.Add(pLinePts.First()); //Add first point to close polyline
+
+            Polyline pLine = new Polyline { ControlPoints = pLinePts, };
+
+            panel.ExternalEdges = pLine.ToEdges();
+            panel.Type = PanelType.Shade;
+            panel.Openings = new List<Opening>();
+
+            //Add Openings
+            count++;
+            int numOpenings = System.Convert.ToInt32(iesPanel[count]); //Number of openings
+            count++;
+            int countOpenings = 0;
+            while (countOpenings < numOpenings)
+            {
+                string openingData = iesPanel[count];
+                int numCoords = System.Convert.ToInt32(openingData.Split(' ')[0]);
+                count++;
+
+                List<string> openingPts = new List<string>();
+                for (int x = 0; x < numCoords; x++)
+                    openingPts.Add(iesPanel[count + x]);
+
+                panel.Openings.Add(openingPts.FromIES(openingData.Split(' ')[1], settingsIES));
+
+                count += numCoords;
+                countOpenings++;
+            }
+
+            if (settingsIES.PullOpenings)
+            {
+                //Fix the openings now
+                for (int x = 0; x < panel.Openings.Count; x++)
+                {
+                    panel.Openings[x] = panel.Openings[x].RepairOpening(panel, new List<Panel> { panel });
+                }              
+            }
+            else
+            {
+                panel.Openings = new List<Opening>();
+            }
+
+            return panel;
         }
     }
 }
