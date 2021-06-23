@@ -121,14 +121,9 @@ namespace BH.Adapter.IES
                     space.Add(iesStrings[x]);
 
                 if (panelType == PanelType.Shade)
-                {
                     panels.Add(space.FromIESShading(_settingsIES)); //Make a shade panel
-                }
-
                 else
-                {
                     panels.AddRange(space.FromIES(_settingsIES));
-                }
 
                 if (!endOfFile)
                 {
@@ -175,5 +170,4 @@ namespace BH.Adapter.IES
         }
     }
 }
-
 
