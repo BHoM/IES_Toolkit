@@ -118,6 +118,7 @@
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)$(TargetFileName)"  "C:\ProgramData\BHoM\Assemblies" /Y
 xcopy "$(ProjectDir)Extensions" "C:\ProgramData\BHoM\Extensions\IES" /E /Y /I
+xcopy "$(ProjectDir)Extensions" "C:\ProgramData\BHoM\Extensions\CFD" /E /Y /I
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
