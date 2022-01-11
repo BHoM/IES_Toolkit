@@ -33,7 +33,7 @@ using BH.Engine.Environment;
 using BH.Engine.Geometry;
 
 using System.ComponentModel;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 
 using BH.oM.Geometry.CoordinateSystem;
 
@@ -68,7 +68,7 @@ namespace BH.Engine.Adapters.IES
 
             if(panelBottomRightReference == null || panelBottomLeftReference == null || panelTopRightReference == null)
             {
-                BH.Engine.Reflection.Compute.RecordWarning("An error occurred in attempting to repair opening with GUID " + opening.BHoM_Guid + " hosted by the panel with GUID " + host.BHoM_Guid + " . The opening on this panel may not be correctly pulled and should be investigated.");
+                BH.Engine.Base.Compute.RecordWarning("An error occurred in attempting to repair opening with GUID " + opening.BHoM_Guid + " hosted by the panel with GUID " + host.BHoM_Guid + " . The opening on this panel may not be correctly pulled and should be investigated.");
                 return opening;
             }
 

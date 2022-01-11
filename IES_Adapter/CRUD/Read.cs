@@ -77,7 +77,7 @@ namespace BH.Adapter.IES
         {
             if (!System.IO.File.Exists(_fileSettings.GetFullFileName()))
             {
-                BH.Engine.Reflection.Compute.RecordError("File does not exist to pull from");
+                BH.Engine.Base.Compute.RecordError("File does not exist to pull from");
                 return new List<Panel>();
             }
 
@@ -156,7 +156,7 @@ namespace BH.Adapter.IES
                 Point centre = perim != null ? perim.Centroid() : null;
 
                 if (perim == null)
-                    BH.Engine.Reflection.Compute.RecordWarning("The space " + space.ConnectedSpaceName() + " did not return a valid floor geometry from its panels. The geometry is null but the space has been pulled. You may wish to investigate and fix manually.");
+                    BH.Engine.Base.Compute.RecordWarning("The space " + space.ConnectedSpaceName() + " did not return a valid floor geometry from its panels. The geometry is null but the space has been pulled. You may wish to investigate and fix manually.");
 
                 spaces.Add(new Space
                 {

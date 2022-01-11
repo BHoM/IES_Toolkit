@@ -27,7 +27,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BH.oM.Geometry;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using System.ComponentModel;
 using BH.Engine.Reflection;
 using BH.oM.Environment.Elements;
@@ -67,7 +67,7 @@ namespace BH.Engine.Adapters.IES
             }
             catch(Exception e)
             {
-                BH.Engine.Reflection.Compute.RecordError("An error occurred in parsing that IES string to a BHoM point. Error was: " + e.ToString());
+                BH.Engine.Base.Compute.RecordError("An error occurred in parsing that IES string to a BHoM point. Error was: " + e.ToString());
                 return null;
             }
         }
