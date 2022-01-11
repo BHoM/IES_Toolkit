@@ -32,7 +32,7 @@ using System.IO;
 using BH.oM.IES.Settings;
 
 using System.ComponentModel;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 
 using BH.Engine.Adapters.IES;
 
@@ -55,19 +55,19 @@ namespace BH.Adapter.IES
 
             if (fileSettings == null)
             {
-                BH.Engine.Reflection.Compute.RecordError("Please set the File Settings correctly to enable the IES Adapter to work correctly");
+                BH.Engine.Base.Compute.RecordError("Please set the File Settings correctly to enable the IES Adapter to work correctly");
                 return;
             }
 
             if (!Path.HasExtension(fileSettings.FileName) || Path.GetExtension(fileSettings.FileName) != ".gem")
             {
-                BH.Engine.Reflection.Compute.RecordError("File Name must contain a file extension");
+                BH.Engine.Base.Compute.RecordError("File Name must contain a file extension");
                 return;
             }
 
             if (settingsIES == null)
             {
-                BH.Engine.Reflection.Compute.RecordError("Please set some IES Settings on the IES Adapter before pushing");
+                BH.Engine.Base.Compute.RecordError("Please set some IES Settings on the IES Adapter before pushing");
                 return;
             }            
 

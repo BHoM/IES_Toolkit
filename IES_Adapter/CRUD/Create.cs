@@ -34,7 +34,6 @@ using BH.Engine.Adapters.IES;
 
 using BH.oM.Adapter;
 using BH.Engine.Adapter;
-using BH.oM.Reflection;
 
 namespace BH.Adapter.IES
 {
@@ -69,7 +68,7 @@ namespace BH.Adapter.IES
             }
             catch(Exception e)
             {
-                BH.Engine.Reflection.Compute.RecordError("An error occurred in exporting the IES GEM file. Error is: " + e.ToString());
+                BH.Engine.Base.Compute.RecordError("An error occurred in exporting the IES GEM file. Error is: " + e.ToString());
             }
 
             sw.Close();

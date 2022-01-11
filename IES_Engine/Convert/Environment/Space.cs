@@ -27,7 +27,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BH.oM.Geometry;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using System.ComponentModel;
 using BH.Engine.Reflection;
 using BH.oM.Environment.Elements;
@@ -48,7 +48,7 @@ namespace BH.Engine.Adapters.IES
             List<Panel> panels = panelsAsSpace.Where(x => x.ExternalEdges.Count > 0).ToList();
 
             if (panels.Count != panelsAsSpace.Count)
-                BH.Engine.Reflection.Compute.RecordWarning("The space " + panelsAsSpace.ConnectedSpaceName() + " has panels which did not contain geometry. Panels without valid geometry cannot be converted for IES to handle and have been ignored.");
+                BH.Engine.Base.Compute.RecordWarning("The space " + panelsAsSpace.ConnectedSpaceName() + " has panels which did not contain geometry. Panels without valid geometry cannot be converted for IES to handle and have been ignored.");
 
             List<string> gemSpace = new List<string>(); 
 
