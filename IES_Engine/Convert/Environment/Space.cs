@@ -29,7 +29,6 @@ using System.Threading.Tasks;
 using BH.oM.Geometry;
 using BH.oM.Base.Attributes;
 using System.ComponentModel;
-using BH.Engine.Reflection;
 using BH.oM.Environment.Elements;
 using BH.Engine.Environment;
 using BH.Engine.Geometry;
