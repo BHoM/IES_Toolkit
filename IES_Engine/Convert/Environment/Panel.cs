@@ -53,6 +53,8 @@ namespace BH.Engine.Adapters.IES
 
             for (int x = 0; x < panels.Count; x++)
             {
+                bool isTranslucent = panels[x].Type != PanelType.Shade;
+
                 gemPanel.Add("LAYER\n");
                 gemPanel.Add("64\n");
                 gemPanel.Add("COLOUR\n");
@@ -60,7 +62,16 @@ namespace BH.Engine.Adapters.IES
                 gemPanel.Add("CATEGORY\n");
                 gemPanel.Add("1\n");
                 gemPanel.Add("TYPE\n");
-                gemPanel.Add("4\n");
+                if (!isTranslucent)
+                {
+                    gemPanel.Add("4\n");
+                }
+                else
+                {
+                    gemPanel.Add("1\n");
+                    gemPanel.Add("SUBTYPE\n");
+                    gemPanel.Add("2102\n");
+                }
                 gemPanel.Add("COLOURRGB\n");
                 gemPanel.Add("65280\n");
                 gemPanel.Add("IES IES_SHD_" + (x + 1).ToString() + "\n");
