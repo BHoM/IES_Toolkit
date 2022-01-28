@@ -103,6 +103,11 @@ namespace BH.Adapter.IES
             PanelType panelType = PanelType.Undefined;
             if (iesStrings[7] == "4")
                 panelType = PanelType.Shade;
+            else if (iesStrings[7] == "1" && iesStrings[9] == "2102")
+            {
+                panelType = PanelType.TranslucentShade;
+                linesToSkip += 2;
+            }
 
             iesStrings.RemoveRange(0, linesToSkip); //Remove the first 10 items...
             bool endOfFile = false;
@@ -120,8 +125,8 @@ namespace BH.Adapter.IES
                 for (int x = 0; x < nextIndex; x++)
                     space.Add(iesStrings[x]);
 
-                if (panelType == PanelType.Shade)
-                    panels.Add(space.FromIESShading(_settingsIES)); //Make a shade panel
+                if (panelType == PanelType.Shade || panelType == PanelType.TranslucentShade)
+                    panels.Add(space.FromIESShading(_settingsIES,panelType)); //Make a shade panel
                 else
                     panels.AddRange(space.FromIES(_settingsIES));
 
