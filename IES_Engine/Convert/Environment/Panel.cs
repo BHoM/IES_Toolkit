@@ -51,10 +51,10 @@ namespace BH.Engine.Adapters.IES
 
             List<string> gemPanel = new List<string>();
 
+            bool isTranslucent = panels.First().Type != PanelType.Shade;
+
             for (int x = 0; x < panels.Count; x++)
             {
-                bool isTranslucent = panels[x].Type != PanelType.Shade;
-
                 gemPanel.Add("LAYER\n");
                 gemPanel.Add("64\n");
                 gemPanel.Add("COLOUR\n");
@@ -109,7 +109,7 @@ namespace BH.Engine.Adapters.IES
         [Input("iesSpace", "The IES representation of a space")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("panelsAsSpace", "BHoM Environment Space")]
-        public static Panel FromIESShading(this List<string> iesPanel, SettingsIES settingsIES)
+        public static Panel FromIESShading(this List<string> iesPanel, SettingsIES settingsIES, PanelType panelType)
         {
             Panel panel = new Panel();
 
