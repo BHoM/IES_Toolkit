@@ -51,8 +51,8 @@ namespace BH.Adapter.IES
             (List<Panel>, List<List<Panel>>) shades = GetPanelsAndSpacesByType(panels, PanelType.Shade);
             (List<Panel>, List<List<Panel>>) translucentShades = GetPanelsAndSpacesByType(panels, PanelType.TranslucentShade);
 
-            List<Panel> panelsAsShade = JoinTwoLists(shades.Item1, translucentShades.Item1);
-            List<List<Panel>> panelsAsSpaces = JoinTwoLists(shades.Item2, translucentShades.Item2);
+            List<Panel> panelsAsShade = shades.Item1.Concat(translucentShades.Item1).ToList();
+            List<List<Panel>> panelsAsSpaces = shades.Item2.Concat(translucentShades.Item2).ToList();
 
             StreamWriter sw = new StreamWriter(_fileSettings.GetFullFileName());
 
@@ -83,12 +83,6 @@ namespace BH.Adapter.IES
             List<List<Panel>> panelsAsSpaces = filteredPanels.Item2.ToSpaces();
             List<Panel> panelsAsShade = filteredPanels.Item1;
             return (panelsAsShade, panelsAsSpaces);
-        }
-
-        private List<T> JoinTwoLists<T>(List<T> listA, List<T> listB)
-        {
-            listA.AddRange(listB);
-            return listA;
         }
 
         /***************************************************/

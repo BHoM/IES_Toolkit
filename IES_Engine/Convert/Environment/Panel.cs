@@ -134,7 +134,7 @@ namespace BH.Engine.Adapters.IES
             Polyline pLine = new Polyline { ControlPoints = pLinePts, };
 
             panel.ExternalEdges = pLine.ToEdges();
-            panel.Type = PanelType.Shade;
+            panel.Type = panelType;
             panel.Openings = new List<Opening>();
 
             //Add Openings
