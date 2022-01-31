@@ -126,7 +126,7 @@ namespace BH.Adapter.IES
                     space.Add(iesStrings[x]);
 
                 if (panelType == PanelType.Shade || panelType == PanelType.TranslucentShade)
-                    panels.Add(space.FromIESShading(_settingsIES,panelType)); //Make a shade panel
+                    panels.Add(space.FromIESShading(_settingsIES, panelType)); //Make a shade panel
                 else
                     panels.AddRange(space.FromIES(_settingsIES));
 
