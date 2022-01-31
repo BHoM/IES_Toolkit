@@ -77,6 +77,10 @@ namespace BH.Adapter.IES
             return true;
         }
 
+        /***************************************************/
+        /**** Private Methods                           ****/
+        /***************************************************/
+
         private (List<Panel>, List<List<Panel>>) GetPanelsAndSpacesByType(List<Panel> panels, PanelType pType)
         {
             Output<List<Panel>, List<Panel>> filteredPanels = panels.FilterPanelsByType(pType);
