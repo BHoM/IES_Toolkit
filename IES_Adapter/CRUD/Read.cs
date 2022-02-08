@@ -134,6 +134,8 @@ namespace BH.Adapter.IES
                 {
                     if (iesStrings[nextIndex + 7] == "4")
                         panelType = PanelType.Shade;
+                    else if (iesStrings[nextIndex + 7] == "1" && iesStrings[nextIndex + 9] == "2102")
+                        panelType = PanelType.TranslucentShade;
                     else
                         panelType = PanelType.Undefined;
 
