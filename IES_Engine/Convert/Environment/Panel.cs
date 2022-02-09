@@ -160,11 +160,16 @@ namespace BH.Engine.Adapters.IES
 
             if (settingsIES.PullOpenings)
             {
-                //Fix the openings now
-                for (int x = 0; x < panel.Openings.Count; x++)
+                //This if-statement is a slightly hacky fix for the IES implementation of translucent shades, 
+                // where these shades contain openings defined by 3d coordinates, which differs from how 
+                // IES traditionally defines openings with 2d coordinates. 
+                if (panel.Type != PanelType.TranslucentShade)
                 {
-                    panel.Openings[x] = panel.Openings[x].RepairOpening(panel, new List<Panel> { panel });
-                }              
+                    for (int x = 0; x < panel.Openings.Count; x++)
+                    {
+                        panel.Openings[x] = panel.Openings[x].RepairOpening(panel, new List<Panel> { panel });
+                    }
+                }
             }
             else
             {
