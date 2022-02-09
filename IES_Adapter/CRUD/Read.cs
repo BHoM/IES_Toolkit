@@ -109,7 +109,7 @@ namespace BH.Adapter.IES
                 linesToSkip += 2;
             }
 
-            iesStrings.RemoveRange(0, linesToSkip); //Remove the first {linesToSkip} items...
+            iesStrings.RemoveRange(0, linesToSkip);
             bool endOfFile = false;
 
             while (!endOfFile)
