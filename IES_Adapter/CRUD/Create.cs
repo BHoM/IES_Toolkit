@@ -48,11 +48,10 @@ namespace BH.Adapter.IES
             List<IBHoMObject> bhomObjects = objects.Select(x => (IBHoMObject)x).ToList();
             List<Panel> panels = bhomObjects.Panels();
 
-            (List<Panel>, List<List<Panel>>) shades = GetPanelsAndSpacesByType(panels, PanelType.Shade);
-            (List<Panel>, List<List<Panel>>) translucentShades = GetPanelsAndSpacesByType(panels, PanelType.TranslucentShade);
+            Output<List<Panel>, List<Panel>> filteredPanels = panels.FilterPanelsByType(new List<PanelType>() { PanelType.Shade, PanelType.TranslucentShade} );
 
-            List<Panel> panelsAsShade = shades.Item1.Concat(translucentShades.Item1).ToList();
-            List<List<Panel>> panelsAsSpaces = shades.Item2.Concat(translucentShades.Item2).ToList();
+            List<List<Panel>> panelsAsSpaces = filteredPanels.Item2.ToSpaces();
+            List<Panel> panelsAsShade = filteredPanels.Item1;
 
             StreamWriter sw = new StreamWriter(_fileSettings.GetFullFileName());
 
@@ -76,21 +75,6 @@ namespace BH.Adapter.IES
 
             return true;
         }
-
-        /***************************************************/
-        /**** Private Methods                           ****/
-        /***************************************************/
-
-        private (List<Panel>, List<List<Panel>>) GetPanelsAndSpacesByType(List<Panel> panels, PanelType pType)
-        {
-            Output<List<Panel>, List<Panel>> filteredPanels = panels.FilterPanelsByType(pType);
-            List<List<Panel>> panelsAsSpaces = filteredPanels.Item2.ToSpaces();
-            List<Panel> panelsAsShade = filteredPanels.Item1;
-            return (panelsAsShade, panelsAsSpaces);
-        }
-
-        /***************************************************/
-
     }
 }
 
