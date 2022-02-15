@@ -160,7 +160,7 @@ namespace BH.Engine.Adapters.IES
 
             if (settingsIES.PullOpenings)
             {
-                //This if-statement is a slightly hacky fix for the IES implementation of translucent shades, 
+                //This if-statement is a fix for the IES implementation of translucent shades, 
                 // where these shades contain openings defined by 3d coordinates, which differs from how 
                 // IES traditionally defines openings with 2d coordinates. 
                 if (panel.Type != PanelType.TranslucentShade)
