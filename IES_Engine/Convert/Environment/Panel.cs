@@ -109,6 +109,7 @@ namespace BH.Engine.Adapters.IES
         [Input("iesSpace", "The IES representation of a space")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("panelsAsSpace", "BHoM Environment Space")]
+        [PreviousVersion("5.1", "BH.Engine.Adapters.IES.Convert.FromIESShading(System.Collections.Generic.List<System.String>, BH.oM.IES.Settings.SettingsIES)")]
         public static Panel FromIESShading(this List<string> iesPanel, SettingsIES settingsIES, PanelType panelType)
         {
             Panel panel = new Panel();
