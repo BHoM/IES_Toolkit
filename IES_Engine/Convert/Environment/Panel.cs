@@ -106,7 +106,7 @@ namespace BH.Engine.Adapters.IES
         }
 
         [Description("Convert an IES string representation of a space into a collection of BHoM Environment Panels")]
-        [Input("iesSpace", "The IES representation of a space")]
+        [Input("iesPanel", "The IES representation of a space.")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("panelsAsSpace", "BHoM Environment Space")]
         [PreviousVersion("5.1", "BH.Engine.Adapters.IES.Convert.FromIESShading(System.Collections.Generic.List<System.String>, BH.oM.IES.Settings.SettingsIES)")]
@@ -119,7 +119,7 @@ namespace BH.Engine.Adapters.IES
             List<string> iesPoints = new List<string>(); //Add the coordinate pts to a list
             for (int x = 0; x < numCoordinates; x++)
                 iesPoints.Add(iesPanel[x + 2]);
-
+             
             List<Point> bhomPoints = iesPoints.Select(x => x.FromIES(settingsIES)).ToList();
             
             int count = numCoordinates + 2; //Number of coordinates + 2 to get on to the line of the panel in GEM
