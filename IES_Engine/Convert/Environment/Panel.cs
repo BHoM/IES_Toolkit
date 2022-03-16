@@ -51,8 +51,6 @@ namespace BH.Engine.Adapters.IES
 
             List<string> gemPanel = new List<string>();
 
-            bool isTranslucent = panels.First().Type != PanelType.Shade;
-
             for (int x = 0; x < panels.Count; x++)
             {
                 gemPanel.Add("LAYER\n");
@@ -62,7 +60,7 @@ namespace BH.Engine.Adapters.IES
                 gemPanel.Add("CATEGORY\n");
                 gemPanel.Add("1\n");
                 gemPanel.Add("TYPE\n");
-                if (!isTranslucent)
+                if (panels[x].Type == PanelType.Shade)
                 {
                     gemPanel.Add("4\n");
                 }
