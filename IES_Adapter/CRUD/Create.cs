@@ -64,7 +64,8 @@ namespace BH.Adapter.IES
                         sw.Write(s);
                 }
 
-                panelsAsShade.ToIESShading(_settingsIES).ForEach(x => sw.Write(x));
+                if(panelsAsShade.Count > 0)
+                    panelsAsShade.ToIESShading(_settingsIES).ForEach(x => sw.Write(x));
             }
             catch(Exception e)
             {
