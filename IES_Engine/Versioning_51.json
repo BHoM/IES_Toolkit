@@ -1,8 +1,0 @@
-﻿{
-  "Namespace": {
-  },
-  "MessageForDeleted": {
-    "BH.Engine.Adapters.IES.Create.SettingsIES(System.Double)": "This method was replaced by the default constructor method for IES Settings. Please replace with that component.",
-    "BH.Engine.Adapters.IES.Create.SettingsIES(System.Double, System.Int32)" : "This method was replaced by the default constructor method for IES Settings. Please replace with that component."
-  }
-}
