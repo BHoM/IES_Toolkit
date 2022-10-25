@@ -33,6 +33,8 @@ using BH.oM.Environment.Elements;
 using BH.Engine.Environment;
 using BH.Engine.Geometry;
 using BH.oM.IES.Settings;
+using BH.oM.IES.Fragments;
+using BH.Engine.Base;
 
 namespace BH.Engine.Adapters.IES
 {
@@ -154,6 +156,10 @@ namespace BH.Engine.Adapters.IES
                 panel.Openings = new List<Opening>();
                 panel.ConnectedSpaces = new List<string>();
                 panel.ConnectedSpaces.Add(spaceName);
+
+                SurfaceIndexFragment fragment = new SurfaceIndexFragment();
+                fragment.SurfaceID = panels.Count;
+                panel.Fragments.Add(fragment);
 
                 count++;
                 int numOpenings = System.Convert.ToInt32(iesSpace[count]);
