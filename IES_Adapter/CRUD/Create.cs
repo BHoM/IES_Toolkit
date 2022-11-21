@@ -53,6 +53,9 @@ namespace BH.Adapter.IES
             List<List<Panel>> panelsAsSpaces = filteredPanels.Item2.ToSpaces();
             List<Panel> panelsAsShade = filteredPanels.Item1;
 
+            if (_settingsIES.ShadesAs3D)
+                panelsAsSpaces.AddRange(panelsAsShade.ToSpaces());
+
             StreamWriter sw = new StreamWriter(_fileSettings.GetFullFileName());
 
             try
@@ -64,7 +67,7 @@ namespace BH.Adapter.IES
                         sw.Write(s);
                 }
 
-                if(panelsAsShade.Count > 0)
+                if (panelsAsShade.Count > 0 && !_settingsIES.ShadesAs3D)
                     panelsAsShade.ToIESShading(_settingsIES).ForEach(x => sw.Write(x));
             }
             catch(Exception e)
