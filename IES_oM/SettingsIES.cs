@@ -43,6 +43,8 @@ namespace BH.oM.IES.Settings
         [Description("Determine whether or not openings should be pulled from the GEM file when pulling a GEM file. Only valid if pulling Panels which host openings. Default is True, to pull openings when pulling panels.")]
         public virtual bool PullOpenings { get; set; } = true;
 
+        public virtual bool ShadesAs3D { get; set; } = true;
+
         /***************************************************/
     }
 }
