@@ -59,8 +59,22 @@ namespace BH.Engine.Adapters.IES
             gemSpace.Add("1\n");
             gemSpace.Add("CATEGORY\n");
             gemSpace.Add("1\n");
-            gemSpace.Add("TYPE\n");
-            gemSpace.Add("1\n");
+
+            if (panels.First().IsShade())
+            {
+                gemSpace.Add("TYPE\n");
+                gemSpace.Add("4\n");
+                gemSpace.Add("SUBTYPE\n");
+                gemSpace.Add("0\n");
+            }
+            else
+            {
+                gemSpace.Add("TYPE\n");
+                gemSpace.Add("1\n");
+                gemSpace.Add("SUBTYPE\n");
+                gemSpace.Add("2001\n");
+            }
+
             gemSpace.Add("COLOURRGB\n");
             gemSpace.Add("16711690\n");
 
