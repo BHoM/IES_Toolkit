@@ -46,6 +46,15 @@ namespace BH.Engine.Adapters.IES
         [Output("iesSpace", "The IES string representation of the space for GEM")]
         public static List<string> ToIES(this List<Panel> panelsAsSpace, SettingsIES settingsIES) 
         {
+            if (panelsAsSpace == null || panelsAsSpace.Count == 0)
+                return new List<string>();
+
+            if(settingsIES == null)
+            {
+                BH.Engine.Base.Compute.RecordWarning("A null set of IES Settings was provided when attempting to convert a collection of panels (forming a closed space or 3D shade) to GEM. As such, default settings have been applied.");
+                settingsIES = new SettingsIES();
+            }
+
             List<Panel> panels = panelsAsSpace.Where(x => x.ExternalEdges.Count > 0).ToList();
 
             if (panels.Count != panelsAsSpace.Count)
