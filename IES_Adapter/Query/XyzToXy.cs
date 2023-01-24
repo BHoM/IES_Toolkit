@@ -27,5 +27,29 @@ namespace BH.Adapter.IES
                 Z = 0
             };
         }
+
+        public static Point XyToXyz(this Point pt, Cartesian refPlane)
+        {
+            var u = new Vector()
+            {
+                X = refPlane.X.X * pt.X,
+                Y = refPlane.X.Y * pt.X,
+                Z = refPlane.X.Z * pt.X,
+            };
+
+            var v = new Vector()
+            {
+                X = refPlane.Y.X * pt.Y,
+                Y = refPlane.Y.Y * pt.Y,
+                Z = refPlane.Y.Z * pt.Y,
+            };
+
+            return new Point()
+            {
+                X = refPlane.Origin.X + u.X + v.X,
+                Y = refPlane.Origin.Y + u.Y + v.Y,
+                Z = refPlane.Origin.Z + u.Z + v.Z,
+            };
+        }
     }
 }
