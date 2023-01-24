@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2023, the respective contributors. All rights reserved.
  *
@@ -34,7 +34,7 @@ using BH.Engine.Environment;
 using BH.Engine.Geometry;
 using BH.oM.IES.Settings;
 
-namespace BH.Engine.Adapters.IES
+namespace BH.Adapter.IES
 {
     public static partial class Convert
     {
@@ -64,7 +64,7 @@ namespace BH.Engine.Adapters.IES
                     Z = (split.Length > 2 ? System.Convert.ToDouble(split[2]) : 0),
                 };
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 BH.Engine.Base.Compute.RecordError("An error occurred in parsing that IES string to a BHoM point. Error was: " + e.ToString());
                 return null;
