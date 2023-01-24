@@ -1,55 +1,31 @@
-/*
- * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2023, the respective contributors. All rights reserved.
- *
- * Each contributor holds copyright over their respective contributions.
- * The project versioning (Git) records all such contribution source information.
- *                                           
- *                                                                              
- * The BHoM is free software: you can redistribute it and/or modify         
- * it under the terms of the GNU Lesser General Public License as published by  
- * the Free Software Foundation, either version 3.0 of the License, or          
- * (at your option) any later version.                                          
- *                                                                              
- * The BHoM is distributed in the hope that it will be useful,              
- * but WITHOUT ANY WARRANTY; without even the implied warranty of               
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                 
- * GNU Lesser General Public License for more details.                          
- *                                                                            
- * You should have received a copy of the GNU Lesser General Public License     
- * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
- */
-
+﻿using BH.oM.Base.Attributes;
+using BH.oM.Environment.Elements;
+using BH.oM.Geometry;
+using BH.oM.IES.Fragments;
+using BH.oM.IES.Settings;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using BH.oM.Geometry;
-using BH.oM.Base.Attributes;
-using System.ComponentModel;
-using BH.oM.Environment.Elements;
 using BH.Engine.Environment;
 using BH.Engine.Geometry;
-using BH.oM.IES.Settings;
-using BH.oM.IES.Fragments;
-using BH.Engine.Base;
 
-namespace BH.Engine.Adapters.IES
+namespace BH.Adapter.IES
 {
     public static partial class Convert
-    {   
+    {
         [Description("Convert a collection of BHoM Environment Panels that represent a single volumetric space into the IES string representation for GEM format")]
         [Input("panelsAsSpace", "The collection of BHoM Environment Panels that represent a space")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("iesSpace", "The IES string representation of the space for GEM")]
-        public static List<string> ToIES(this List<Panel> panelsAsSpace, SettingsIES settingsIES) 
+        public static List<string> ToIES(this List<Panel> panelsAsSpace, SettingsIES settingsIES)
         {
             if (panelsAsSpace == null || panelsAsSpace.Count == 0)
                 return new List<string>();
 
-            if(settingsIES == null)
+            if (settingsIES == null)
             {
                 BH.Engine.Base.Compute.RecordWarning("A null set of IES Settings was provided when attempting to convert a collection of panels (forming a closed space or 3D shade) to GEM. As such, default settings have been applied.");
                 settingsIES = new SettingsIES();
@@ -60,7 +36,7 @@ namespace BH.Engine.Adapters.IES
             if (panels.Count != panelsAsSpace.Count)
                 BH.Engine.Base.Compute.RecordWarning("The space " + panelsAsSpace.ConnectedSpaceName() + " has panels which did not contain geometry. Panels without valid geometry cannot be converted for IES to handle and have been ignored.");
 
-            List<string> gemSpace = new List<string>(); 
+            List<string> gemSpace = new List<string>();
 
             gemSpace.Add("LAYER\n");
             gemSpace.Add("1\n");
@@ -114,7 +90,7 @@ namespace BH.Engine.Adapters.IES
                     v.Reverse(); //Reverse the point order if the normal is not away from the space but the first adjacency is this space
 
                 string s = v.Count.ToString() + " ";
-                foreach(Point pt in v)
+                foreach (Point pt in v)
                     s += (spaceVertices.IndexOf(pt.RoundCoordinates(settingsIES.DecimalPlaces)) + 1) + " ";
 
                 s += "\n";
@@ -126,14 +102,14 @@ namespace BH.Engine.Adapters.IES
                 {
                     gemSpace.Add(p.Openings.Count.ToString() + "\n");
 
-                    foreach (Opening o in p.Openings)
-                        gemSpace.AddRange(o.ToIES(p, panels, settingsIES));
+                    /*foreach (Opening o in p.Openings)
+                        gemSpace.AddRange(o.ToIES(p, panels, settingsIES));*/
                 }
             }
 
             return gemSpace;
         }
-       
+
         [Description("Convert an IES string representation of a space into a collection of BHoM Environment Panels")]
         [Input("iesSpace", "The IES representation of a space")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
@@ -144,7 +120,7 @@ namespace BH.Engine.Adapters.IES
 
             //Convert the strings which make up the IES Gem file back into BHoM panels.
             string spaceName = iesSpace[0]; //First string is the name
-            if(spaceName.StartsWith("IES"))
+            if (spaceName.StartsWith("IES"))
             {
                 spaceName = spaceName.Substring(3);
                 spaceName = spaceName.Trim();
@@ -161,7 +137,7 @@ namespace BH.Engine.Adapters.IES
 
             //Number of coordinated + 2 to get on to the line of the fist panel in GEM
             int count = numCoordinates + 2;
-            while(count < iesSpace.Count)
+            while (count < iesSpace.Count)
             {
                 //Convert to panels
                 List<string> panelCoord = iesSpace[count].Trim().Split(' ').ToList();
@@ -188,7 +164,7 @@ namespace BH.Engine.Adapters.IES
                 int numOpenings = System.Convert.ToInt32(iesSpace[count]);
                 count++;
                 int countOpenings = 0;
-                while(countOpenings < numOpenings)
+                while (countOpenings < numOpenings)
                 {
                     string openingData = iesSpace[count];
                     int numCoords = System.Convert.ToInt32(openingData.Split(' ')[0]);
@@ -198,7 +174,7 @@ namespace BH.Engine.Adapters.IES
                     for (int x = 0; x < numCoords; x++)
                         openingPts.Add(iesSpace[count + x]);
 
-                    panel.Openings.Add(openingPts.FromIES(openingData.Split(' ')[1], settingsIES));
+                    //panel.Openings.Add(openingPts.FromIES(openingData.Split(' ')[1], settingsIES));
 
                     count += numCoords;
                     countOpenings++;
@@ -207,7 +183,7 @@ namespace BH.Engine.Adapters.IES
                 panels.Add(panel);
             }
 
-            if (settingsIES.PullOpenings)
+            /*if (settingsIES.PullOpenings)
             {
                 //Fix the openings now
                 foreach (Panel p in panels)
@@ -220,13 +196,11 @@ namespace BH.Engine.Adapters.IES
             }
             else
             {
-                foreach(Panel p in panels)
+                foreach (Panel p in panels)
                     p.Openings = new List<Opening>();
-            }
+            }*/
 
             return panels;
         }
     }
 }
-
-
