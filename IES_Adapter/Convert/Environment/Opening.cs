@@ -38,6 +38,15 @@ namespace BH.Adapter.IES
 
             var verts_2d = opening.PolygonInFace(hostPanel,origin, flip);
 
+            List<string> fuckingHell = new List<string>();
+
+            fuckingHell.Add($"{verts_2d.ControlPoints.Count} 0\n");
+
+            foreach (var hell in verts_2d.ControlPoints)
+                fuckingHell.Add($"{hell.ToIES(new oM.IES.Settings.SettingsIES(), 2)}\n");
+
+            return fuckingHell;
+
         }
     }
 }
