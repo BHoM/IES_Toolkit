@@ -14,48 +14,21 @@ namespace BH.Adapter.IES
 {
     public static partial class Query
     {
-        public static Polyline PolygonInFace ( this Opening opening, Panel hostPanel, Point origin, bool flip )
+        public static Polyline PolygonInFace(this Opening opening, Panel hostPanel, Point origin, bool flip )
         {
+            BH.oM.Geometry.CoordinateSystem.Cartesian coordinateSystem = hostPanel.UpperOrientatedPlane();
 
+            if (flip)
+                coordinateSystem = coordinateSystem.FlipPlane();
 
-            Cartesian coordinateSystem = hostPanel.UpperOrientatedPlane();
+            if (origin != null)
+                coordinateSystem.Origin = origin;
 
-            if (origin is null)
-            {
-                if (flip)
-                {
-                    coordinateSystem = coordinateSystem.FlipPlane();
-                }
-            }
-            else
-            {
-                if (coordinateSystem.Z.IsParallel(Vector.ZAxis) != 0) //Parallel to Z
-                {
-                    Vector localX = flip ? -Vector.XAxis : Vector.XAxis;
-                    Vector localY = coordinateSystem.Z.CrossProduct(localX);
-                    coordinateSystem = Engine.Geometry.Create.CartesianCoordinateSystem(origin, localX, localY);
-
-                }
-                else
-                {
-                    Vector projY = Vector.ZAxis.Project(coordinateSystem.Z);
-                    Vector projX = projY.Rotate(-Math.PI / 2, coordinateSystem.Z);
-                    coordinateSystem = Engine.Geometry.Create.CartesianCoordinateSystem(origin, projX, projY);
-                
-                }
-            }
-            var vertices = opening.Polyline().ControlPoints;
-            var pts2D = new List<Point>();
-
-            foreach (Point pt in vertices)
-                {
-                   var pt2D = pt.XyzToXy(coordinateSystem);
-                    pts2D.Add(pt2D);
-                }
-            return Engine.Geometry.Create.Polyline(pts2D);
+            TransformMatrix transformation = Engine.Geometry.Create.OrientationMatrix(coordinateSystem, new Cartesian());
+            return Engine.Geometry.Create.Polyline(opening.Polyline().ControlPoints.Select(x => x.Transform(transformation)));
         }
-/*
-        public static Cartesian CoordinateSystem(this Panel hostPanel) 
+
+        public static Cartesian UpperOrientatedPlane(this Panel hostPanel) 
         {
             Polyline boundary = hostPanel.Polyline();
             Plane plane = boundary.FitPlane();
@@ -66,6 +39,6 @@ namespace BH.Adapter.IES
 
             return new Cartesian(plane.Origin, localX, localY, plane.Normal);
         }
-*/
+
     }
 }
