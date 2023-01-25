@@ -13,7 +13,7 @@ namespace BH.Adapter.IES
 {
     public static partial class Query
     {
-        public static Cartesian UpperOrientatedPlane(this Panel panel)
+        /*public static Cartesian UpperOrientatedPlane(this Panel panel)
         {
             var plane = panel.Polyline().FitPlane();
 
@@ -25,6 +25,6 @@ namespace BH.Adapter.IES
                 var projX = projY.Rotate(Math.PI / -2, plane.Normal);
                 return new Cartesian(plane.Origin, projX, Vector.YAxis, Vector.ZAxis);
             }
-        }
+        }*/
     }
 }
