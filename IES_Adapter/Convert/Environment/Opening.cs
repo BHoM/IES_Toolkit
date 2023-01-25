@@ -14,11 +14,29 @@ namespace BH.Adapter.IES
     {
         public static List<string> ToIES (this Opening opening, Panel hostPanel)
         {
+            
 
 
+            var panelNormal = hostPanel.Polyline().FitPlane().Normal;
+            var origin = new Point();
+            var flip = false;
 
-            var fuckYou = hostPanel.Polyline().FitPlane().Normal;
-            //Vector normal = 
+            if (panelNormal.Z is (-1|1))
+            {
+                origin = hostPanel.UpperRightCorner();
+                flip = true;
+            }
+            /*else if (panelNormal.Angle())
+            {
+
+            }*/
+            else
+            {
+                origin = hostPanel.LowerLeftCorner();
+                flip = false;
+            }
+
+            var verts_2d = opening.PolygonInFace(hostPanel,origin, flip);
 
         }
     }

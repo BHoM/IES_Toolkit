@@ -21,7 +21,7 @@ namespace BH.Adapter.IES
                 return new Cartesian(plane.Origin, Vector.XAxis, Vector.YAxis, Vector.ZAxis);
             else
             {
-                var projY = new Vector() { X = 0, Y = 0, Z = 0 }.Project(plane.Normal);
+                var projY = Vector.ZAxis.Project(plane.Normal);
                 var projX = projY.Rotate(Math.PI / -2, plane.Normal);
                 return new Cartesian(plane.Origin, projX, Vector.YAxis, Vector.ZAxis);
             }
