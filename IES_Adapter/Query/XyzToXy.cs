@@ -12,7 +12,7 @@ namespace BH.Adapter.IES
     public static partial class Query
     {
         public static Point XyzToXy(this Point pt, Cartesian refPlane)
-        {
+        {/*
             var diff = new Vector()
             {
                 X = pt.X - refPlane.Origin.X,
@@ -25,12 +25,15 @@ namespace BH.Adapter.IES
                 X = refPlane.X.DotProduct(diff),
                 Y = refPlane.Y.DotProduct(diff),
                 Z = 0
-            };
+            };*/
+            TransformMatrix m = BH.Engine.Geometry.Create.OrientationMatrixLocalToGlobal(refPlane);
+
+            return pt.Transform(m);
         }
 
         public static Point XyToXyz(this Point pt, Cartesian refPlane)
         {
-            var u = new Vector()
+            /*var u = new Vector()
             {
                 X = refPlane.X.X * pt.X,
                 Y = refPlane.X.Y * pt.X,
@@ -49,7 +52,10 @@ namespace BH.Adapter.IES
                 X = refPlane.Origin.X + u.X + v.X,
                 Y = refPlane.Origin.Y + u.Y + v.Y,
                 Z = refPlane.Origin.Z + u.Z + v.Z,
-            };
+            };*/
+
+            TransformMatrix m = BH.Engine.Geometry.Create.OrientationMatrixGlobalToLocal(refPlane);
+            return pt.Transform(m);
         }
     }
 }

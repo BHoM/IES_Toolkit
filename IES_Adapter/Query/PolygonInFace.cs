@@ -14,31 +14,43 @@ namespace BH.Adapter.IES
 {
     public static partial class Query
     {
-        public static Polyline PolygonInFace(this Opening opening, Panel hostPanel, Point origin, bool flip )
+        public static Polyline PolygonInFace(this Opening opening, Panel hostPanel, Point origin = null, bool flip = false)
         {
             BH.oM.Geometry.CoordinateSystem.Cartesian coordinateSystem = hostPanel.UpperOrientatedPlane();
+            //Plane plane = hostPanel.Polyline().ControlPoints.FitPlane2();
 
-            if (flip)
+            /*if (flip)
                 coordinateSystem = coordinateSystem.FlipPlane();
 
-            if (origin != null)
+            if(origin != null)
                 coordinateSystem.Origin = origin;
 
             TransformMatrix transformation = Engine.Geometry.Create.OrientationMatrix(coordinateSystem, new Cartesian());
-            return Engine.Geometry.Create.Polyline(opening.Polyline().ControlPoints.Select(x => x.Transform(transformation)));
+            return Engine.Geometry.Create.Polyline(opening.Polyline().ControlPoints.Select(x => x.Transform(transformation)));*/
+
+
+            /*if (origin == null && flip)
+                refPlane = refPlane.Flip();// = coordinateSystem.FlipPlane();
+            else
+            {*/
+                /*if (coordinateSystem.Z.IsParallel(Vector.ZAxis) != 0) //Parallel to Z
+                {
+                    Vector localX = flip ? -Vector.XAxis : Vector.XAxis;
+                    Vector localY = coordinateSystem.Z.CrossProduct(localX);
+                    coordinateSystem = Engine.Geometry.Create.CartesianCoordinateSystem(origin, localX, localY);
+                }
+                else
+                {
+                    var projY = Vector.ZAxis.Project(plane);
+                    var projX = plane.Normal.CrossProduct(projY);
+                    coordinateSystem = Engine.Geometry.Create.CartesianCoordinateSystem(plane.Origin, projX, projY);
+            }
+            //}*/
+
+            var vertices = opening.Polyline().ControlPoints;
+            var pts2D = vertices.Select(x => x.XyzToXy(coordinateSystem)).ToList();
+
+            return Engine.Geometry.Create.Polyline(pts2D);
         }
-
-        public static Cartesian UpperOrientatedPlane(this Panel hostPanel) 
-        {
-            Polyline boundary = hostPanel.Polyline();
-            Plane plane = boundary.FitPlane();
-
-            Vector localX = (boundary.ControlPoints[1] - boundary.ControlPoints[0]).Normalise();
-
-            Vector localY = plane.Normal.CrossProduct(localX);
-
-            return new Cartesian(plane.Origin, localX, localY, plane.Normal);
-        }
-
     }
 }

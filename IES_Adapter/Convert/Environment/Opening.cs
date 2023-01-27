@@ -14,10 +14,7 @@ namespace BH.Adapter.IES
     {
         public static List<string> ToIES (this Opening opening, Panel hostPanel)
         {
-            
-
-
-            var panelNormal = hostPanel.Polyline().FitPlane().Normal;
+            var panelNormal = hostPanel.Polyline().ControlPoints.FitPlane2().Normal;
             var origin = new Point();
             var flip = false;
 
@@ -43,10 +40,9 @@ namespace BH.Adapter.IES
             fuckingHell.Add($"{verts_2d.ControlPoints.Count} 0\n");
 
             foreach (var hell in verts_2d.ControlPoints)
-                fuckingHell.Add($"{hell.ToIES(new oM.IES.Settings.SettingsIES(), 2)}\n");
+                fuckingHell.Add($"{BH.Adapter.IES.Convert.ToIES(hell, new oM.IES.Settings.SettingsIES(), 2)}");
 
             return fuckingHell;
-
         }
     }
 }
