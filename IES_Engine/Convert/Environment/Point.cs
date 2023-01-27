@@ -34,7 +34,7 @@ using BH.Engine.Environment;
 using BH.Engine.Geometry;
 using BH.oM.IES.Settings;
 
-namespace BH.Adapter.IES
+namespace BH.Engine.Adapters.IES
 {
     public static partial class Convert
     {
@@ -47,7 +47,7 @@ namespace BH.Adapter.IES
             if (num == 3)
                 return " " + Math.Round(pt.X, settingsIES.DecimalPlaces).ToString() + " " + Math.Round(pt.Y, settingsIES.DecimalPlaces).ToString() + " " + Math.Round(pt.Z, settingsIES.DecimalPlaces).ToString() + "\n";
             else
-                return " " + Math.Round(Math.Abs(pt.X), settingsIES.DecimalPlaces).ToString() + " " + Math.Round(Math.Abs(pt.Y), settingsIES.DecimalPlaces).ToString() + "\n";
+                return " " + Math.Round(pt.X, settingsIES.DecimalPlaces).ToString() + " " + Math.Round(pt.Y, settingsIES.DecimalPlaces).ToString() + "\n";
         }
 
         [Description("Convert an IES point representation to a BHoM point")]

@@ -14,8 +14,8 @@ namespace BH.Adapter.IES
     {
         public static Point LowerLeftCorner(this Panel panel)
         {
-            var pline = panel.Polyline();
             var refPlane = panel.UpperOrientatedPlane();
+            var pline = panel.Polyline();
 
             var coords = pline.ControlPoints;
             coords = coords.Select(x => x.XyzToXy(refPlane)).ToList();

@@ -119,6 +119,7 @@
   <ItemGroup>
     <Compile Include="Convert\Environment\Opening.cs" />
     <Compile Include="Convert\Environment\Space.cs" />
+    <Compile Include="Convert\Geometry\Point - Copy.cs" />
     <Compile Include="Convert\Geometry\Point.cs" />
     <Compile Include="Convert\Objects\GEMTemplate.cs" />
     <Compile Include="Create\ShadeTemplate.cs" />
@@ -130,8 +131,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\Corner.cs" />
     <Compile Include="Query\FlipPlane.cs" />
+    <Compile Include="Query\FitPlane2.cs" />
     <Compile Include="Query\UpperOrientatedPlane.cs" />
     <Compile Include="Query\PolygonInFace.cs" />
+    <Compile Include="Query\Rotate2.cs" />
     <Compile Include="Query\XyzToXy.cs" />
   </ItemGroup>
   <ItemGroup>
