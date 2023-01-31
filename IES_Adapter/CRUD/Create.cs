@@ -30,7 +30,6 @@ using BH.Engine.Environment;
 using System.IO;
 
 using System.Linq;
-using BH.Engine.Adapters.IES;
 
 using BH.oM.Adapter;
 using BH.Engine.Adapter;

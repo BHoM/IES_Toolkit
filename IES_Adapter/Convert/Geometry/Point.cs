@@ -42,9 +42,9 @@ namespace BH.Adapter.IES
         [Input("pt", "BHoM Geometry Point to convert")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("iesPt", "The IES string representation of the point")]
-        public static string ToIES(this Point pt, SettingsIES settingsIES, int num = 3)
+        public static string ToIES(this Point pt, SettingsIES settingsIES, bool allCoords = true)
         {
-            if (num == 3)
+            if (allCoords)
                 return " " + Math.Round(pt.X, settingsIES.DecimalPlaces).ToString() + " " + Math.Round(pt.Y, settingsIES.DecimalPlaces).ToString() + " " + Math.Round(pt.Z, settingsIES.DecimalPlaces).ToString() + "\n";
             else
                 return " " + Math.Round(Math.Abs(pt.X), settingsIES.DecimalPlaces).ToString() + " " + Math.Round(Math.Abs(pt.Y), settingsIES.DecimalPlaces).ToString() + "\n";

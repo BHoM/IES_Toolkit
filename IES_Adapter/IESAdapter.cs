@@ -34,8 +34,6 @@ using BH.oM.IES.Settings;
 using System.ComponentModel;
 using BH.oM.Base.Attributes;
 
-using BH.Engine.Adapters.IES;
-
 namespace BH.Adapter.IES
 {
     public partial class IESAdapter : BHoMAdapter
