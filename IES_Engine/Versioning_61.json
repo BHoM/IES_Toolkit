@@ -1,0 +1,50 @@
+﻿{
+  "Namespace": {
+    "ToNew": {
+    },
+    "ToOld": {
+    }
+  },
+  "Type": {
+    "ToNew": {
+
+    },
+    "ToOld": {
+
+    }
+  },
+  "Method": {
+    "ToNew": {
+      
+    },
+    "ToOld": {
+    }
+  },
+  "Property": {
+    "ToNew": {
+
+    },
+    "ToOld": {
+
+    }
+  },
+  "MessageForDeleted": {
+    "BH.Engine.Adapters.IES.Convert.ToIES(BH.oM.Geometry.Point, BH.oM.IES.Settings.SettingsIES)" : "This method has been moved into the adapter to be handled internally and prevent UI clutter of methods. If this method is needed for script work independently of the adapter, please raise an issue at: https://github.com/BHoM/IES_Toolkit",
+    "BH.Engine.Adapters.IES.Convert.ToIES(System.Collections.Generic.List<BH.oM.Environment.Elements.Panel>, BH.oM.IES.Settings.SettingsIES)" : "This method has been moved into the adapter to be handled internally and prevent UI clutter of methods. If this method is needed for script work independently of the adapter, please raise an issue at: https://github.com/BHoM/IES_Toolkit",
+    "BH.Engine.Adapters.IES.Convert.ToIES(BH.oM.Environment.Elements.OpeningType, BH.oM.IES.Settings.SettingsIES)" : "This method has been moved into the adapter to be handled internally and prevent UI clutter of methods. If this method is needed for script work independently of the adapter, please raise an issue at: https://github.com/BHoM/IES_Toolkit",
+    "BH.Engine.Adapters.IES.Convert.ToIES(BH.oM.Environment.Elements.Opening, BH.oM.Environment.Elements.Panel, BH.oM.IES.Settings.SettingsIES)" : "This method has been moved into the adapter to be handled internally and prevent UI clutter of methods. If this method is needed for script work independently of the adapter, please raise an issue at: https://github.com/BHoM/IES_Toolkit",
+    "BH.Engine.Adapters.IES.Convert.ToIES(BH.oM.Environment.Elements.Opening, BH.oM.Environment.Elements.Panel, System.Collections.Generic.List<BH.oM.Environment.Elements.Panel>, BH.oM.IES.Settings.SettingsIES)" : "This method has been moved into the adapter to be handled internally and prevent UI clutter of methods. If this method is needed for script work independently of the adapter, please raise an issue at: https://github.com/BHoM/IES_Toolkit",
+    "BH.Engine.Adapters.IES.Convert.FromIES(System.String, BH.oM.IES.Settings.SettingsIES)" : "This method has been moved into the adapter to be handled internally and prevent UI clutter of methods. If this method is needed for script work independently of the adapter, please raise an issue at: https://github.com/BHoM/IES_Toolkit",
+    "BH.Engine.Adapters.IES.Convert.FromIES(System.Collections.Generic.List<System.String>, BH.oM.IES.Settings.SettingsIES)" : "This method has been moved into the adapter to be handled internally and prevent UI clutter of methods. If this method is needed for script work independently of the adapter, please raise an issue at: https://github.com/BHoM/IES_Toolkit",
+    "BH.Engine.Adapters.IES.Convert.FromIES(System.Collections.Generic.List<System.String>, System.String, BH.oM.IES.Settings.SettingsIES)" : "This method has been moved into the adapter to be handled internally and prevent UI clutter of methods. If this method is needed for script work independently of the adapter, please raise an issue at: https://github.com/BHoM/IES_Toolkit",
+    "BH.Engine.Adapters.IES.Convert.FromIESOpeningType(System.String, BH.oM.IES.Settings.SettingsIES)" : "This method has been moved into the adapter to be handled internally and prevent UI clutter of methods. If this method is needed for script work independently of the adapter, please raise an issue at: https://github.com/BHoM/IES_Toolkit",
+    "BH.Engine.Adapters.IES.Convert.FromIESShading(System.Collections.Generic.List<System.String>, BH.oM.IES.Settings.SettingsIES, BH.oM.Environment.Elements.PanelType)" : "This method has been moved into the adapter to be handled internally and prevent UI clutter of methods. If this method is needed for script work independently of the adapter, please raise an issue at: https://github.com/BHoM/IES_Toolkit",
+    "BH.Engine.Adapters.IES.Convert.ToIESShading(System.Collections.Generic.List<BH.oM.Environment.Elements.Panel>, BH.oM.IES.Settings.SettingsIES)" : "This method has been moved into the adapter to be handled internally and prevent UI clutter of methods. If this method is needed for script work independently of the adapter, please raise an issue at: https://github.com/BHoM/IES_Toolkit",
+    "BH.Engine.Adapters.IES.Query.Polyline(BH.oM.Geometry.BoundingBox)" : "This method has been moved into the adapter to be handled internally and prevent UI clutter of methods. If this method is needed for script work independently of the adapter, please raise an issue at: https://github.com/BHoM/IES_Toolkit",
+    "BH.Engine.Adapters.IES.Modify.RepairOpening(BH.oM.Environment.Elements.Opening, BH.oM.Environment.Elements.Panel, BH.oM.Environment.Elements.PanelType)" : "This method has been moved into the adapter to be handled internally and prevent UI clutter of methods. If this method is needed for script work independently of the adapter, please raise an issue at: https://github.com/BHoM/IES_Toolkit",
+    "BH.Engine.Adapters.IES.Modify.RepairOpening(BH.oM.Environment.Elements.Opening, BH.oM.Environment.Elements.Panel, System.Collections.Generic.List<BH.oM.Environment.Elements.Panel>)" : "This method has been moved into the adapter to be handled internally and prevent UI clutter of methods. If this method is needed for script work independently of the adapter, please raise an issue at: https://github.com/BHoM/IES_Toolkit", 
+  },
+  "MessageForNoUpgrade": {
+
+  }
+}
