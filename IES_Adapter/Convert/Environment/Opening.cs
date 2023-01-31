@@ -7,42 +7,27 @@ using BH.Engine.Environment;
 using BH.oM.Environment.Elements;
 using BH.oM.Geometry;
 using BH.Engine.Geometry;
+using BH.oM.IES.Settings;
 
 namespace BH.Adapter.IES
 {
     public static partial class Convert
     {
-        public static List<string> ToIES (this Opening opening, Panel hostPanel)
+        public static List<string> ToIES(this Opening opening, Panel hostPanel, SettingsIES settingsIES)
         {
-            var panelNormal = hostPanel.Polyline().ControlPoints.FitPlane2().Normal;
-            var origin = new Point();
-            var flip = false;
+            List<string> rtn = new List<string>();
 
-            if (panelNormal.Z is (-1|1))
-            {
-                origin = hostPanel.UpperRightCorner();
-                flip = true;
-            }
-            /*else if (panelNormal.Angle())
-            {
+            var coordSystem = hostPanel.Polyline().CoordinateSystem();
+            var localToGlobal = BH.Engine.Geometry.Create.OrientationMatrixLocalToGlobal(coordSystem);
 
-            }*/
-            else
-            {
-                origin = hostPanel.LowerLeftCorner();
-                flip = false;
-            }
+            var polyline = opening.Polyline().Transform(localToGlobal);
 
-            var verts_2d = opening.PolygonInFace(hostPanel,origin, flip);
+            rtn.Add($"{polyline.ControlPoints.Count.ToString()} {opening.Type.ToIES(settingsIES)}\n");
 
-            List<string> fuckingHell = new List<string>();
+            foreach (var cPoint in polyline.ControlPoints)
+                rtn.Add($" {cPoint.ToIES(settingsIES, false)}");
 
-            fuckingHell.Add($"{verts_2d.ControlPoints.Count} 0\n");
-
-            foreach (var hell in verts_2d.ControlPoints)
-                fuckingHell.Add($"{BH.Adapter.IES.Convert.ToIES(hell, new oM.IES.Settings.SettingsIES(), 2)}");
-
-            return fuckingHell;
+            return rtn;
         }
     }
 }
