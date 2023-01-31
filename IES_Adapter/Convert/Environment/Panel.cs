@@ -53,25 +53,12 @@ namespace BH.Adapter.IES
 
             for (int x = 0; x < panels.Count; x++)
             {
-                gemPanel.Add("LAYER\n");
-                gemPanel.Add("64\n");
-                gemPanel.Add("COLOUR\n");
-                gemPanel.Add("0\n");
-                gemPanel.Add("CATEGORY\n");
-                gemPanel.Add("1\n");
-                gemPanel.Add("TYPE\n");
-                if (panels[x].Type == PanelType.Shade)
-                {
-                    gemPanel.Add("4\n");
-                }
-                else
-                {
-                    gemPanel.Add("1\n");
-                    gemPanel.Add("SUBTYPE\n");
-                    gemPanel.Add("2102\n");
-                }
-                gemPanel.Add("COLOURRGB\n");
-                gemPanel.Add("65280\n");
+                var template = Create.ShadeTemplate();
+                template.Layer = "64";
+                template.Colour = "0";
+
+                gemPanel.AddRange(template.ToIES());
+
                 gemPanel.Add("IES IES_SHD_" + (x + 1).ToString() + "\n");
 
                 List<Point> points = panels[x].Vertices().Select(y => y.RoundCoordinates(settingsIES.DecimalPlaces)).ToList();
