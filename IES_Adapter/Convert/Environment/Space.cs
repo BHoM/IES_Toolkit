@@ -60,30 +60,10 @@ namespace BH.Adapter.IES
 
             List<string> gemSpace = new List<string>();
 
-            gemSpace.Add("LAYER\n");
-            gemSpace.Add("1\n");
-            gemSpace.Add("COLOUR\n");
-            gemSpace.Add("1\n");
-            gemSpace.Add("CATEGORY\n");
-            gemSpace.Add("1\n");
-
             if (panels.First().IsShade())
-            {
-                gemSpace.Add("TYPE\n");
-                gemSpace.Add("4\n");
-                gemSpace.Add("SUBTYPE\n");
-                gemSpace.Add("0\n");
-            }
+                gemSpace.AddRange(Create.ShadeTemplate().ToIES());
             else
-            {
-                gemSpace.Add("TYPE\n");
-                gemSpace.Add("1\n");
-                gemSpace.Add("SUBTYPE\n");
-                gemSpace.Add("2001\n");
-            }
-
-            gemSpace.Add("COLOURRGB\n");
-            gemSpace.Add("16711690\n");
+                gemSpace.AddRange(Create.SpaceTemplate().ToIES());
 
             gemSpace.Add("IES " + panels.ConnectedSpaceName() + "\n");
 
