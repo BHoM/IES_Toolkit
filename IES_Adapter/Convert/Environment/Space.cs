@@ -103,7 +103,7 @@ namespace BH.Adapter.IES
                     gemSpace.Add(p.Openings.Count.ToString() + "\n");
 
                     foreach (Opening o in p.Openings)
-                        gemSpace.AddRange(o.ToIES(p));
+                        gemSpace.AddRange(o.ToIES(p, settingsIES));
                 }
             }
 

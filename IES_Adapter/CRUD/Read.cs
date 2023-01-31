@@ -32,7 +32,6 @@ using BH.Engine;
 using BH.oM.Environment;
 
 using System.IO;
-using BH.Engine.Adapters.IES;
 
 using BH.oM.Adapter;
 using BH.Engine.Adapter;
