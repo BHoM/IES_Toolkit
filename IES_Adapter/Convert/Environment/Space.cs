@@ -85,11 +85,11 @@ namespace BH.Adapter.IES
                 if (p.Type == PanelType.Air && p.Openings.Count == 0)
                     p.Openings.Add(new Opening { Edges = new List<Edge>(p.ExternalEdges), Type = OpeningType.Hole }); //Air walls need the polyline adding as an opening of type hole
 
+                if(!p.NormalAwayFromSpace(panels, settingsIES.PlanarTolerance))
+                    p.ExternalEdges = p.Polyline().Flip().ToEdges(); //Reverse the point order if the normal is not away from the space but the first adjacency is this space
+
                 List<Point> v = p.Vertices();
                 v.RemoveAt(v.Count - 1); //Remove the last point because we don't need duplicated points
-
-                if (!p.NormalAwayFromSpace(panels, settingsIES.PlanarTolerance))
-                    v.Reverse(); //Reverse the point order if the normal is not away from the space but the first adjacency is this space
 
                 string s = v.Count.ToString() + " ";
                 foreach (Point pt in v)
