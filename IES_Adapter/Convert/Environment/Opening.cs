@@ -51,5 +51,23 @@ namespace BH.Adapter.IES
 
             return rtn;
         }
+        public static Opening FromIESOpening(this List<string> openingIES, string openingType, SettingsIES settingsIES )
+        {
+
+            var polyline = new Polyline();
+
+            foreach (var iesPt in openingIES)
+                polyline.ControlPoints.Add(iesPt.FromIES(settingsIES));
+
+            var coordSystem = polyline.CoordinateSystem();
+            var globalToLocal = BH.Engine.Geometry.Create.OrientationMatrixLocalToGlobal(coordSystem);
+
+            Opening opening = new Opening();
+
+            opening.Edges = polyline.Transform(globalToLocal).ToEdges();
+            opening.Type = openingType.FromIESOpeningType(settingsIES);
+
+            return opening;
+        }
     }
 }
