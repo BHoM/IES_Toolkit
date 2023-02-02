@@ -176,7 +176,7 @@ namespace BH.Adapter.IES
                     for (int x = 0; x < numCoords; x++)
                         openingPts.Add(iesSpace[count + x]);
 
-                    //panel.Openings.Add(openingPts.FromIES(openingData.Split(' ')[1], settingsIES));
+                    panel.Openings.Add(openingPts.FromIESOpening(openingData.Split(' ')[1], settingsIES));
 
                     count += numCoords;
                     countOpenings++;
@@ -184,23 +184,6 @@ namespace BH.Adapter.IES
 
                 panels.Add(panel);
             }
-
-            /*if (settingsIES.PullOpenings)
-            {
-                //Fix the openings now
-                foreach (Panel p in panels)
-                {
-                    for (int x = 0; x < p.Openings.Count; x++)
-                    {
-                        p.Openings[x] = p.Openings[x].RepairOpening(p, panels);
-                    }
-                }
-            }
-            else
-            {
-                foreach (Panel p in panels)
-                    p.Openings = new List<Opening>();
-            }*/
 
             return panels;
         }
