@@ -39,7 +39,7 @@ namespace BH.Adapter.IES
         {
             List<string> rtn = new List<string>();
 
-            var coordSystem = hostPanel.Polyline().CoordinateSystem();
+            var coordSystem = hostPanel.Polyline().CoordinateSystem(settingsIES.DistanceTolerance, settingsIES.AngleTolerance);
             var localToGlobal = BH.Engine.Geometry.Create.OrientationMatrixLocalToGlobal(coordSystem);
 
             var polyline = opening.Polyline().Transform(localToGlobal);
@@ -51,16 +51,18 @@ namespace BH.Adapter.IES
 
             return rtn;
         }
-        public static Opening FromIESOpening(this List<string> openingIES, string openingType, SettingsIES settingsIES )
+        public static Opening FromIESOpening(this List<string> openingPts, string openingType, Polyline hostPanel, SettingsIES settingsIES )
         {
 
             var polyline = new Polyline();
 
-            foreach (var iesPt in openingIES)
+            foreach (var iesPt in openingPts)
                 polyline.ControlPoints.Add(iesPt.FromIES(settingsIES));
 
-            var coordSystem = polyline.CoordinateSystem();
-            var globalToLocal = BH.Engine.Geometry.Create.OrientationMatrixLocalToGlobal(coordSystem);
+            polyline.ControlPoints.Add(polyline.ControlPoints[0]);
+
+            var coordSystem = hostPanel.CoordinateSystem(settingsIES.DistanceTolerance, settingsIES.AngleTolerance);
+            var globalToLocal = BH.Engine.Geometry.Create.OrientationMatrixGlobalToLocal(coordSystem);
 
             Opening opening = new Opening();
 

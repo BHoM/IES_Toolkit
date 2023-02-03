@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using BH.oM.Base;
 using System.ComponentModel;
+using BH.oM.Geometry;
 
 namespace BH.oM.IES.Settings
 {
@@ -44,6 +45,10 @@ namespace BH.oM.IES.Settings
         public virtual bool PullOpenings { get; set; } = true;
 
         public virtual bool ShadesAs3D { get; set; } = true;
+
+        public virtual double AngleTolerance { get; set; } = BH.oM.Geometry.Tolerance.Angle;
+
+        public virtual double DistanceTolerance { get; set; } = BH.oM.Geometry.Tolerance.MacroDistance;
 
         /***************************************************/
     }
