@@ -152,6 +152,7 @@ namespace BH.Adapter.IES
 
                 Polyline pLine = new Polyline { ControlPoints = pLinePts, };
 
+
                 Panel panel = new Panel();
                 panel.ExternalEdges = pLine.ToEdges();
                 panel.Openings = new List<Opening>();
@@ -176,7 +177,7 @@ namespace BH.Adapter.IES
                     for (int x = 0; x < numCoords; x++)
                         openingPts.Add(iesSpace[count + x]);
 
-                    panel.Openings.Add(openingPts.FromIESOpening(openingData.Split(' ')[1], settingsIES));
+                    panel.Openings.Add(openingPts.FromIESOpening(openingData.Split(' ')[1], pLine, settingsIES));
 
                     count += numCoords;
                     countOpenings++;
