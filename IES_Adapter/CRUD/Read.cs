@@ -124,9 +124,9 @@ namespace BH.Adapter.IES
                 for (int x = 0; x < nextIndex; x++)
                     space.Add(iesStrings[x]);
 
-                //if ((panelType == PanelType.Shade || panelType == PanelType.TranslucentShade) && !_settingsIES.ShadesAs3D)
-                    //panels.Add(space.FromIESShading(_settingsIES, panelType)); //Make a shade panel
-                /*else*/ if ((panelType == PanelType.Shade || panelType == PanelType.TranslucentShade) && _settingsIES.ShadesAs3D)
+                if ((panelType == PanelType.Shade || panelType == PanelType.TranslucentShade) && !_settingsIES.ShadesAs3D)
+                    panels.Add(space.FromIESShading(_settingsIES, panelType)); //Make a shade panel
+                else if ((panelType == PanelType.Shade || panelType == PanelType.TranslucentShade) && _settingsIES.ShadesAs3D)
                 {
                     var shadePanels = space.FromIES(_settingsIES);
                     shadePanels.ForEach(x => x.Type = panelType);
