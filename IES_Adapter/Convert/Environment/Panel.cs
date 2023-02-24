@@ -55,7 +55,7 @@ namespace BH.Adapter.IES
             {
                 var template = Create.ShadeTemplate();
                 template.Layer = "64";
-                template.Colour = "0";
+                template.Colour = "65280";
 
                 gemPanel.AddRange(template.ToIES());
 
