@@ -34,7 +34,7 @@ namespace BH.Adapter.IES
         {
             return new GEMTemplate()
             {
-                Layer = "1",
+                Layer = "64",
                 Colour = "62",
                 Category = "1",
                 Type = "4",
