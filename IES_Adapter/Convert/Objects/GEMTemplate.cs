@@ -52,9 +52,6 @@ namespace BH.Adapter.IES
             gemLines.Add("COLOURRGB\n");
             gemLines.Add($"{gemTemplate.ColourRGB}\n");
 
-            gemLines.Add($"IES {gemTemplate.Name}\n");
-            gemLines.Add($"{gemTemplate.VerticesCount.ToString()} {gemTemplate.FaceCount.ToString()}\n");
-
             return gemLines;
         }
     }
