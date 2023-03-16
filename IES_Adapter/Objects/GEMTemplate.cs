@@ -36,8 +36,5 @@ namespace BH.Adapter.IES
         public virtual string Type { get; set; }
         public virtual string SubType { get; set; }
         public virtual string ColourRGB { get; set; }
-        public virtual string Name { get; set; }
-        public virtual int VerticesCount { get; set; }
-        public virtual int FaceCount { get; set; }
     }
 }
