@@ -50,6 +50,7 @@ namespace BH.Adapter.IES
         {
             // This asks the base adapter to only Create the objects.
             m_AdapterSettings.DefaultPushType = oM.Adapter.PushType.CreateOnly;
+            m_AdapterSettings.UseAdapterId = false;
 
             if (fileSettings == null)
             {
