@@ -42,10 +42,10 @@ namespace BH.Adapter.IES
         /**** Constructors                              ****/
         /***************************************************/
 
-        [Description("Produces an IES Adapter to allow interopability with IES GEM files and the BHoM")]
-        [Input("fileSettings", "Input fileSettings to get the file name and directory the IES Adapter should use")]
+        [Description("Produces an IES Adapter to allow interopability with IES GEM files and the BHoM.")]
+        [Input("fileSettings", "Input fileSettings to get the file name and directory the IES Adapter should use.")]
         [Input("settingsIES", "Input additional settings the adapter should use.")]
-        [Output("adapter", "Adapter to IES GEM")]
+        [Output("adapter", "Adapter to IES GEM.")]
         public IESAdapter(BH.oM.Adapter.FileSettings fileSettings = null, SettingsIES settingsIES = null)
         {
             // This asks the base adapter to only Create the objects.
