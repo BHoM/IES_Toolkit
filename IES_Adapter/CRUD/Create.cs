@@ -57,6 +57,11 @@ namespace BH.Adapter.IES
 
             StreamWriter sw = new StreamWriter(_fileSettings.GetFullFileName());
 
+            sw.WriteLine("COM GEM data file exported by BHoM");
+            sw.WriteLine("CAT"); //Lol - Default GEM files use ANT
+            sw.WriteLine("SITE");
+            sw.WriteLine("51.378  2.3648  0.000  0.000");
+
             try
             {
                 foreach (List<Panel> space in panelsAsSpaces)
