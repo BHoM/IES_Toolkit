@@ -177,7 +177,8 @@ namespace BH.Adapter.IES
                     for (int x = 0; x < numCoords; x++)
                         openingPts.Add(iesSpace[count + x]);
 
-                    panel.Openings.Add(openingPts.FromIESOpening(openingData.Split(' ')[1], pLine, settingsIES));
+                    if(settingsIES.PullOpenings)
+                        panel.Openings.Add(openingPts.FromIESOpening(openingData.Split(' ')[1], pLine, settingsIES));
 
                     count += numCoords;
                     countOpenings++;
