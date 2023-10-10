@@ -29,13 +29,13 @@ using BH.Engine.Environment;
 using BH.oM.Environment.Elements;
 using BH.oM.Geometry;
 using BH.Engine.Geometry;
-using BH.oM.IES.Settings;
+using BH.oM.Environment.IES;
 
 namespace BH.Adapter.IES
 {
     public static partial class Convert
     {
-        public static List<string> ToIES(this Opening opening, Panel hostPanel, SettingsIES settingsIES)
+        public static List<string> ToIES(this Opening opening, Panel hostPanel, PushConfigIES settingsIES)
         {
             List<string> rtn = new List<string>();
 
@@ -51,7 +51,7 @@ namespace BH.Adapter.IES
 
             return rtn;
         }
-        public static Opening FromIESOpening(this List<string> openingPts, string openingType, Polyline hostPanel, SettingsIES settingsIES )
+        public static Opening FromIESOpening(this List<string> openingPts, string openingType, Polyline hostPanel, PullConfigIES settingsIES )
         {
 
             var polyline = new Polyline();

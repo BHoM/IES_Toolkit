@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2023, the respective contributors. All rights reserved.
  *
@@ -22,32 +22,37 @@
 
 using System;
 using System.Collections.Generic;
-using BH.oM.Data.Requests;
-using BH.Engine;
 using BH.oM.Base;
-using System.Linq;
-using System.Reflection;
-using System.IO;
-
 using System.ComponentModel;
-using BH.oM.Base.Attributes;
+using BH.oM.Adapter;
 
-namespace BH.Adapter.IES
+namespace BH.oM.Environment.IES
 {
-    public partial class IESAdapter : BHoMAdapter
+    [Description("Create a push config for IES for use with the IES Adapter.")]
+    public class PushConfigIES : ActionConfig, IIESConfig
     {
         /***************************************************/
-        /**** Constructors                              ****/
+        /**** Properties                                ****/
         /***************************************************/
 
-        [Description("Produces an IES Adapter to allow interopability with IES GEM files and the BHoM.")]
-        [Output("adapter", "Adapter to IES GEM.")]
-        [PreviousVersion("7.0", "BH.Adapter.IES.IESAdapter(BH.oM.Adapter.FileSettings, BH.oM.IES.Settings.SettingsIES)")]
-        public IESAdapter()
-        {
-            // This asks the base adapter to only Create the objects.
-            m_AdapterSettings.DefaultPushType = oM.Adapter.PushType.CreateOnly;
-            m_AdapterSettings.UseAdapterId = false;
-        }
+        [Description("Determine whether or not shades should be pushed as 3D spaces or not.")]
+        public virtual bool ShadesAs3D { get; set; } = true;
+
+        [Description("Set tolarance for planar surfaces, default is set to BH.oM.Geometry.Tolerance.Distance.")]
+        public virtual double PlanarTolerance { get; set; } = BH.oM.Geometry.Tolerance.Distance;
+
+        [Description("Set how many decimal places coordinates should have on export, default is set to 6.")]
+        public virtual int DecimalPlaces { get; set; } = 6;
+
+        [Description("Set the tolerance to be used in angle calculations or wherever a Geometry method requires an Angle Tolerance to determine a zero number.")]
+        public virtual double AngleTolerance { get; set; } = BH.oM.Geometry.Tolerance.Angle;
+
+        [Description("Set the tolerance to be used in distance calculations or wherever a Geometry method requires an Distance Tolerance to determine a zero number.")]
+        public virtual double DistanceTolerance { get; set; } = BH.oM.Geometry.Tolerance.MacroDistance;
+
+        [Description("Set the file location to push IES data to.")]
+        public virtual FileSettings File { get; set; } = null;
+
+        /***************************************************/
     }
 }
