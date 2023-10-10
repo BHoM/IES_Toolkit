@@ -51,7 +51,3 @@ namespace BH.Adapter.IES
         }
     }
 }
-
-
-
-
