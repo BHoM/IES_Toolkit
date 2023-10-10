@@ -1,0 +1,18 @@
+﻿{
+  "Namespace": {
+    "ToNew": {
+      "BH.oM.IES.Settings" :  "BH.oM.Environment.IES"
+    },
+    "ToOld": {
+      "BH.oM.Environment.IES" :  "BH.oM.IES.Settings"
+    }
+  },
+  "Type": {
+    "ToNew": {
+      "BH.oM.IES.Settings.SettingsIES" :  "BH.oM.Environment.IES.PullConfigIES"
+    },
+    "ToOld": {
+      "BH.oM.Environment.IES.PullConfigIES" :  "BH.oM.IES.Settings.SettingsIES"
+    }
+  }
+}
