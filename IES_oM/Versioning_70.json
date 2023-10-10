@@ -16,6 +16,7 @@
     }
   },
   "MessageForDeleted": {
-    "BH.oM.IES.Settings.SettingsIES.PlanarTolerance": "The SettingsIES object has been split into separate Pull and Push Configs. We cannot upgrade all the properties from the old SettingsIES object to either of the new objects, so we are upgrading to a Pull Config. If however you need the PlanarTolerance property, this is available on the Push Config."
+    "BH.oM.IES.Settings.SettingsIES.PlanarTolerance": "The SettingsIES object has been split into separate Pull and Push Configs. We cannot upgrade all the properties from the old SettingsIES object to either of the new objects, so we are upgrading to a Pull Config. If however you need the PlanarTolerance property, this is available on the Push Config.",
+    "BH.oM.IES.Settings.SettingsIES.DecimalPlaces": "The SettingsIES object has been split into separate Pull and Push Configs. We cannot upgrade all the properties from the old SettingsIES object to either of the new objects, so we are upgrading to a Pull Config. If however you need the DecimalPlaces property, this is available on the Push Config."
   }
 }
