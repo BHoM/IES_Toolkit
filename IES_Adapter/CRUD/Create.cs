@@ -65,6 +65,12 @@ namespace BH.Adapter.IES
                 return false;
             }
 
+            if(objects.FirstOrDefault().GetType() != typeof(Panel))
+            {
+                BH.Engine.Base.Compute.RecordError("IES Toolkit is not set up to push objects other than objects of type 'Panel' from the Environment oM currently.");
+                return false;
+            }
+
             List<IBHoMObject> bhomObjects = objects.Select(x => (IBHoMObject)x).ToList();
             List<Panel> panels = bhomObjects.Panels();
 
