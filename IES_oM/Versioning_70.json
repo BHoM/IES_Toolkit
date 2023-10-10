@@ -1,10 +1,10 @@
 ﻿{
   "Namespace": {
     "ToNew": {
-      "BH.oM.IES.Settings" :  "BH.oM.Environment.IES"
+      "BH.oM.IES.Settings": "BH.oM.Environment.IES"
     },
     "ToOld": {
-      "BH.oM.Environment.IES" :  "BH.oM.IES.Settings"
+      "BH.oM.Environment.IES": "BH.oM.IES.Settings"
     }
   },
   "Type": {
@@ -13,9 +13,9 @@
     },
     "ToOld": {
       "BH.oM.Environment.IES.PullConfigIES": "BH.oM.IES.Settings.SettingsIES"
-    },
-    "MessageForDeleted": {
-      "BH.oM.IES.Settings.SettingsIES.PlanarTolerance" :  "The SettingsIES object has been split into separate Pull and Push Configs. We cannot upgrade all the properties from the old SettingsIES object to either of the new objects, so we are upgrading to a Pull Config. If however you need the PlanarTolerance property, this is available on the Push Config."
     }
+  },
+  "MessageForDeleted": {
+    "BH.oM.IES.Settings.SettingsIES.PlanarTolerance": "The SettingsIES object has been split into separate Pull and Push Configs. We cannot upgrade all the properties from the old SettingsIES object to either of the new objects, so we are upgrading to a Pull Config. If however you need the PlanarTolerance property, this is available on the Push Config."
   }
 }
