@@ -33,6 +33,7 @@ using System.Linq;
 
 using BH.oM.Adapter;
 using BH.Engine.Adapter;
+using BH.oM.Environment.IES;
 
 namespace BH.Adapter.IES
 {
@@ -44,6 +45,26 @@ namespace BH.Adapter.IES
 
         protected override bool ICreate<T>(IEnumerable<T> objects, ActionConfig actionConfig = null)
         {
+            PushConfigIES pushConfig = (PushConfigIES)actionConfig;
+            if(pushConfig == null)
+            {
+                BH.Engine.Base.Compute.RecordError("Please provide a valid IES Push Config to push data to IES.");
+                return false;
+            }
+
+            if(pushConfig.File == null)
+            {
+                BH.Engine.Base.Compute.RecordError("Please provide a valid file location to push IES data to.");
+                return false;
+            }
+
+            string fullFilePath = pushConfig.File.GetFullFileName();
+            if (!Path.HasExtension(fullFilePath) || Path.GetExtension(fullFilePath) != ".gem")
+            {
+                BH.Engine.Base.Compute.RecordError("File Name must contain a GEM file extension.");
+                return false;
+            }
+
             List<IBHoMObject> bhomObjects = objects.Select(x => (IBHoMObject)x).ToList();
             List<Panel> panels = bhomObjects.Panels();
 
@@ -52,10 +73,10 @@ namespace BH.Adapter.IES
             List<List<Panel>> panelsAsSpaces = filteredPanels.Item2.ToSpaces();
             List<Panel> panelsAsShade = filteredPanels.Item1;
 
-            if (_settingsIES.ShadesAs3D)
+            if (pushConfig.ShadesAs3D)
                 panelsAsSpaces.AddRange(panelsAsShade.ToSpaces());
 
-            StreamWriter sw = new StreamWriter(_fileSettings.GetFullFileName());
+            StreamWriter sw = new StreamWriter(fullFilePath);
 
             sw.WriteLine("COM GEM data file exported by BHoM");
             sw.WriteLine("CAT"); //Lol - Default GEM files use ANT
@@ -66,13 +87,13 @@ namespace BH.Adapter.IES
             {
                 foreach (List<Panel> space in panelsAsSpaces)
                 {
-                    List<string> output = space.ToIES(_settingsIES);
+                    List<string> output = space.ToIES(pushConfig);
                     foreach (string s in output)
                         sw.Write(s);
                 }
 
-                if (panelsAsShade.Count > 0 && !_settingsIES.ShadesAs3D)
-                    panelsAsShade.ToIESShading(_settingsIES).ForEach(x => sw.Write(x));
+                if (panelsAsShade.Count > 0 && !pushConfig.ShadesAs3D)
+                    panelsAsShade.ToIESShading(pushConfig).ForEach(x => sw.Write(x));
             }
             catch(Exception e)
             {
@@ -85,6 +106,3 @@ namespace BH.Adapter.IES
         }
     }
 }
-
-
-

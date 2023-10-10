@@ -21,7 +21,7 @@
  */
 
 using BH.oM.Base.Attributes;
-using BH.oM.IES.Settings;
+using BH.oM.Environment.IES;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -39,7 +39,7 @@ namespace BH.Adapter.IES
         [Input("type", "The BHoM Opening Type to convert")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("iesOpeningType", "The IES string representation of the BHoM opening type")]
-        public static string ToIES(this OpeningType type, SettingsIES settingsIES)
+        public static string ToIES(this OpeningType type, PushConfigIES settingsIES)
         {
             switch (type)
             {
@@ -63,7 +63,7 @@ namespace BH.Adapter.IES
         [Input("iesOpeningType", "The IES string representation of an opening type")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("openingType", "The BHoM Opening Type")]
-        public static OpeningType FromIESOpeningType(this string iesOpeningType, SettingsIES settingsIES)
+        public static OpeningType FromIESOpeningType(this string iesOpeningType, PullConfigIES settingsIES)
         {
             if (iesOpeningType == "0")
                 return OpeningType.Window;
