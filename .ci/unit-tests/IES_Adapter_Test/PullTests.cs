@@ -82,5 +82,8 @@ namespace BH.Tests.Adapter.IES
 
             spaces.Count.Should().Be(14, "Wrong number of panels pulled compared to expected.");
         }
+
+        //TODO - check that openings are being pulled
+        //TODO - check that shades are being pulled
     }
 }
