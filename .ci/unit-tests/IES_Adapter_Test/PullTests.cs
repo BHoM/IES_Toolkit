@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using BH.Engine.Environment;
+using BH.oM.Base;
 
 namespace BH.Tests.Adapter.IES
 {
@@ -92,11 +93,10 @@ namespace BH.Tests.Adapter.IES
 
         [Test]
         [Description("Test pulling spaces.")]
-        public void PullSpace()
+        public void PullSpaces()
         {
-            //arrange request and pull config for pulling spaces.
+            //arrange request for pulling spaces.
             FilterRequest request = new FilterRequest() { Type = typeof(Space) };
-            m_PullConfig.PullOpenings = true;
 
             //pull all spaces from the model.
             List<Space> spaces = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<Space>().ToList();
@@ -115,7 +115,7 @@ namespace BH.Tests.Adapter.IES
 
             //pull all panels from the model, excluding openings.
             List<Panel> panels = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<Panel>().ToList();
-            //put all the panels that are shades into a list.
+            //add all the panels that are shades to a list.
             List<Panel> shades = new List<Panel>();
             foreach (Panel panel in panels) 
             {
@@ -129,6 +129,32 @@ namespace BH.Tests.Adapter.IES
             panels.Count.Should().Be(149, "Wrong number of panels pulled compared to expected."); //perhaps should be around 46
             panels.OpeningsFromElements().Count.Should().Be(0, "Wrong number of openings pulled compared to expected."); //should still be 0
             shades.Count.Should().Be(63, "Wrong number of shades being pulled compared to expected."); //perhaps should be 31
+        }
+
+        [Test]
+        [Description("Test pulling all data from the model.")]
+        public void PullFullModel()
+        {
+            FilterRequest request = new FilterRequest() { };
+            m_PullConfig.PullOpenings = false;
+
+            List<IBHoMObject> objects = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<IBHoMObject>().ToList();
+            List<Space> spaces = BH.Engine.Environment.Query.Spaces(objects).Cast<Space>().ToList();
+            List<Panel> panels = BH.Engine.Environment.Query.Panels(objects).Cast<Panel>().ToList();
+            //add all the panels that are shades to a list.
+            List<Panel> shades = new List<Panel>();
+            foreach (Panel panel in panels)
+            {
+                if (panel.IsShade())
+                {
+                    shades.Add(panel);
+                }
+            }
+
+            panels.Count.Should().Be(149, "Wrong number of panels pulled compared to expected.");
+            panels.OpeningsFromElements().Count.Should().Be(0, "Wrong number of openings pulled compared to expected.");
+            spaces.Count.Should().Be(14, "Wrong number of panels pulled compared to expected.");
+            shades.Count.Should().Be(63, "Wrong number of shades pulled compared to expected.");
         }
         
         //TODO - check that openings bool is working as expected.
