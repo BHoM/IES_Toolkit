@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using BH.Engine.Environment;
 
 namespace BH.Tests.Adapter.IES
 {
@@ -19,6 +20,7 @@ namespace BH.Tests.Adapter.IES
         PullConfigIES m_PullConfig;
 
         [OneTimeSetUp]
+        [Description("On loading the tests, instantiate an adapter and pull config to be used in all tests, and get the file path and name of the model being used.")]
         public void OneTimeSetUp() 
         {
             //starts the IES adapter and instantiates the ActionConfig for pulling IES data.
@@ -30,7 +32,6 @@ namespace BH.Tests.Adapter.IES
             m_PullConfig = new PullConfigIES()
             {
                 ShadesAs3D = true,
-                PullOpenings = true,
                 AngleTolerance = BH.oM.Geometry.Tolerance.Angle,
                 DistanceTolerance = BH.oM.Geometry.Tolerance.MacroDistance,
                 File = new FileSettings() 
@@ -42,12 +43,14 @@ namespace BH.Tests.Adapter.IES
         }
 
         [SetUp]
+        [Description("When running a new test, clear any errors and warnings that have occured in previous test.")]
         public void Setup()
         {
             BH.Engine.Base.Compute.ClearCurrentEvents();
         }
 
         [TearDown]
+        [Description("If any events occurred during a test, log the types and messages of the event in the console so that it is easier to debug.")]
         public void TearDown()
         {
             var events = BH.Engine.Base.Query.CurrentEvents();
@@ -62,28 +65,73 @@ namespace BH.Tests.Adapter.IES
         }
 
         [Test]
-        [Description("Test pulling panels.")]
-        public void PullPanels()
+        [Description("Test pulling panels with openings.")]
+        public void PullPanelsWithOpenings()
         {
-            FilterRequest request = new FilterRequest() { Type=typeof(Panel) };
+            //arrange request and pull config for pulling panels with openings
+            FilterRequest request = new FilterRequest() { Type = typeof(Panel) };
+            m_PullConfig.PullOpenings = true;
 
+            //pull all panels from the model, including openings.
             List<Panel> panels = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<Panel>().ToList();
+            //put all the panels that are shades into a list.
+            List<Panel> shades = new List<Panel>();
+            foreach (Panel panel in panels)
+            {
+                if (panel.IsShade())
+                {
+                    shades.Add(panel);
+                }
+            }
 
-            panels.Count.Should().Be(149, "Wrong number of panels pulled compared to expected.");
+            //assert correct values.
+            panels.Count.Should().Be(149, "Wrong number of panels pulled compared to expected."); //lol the number should actually be around 46 but the model being used is bad, and has duplicated panels.
+            panels.OpeningsFromElements().Count.Should().Be(39, "Wrong number of openings pulled compared to expected."); //perhaps should be 13
+            shades.Count.Should().Be(63, "Wrong number of shades being pulled compared to expected."); //perhaps should be 31
         }
 
         [Test]
         [Description("Test pulling spaces.")]
         public void PullSpace()
         {
+            //arrange request and pull config for pulling spaces.
             FilterRequest request = new FilterRequest() { Type = typeof(Space) };
+            m_PullConfig.PullOpenings = true;
 
+            //pull all spaces from the model.
             List<Space> spaces = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<Space>().ToList();
 
-            spaces.Count.Should().Be(14, "Wrong number of panels pulled compared to expected.");
+            //assert correct values.
+            spaces.Count.Should().Be(14, "Wrong number of panels pulled compared to expected."); //probably correct despite model issues
         }
 
-        //TODO - check that openings are being pulled
-        //TODO - check that shades are being pulled
+        [Test]
+        [Description("Test pulling panels without openings.")]
+        public void PullPanelsWithoutOpenings()
+        {
+            //arrange request and pull config for pulling panels without openings.
+            FilterRequest request = new FilterRequest() { Type = typeof(Panel) };
+            m_PullConfig.PullOpenings = false;
+
+            //pull all panels from the model, excluding openings.
+            List<Panel> panels = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<Panel>().ToList();
+            //put all the panels that are shades into a list.
+            List<Panel> shades = new List<Panel>();
+            foreach (Panel panel in panels) 
+            {
+                if (panel.IsShade())
+                {
+                    shades.Add(panel);
+                }
+            }
+
+            //assert correct values.
+            panels.Count.Should().Be(149, "Wrong number of panels pulled compared to expected."); //perhaps should be around 46
+            panels.OpeningsFromElements().Count.Should().Be(0, "Wrong number of openings pulled compared to expected."); //should still be 0
+            shades.Count.Should().Be(63, "Wrong number of shades being pulled compared to expected."); //perhaps should be 31
+        }
+        
+        //TODO - check that openings bool is working as expected.
+        //TODO - check that shades are being pulled.
     }
 }
