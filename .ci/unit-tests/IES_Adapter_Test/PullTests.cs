@@ -32,7 +32,6 @@ namespace BH.Tests.Adapter.IES
             m_Adapter = new IESAdapter();
             m_PullConfig = new PullConfigIES()
             {
-                ShadesAs3D = true,
                 AngleTolerance = BH.oM.Geometry.Tolerance.Angle,
                 DistanceTolerance = BH.oM.Geometry.Tolerance.MacroDistance,
                 File = new FileSettings() 
@@ -65,13 +64,14 @@ namespace BH.Tests.Adapter.IES
         }
 
         [Test]
-        [Description("Test pulling panels with openings.")]
+        [Description("Test pulling panels with openingsfrom a model with 3D shades.")]
         public void PullPanelsWithOpenings3D()
         {
             //arrange request and pull config for pulling panels with openings
             FilterRequest request = new FilterRequest() { Type = typeof(Panel) };
             m_PullConfig.PullOpenings = true;
             m_PullConfig.File.FileName = "IES Model 3D Shades.gem";
+            m_PullConfig.ShadesAs3D = true;
 
             //pull all panels from the model, including openings.
             List<Panel> panels = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<Panel>().ToList();
@@ -92,13 +92,14 @@ namespace BH.Tests.Adapter.IES
         }
 
         [Test]
-        [Description("Test pulling panels with openings.")]
+        [Description("Test pulling panels with openings from a model with 2D shades.")]
         public void PullPanelsWithOpenings2D()
         {
             //arrange request and pull config for pulling panels with openings
             FilterRequest request = new FilterRequest() { Type = typeof(Panel) };
             m_PullConfig.PullOpenings = true;
             m_PullConfig.File.FileName = "IES Model 2D Shades.gem";
+            m_PullConfig.ShadesAs3D = false;
 
             //pull all panels from the model, including openings.
             List<Panel> panels = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<Panel>().ToList();
@@ -114,18 +115,19 @@ namespace BH.Tests.Adapter.IES
 
             //assert correct values.
             panels.Count.Should().Be(121, "Wrong number of panels pulled compared to expected.");
-            panels.OpeningsFromElements().Count.Should().Be(31, "Wrong number of openings pulled compared to expected.");
+            panels.OpeningsFromElements().Count.Should().Be(33, "Wrong number of openings pulled compared to expected.");
             shades.Count.Should().Be(62, "Wrong number of shades being pulled compared to expected.");
         }
 
         [Test]
-        [Description("Test pulling spaces.")]
+        [Description("Test pulling spaces from a model with 3D shades.")]
         public void PullSpaces3D()
         {
             //arrange request for pulling spaces.
             FilterRequest request = new FilterRequest() { Type = typeof(Space) };
             m_PullConfig.PullOpenings = true;
             m_PullConfig.File.FileName = "IES Model 3D Shades.gem";
+            m_PullConfig.ShadesAs3D = true;
 
             //pull all spaces from the model.
             List<Space> spaces = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<Space>().ToList();
@@ -135,28 +137,31 @@ namespace BH.Tests.Adapter.IES
         }
 
         [Test]
-        [Description("Test pulling spaces.")]
+        [Description("Test pulling spaces from a model with 2D shades.")]
         public void PullSpaces2D()
         {
             //arrange request for pulling spaces.
             FilterRequest request = new FilterRequest() { Type = typeof(Space) };
             m_PullConfig.PullOpenings = true;
             m_PullConfig.File.FileName = "IES Model 2D Shades.gem";
+            m_PullConfig.ShadesAs3D = false;
 
             //pull all spaces from the model.
             List<Space> spaces = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<Space>().ToList();
 
             //assert correct values.
-            spaces.Count.Should().Be(71, "Wrong number of panels pulled compared to expected."); //number of spaces in 3D but each shade is 2D instead (62 shade spaces rather than 5)
+            spaces.Count.Should().Be(9, "Wrong number of panels pulled compared to expected."); //number of spaces in 3D but there are no shade spaces (0 shade spaces rather than 5)
         }
 
         [Test]
-        [Description("Test pulling panels without openings.")]
-        public void PullPanelsWithoutOpenings()
+        [Description("Test pulling panels without openings from a model with 3D shades.")]
+        public void PullPanelsWithoutOpenings3D()
         {
             //arrange request and pull config for pulling panels without openings.
             FilterRequest request = new FilterRequest() { Type = typeof(Panel) };
             m_PullConfig.PullOpenings = false;
+            m_PullConfig.File.FileName = "IES Model 3D Shades.gem";
+            m_PullConfig.ShadesAs3D = true;
 
             //pull all panels from the model, excluding openings.
             List<Panel> panels = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<Panel>().ToList();
@@ -171,17 +176,47 @@ namespace BH.Tests.Adapter.IES
             }
 
             //assert correct values.
-            panels.Count.Should().Be(149, "Wrong number of panels pulled compared to expected."); //perhaps should be around 46
+            panels.Count.Should().Be(121, "Wrong number of panels pulled compared to expected."); //perhaps should be around 46
             panels.OpeningsFromElements().Count.Should().Be(0, "Wrong number of openings pulled compared to expected."); //should still be 0
-            shades.Count.Should().Be(63, "Wrong number of shades being pulled compared to expected."); //perhaps should be 31
+            shades.Count.Should().Be(62, "Wrong number of shades being pulled compared to expected."); //perhaps should be 31
         }
 
         [Test]
-        [Description("Test pulling all data from the model.")]
-        public void PullFullModel()
+        [Description("Test pulling panels without openings from a model with 2D shades.")]
+        public void PullPanelsWithoutOpenings2D()
+        {
+            //arrange request and pull config for pulling panels without openings.
+            FilterRequest request = new FilterRequest() { Type = typeof(Panel) };
+            m_PullConfig.PullOpenings = false;
+            m_PullConfig.File.FileName = "IES Model 2D Shades.gem";
+            m_PullConfig.ShadesAs3D = false;
+
+            //pull all panels from the model, excluding openings.
+            List<Panel> panels = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<Panel>().ToList();
+            //add all the panels that are shades to a list.
+            List<Panel> shades = new List<Panel>();
+            foreach (Panel panel in panels)
+            {
+                if (panel.IsShade())
+                {
+                    shades.Add(panel);
+                }
+            }
+
+            //assert correct values.
+            panels.Count.Should().Be(121, "Wrong number of panels pulled compared to expected."); //perhaps should be around 46
+            panels.OpeningsFromElements().Count.Should().Be(0, "Wrong number of openings pulled compared to expected."); //should still be 0
+            shades.Count.Should().Be(62, "Wrong number of shades being pulled compared to expected."); //perhaps should be 31
+        }
+
+        [Test]
+        [Description("Test pulling all data from a model with 3D shades.")]
+        public void PullFullModel3D()
         {
             FilterRequest request = new FilterRequest() { };
-            m_PullConfig.PullOpenings = false;
+            m_PullConfig.PullOpenings = true;
+            m_PullConfig.File.FileName = "IES Model 3D Shades.gem";
+            m_PullConfig.ShadesAs3D = true;
 
             //pull all objects from the model, excluding openings.
             List<IBHoMObject> objects = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<IBHoMObject>().ToList();
@@ -199,43 +234,27 @@ namespace BH.Tests.Adapter.IES
             }
 
             //assert correct values.
-            panels.Count.Should().Be(149, "Wrong number of panels pulled compared to expected.");
-            panels.OpeningsFromElements().Count.Should().Be(0, "Wrong number of openings pulled compared to expected.");
+            panels.Count.Should().Be(121, "Wrong number of panels pulled compared to expected.");
+            panels.OpeningsFromElements().Count.Should().Be(33, "Wrong number of openings pulled compared to expected.");
             spaces.Count.Should().Be(14, "Wrong number of panels pulled compared to expected.");
-            shades.Count.Should().Be(63, "Wrong number of shades pulled compared to expected.");
-        }
-
-        [Test]
-        [Description("Test pulling shades as 3D.")]
-        public void PullShadesAs3D()
-        {
-            FilterRequest request = new FilterRequest() { Type = typeof(Panel) };
-            m_PullConfig.PullOpenings = true;
-            m_PullConfig.ShadesAs3D = true;
-            m_PullConfig.File.FileName = "IES Model 3D Shades.gem";
-
-            List<Panel> panels = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<Panel>().ToList();
-            List<Panel> shades = new List<Panel>();
-            foreach (Panel panel in panels)
-            {
-                if (panel.IsShade())
-                {
-                    shades.Add(panel);
-                }
-            }
             shades.Count.Should().Be(62, "Wrong number of shades pulled compared to expected.");
         }
 
         [Test]
-        [Description("Test pulling shades as 2D.")]
-        public void PullShadesAs2D()
+        [Description("Test pulling all data from a model with 2D shades.")]
+        public void PullFullModel2D()
         {
-            FilterRequest request = new FilterRequest() { Type = typeof(Panel) };
+            FilterRequest request = new FilterRequest() { };
             m_PullConfig.PullOpenings = true;
-            m_PullConfig.ShadesAs3D = false;
             m_PullConfig.File.FileName = "IES Model 2D Shades.gem";
+            m_PullConfig.ShadesAs3D = false;
 
-            List<Panel> panels = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<Panel>().ToList();
+            //pull all objects from the model, excluding openings.
+            List<IBHoMObject> objects = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<IBHoMObject>().ToList();
+            //cast spaces and panels to lists
+            List<Space> spaces = BH.Engine.Environment.Query.Spaces(objects).Cast<Space>().ToList();
+            List<Panel> panels = BH.Engine.Environment.Query.Panels(objects).Cast<Panel>().ToList();
+            //add all the panels that are shades to a list.
             List<Panel> shades = new List<Panel>();
             foreach (Panel panel in panels)
             {
@@ -244,6 +263,11 @@ namespace BH.Tests.Adapter.IES
                     shades.Add(panel);
                 }
             }
+
+            //assert correct values.
+            panels.Count.Should().Be(121, "Wrong number of panels pulled compared to expected.");
+            panels.OpeningsFromElements().Count.Should().Be(33, "Wrong number of openings pulled compared to expected.");
+            spaces.Count.Should().Be(9, "Wrong number of panels pulled compared to expected.");
             shades.Count.Should().Be(62, "Wrong number of shades pulled compared to expected.");
         }
 
