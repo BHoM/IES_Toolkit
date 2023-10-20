@@ -21,7 +21,7 @@ namespace BH.Tests.Adapter.IES
         PullConfigIES m_PullConfig;
 
         [OneTimeSetUp]
-        [Description("On loading the tests, instantiate an adapter and pull config to be used in all tests, and get the file path and name of the model being used.")]
+        [Description("On loading the tests, instantiate an adapter and pull config to be used in all tests, and get the file path to the models.")]
         public void OneTimeSetUp() 
         {
             //starts the IES adapter and instantiates the ActionConfig for pulling IES data.
@@ -270,8 +270,5 @@ namespace BH.Tests.Adapter.IES
             spaces.Count.Should().Be(9, "Wrong number of panels pulled compared to expected.");
             shades.Count.Should().Be(62, "Wrong number of shades pulled compared to expected.");
         }
-
-        //TODO - check that openings bool is working as expected.
-        //TODO - check that shades are being pulled.
     }
 }
