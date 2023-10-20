@@ -47,11 +47,17 @@
     <Reference Include="Data_oM">
       <HintPath>..\..\..\..\..\ProgramData\BHoM\Assemblies\Data_oM.dll</HintPath>
     </Reference>
+    <Reference Include="Dimensional_oM">
+      <HintPath>..\..\..\..\..\ProgramData\BHoM\Assemblies\Dimensional_oM.dll</HintPath>
+    </Reference>
     <Reference Include="Environment_Engine">
       <HintPath>..\..\..\..\..\ProgramData\BHoM\Assemblies\Environment_Engine.dll</HintPath>
     </Reference>
     <Reference Include="Environment_oM">
       <HintPath>..\..\..\..\..\ProgramData\BHoM\Assemblies\Environment_oM.dll</HintPath>
+    </Reference>
+    <Reference Include="Geometry_Engine">
+      <HintPath>..\..\..\..\..\ProgramData\BHoM\Assemblies\Geometry_Engine.dll</HintPath>
     </Reference>
     <Reference Include="Geometry_oM">
       <HintPath>..\..\..\..\..\ProgramData\BHoM\Assemblies\Geometry_oM.dll</HintPath>
