@@ -137,7 +137,6 @@ namespace BH.Adapter.IES
                 for (int x = 0; x < numCoords; x++)
                     openingPts.Add(iesPanel[count + x]);
 
-                //panel.Openings.Add(openingPts.FromIES(openingData.Split(' ')[1], settingsIES));
                 if (settingsIES.PullOpenings)
                 {
                     panel.Openings.Add(openingPts.FromIESOpening(openingData.Split(' ')[1], pLine, settingsIES));
