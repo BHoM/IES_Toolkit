@@ -1,4 +1,5 @@
-﻿using BH.Adapter.IES;
+﻿using NUnit.Framework;
+using BH.Adapter.IES;
 using BH.oM.Adapter;
 using BH.oM.Data.Requests;
 using BH.oM.Environment.Elements;
@@ -22,7 +23,7 @@ namespace BH.Tests.Adapter.IES
 
         [OneTimeSetUp]
         [Description("On loading the tests, instantiate an adapter and pull config to be used in all tests, and get the file path to the models.")]
-        public void OneTimeSetUp() 
+        public void OneTimeSetUp()
         {
             //starts the IES adapter and instantiates the ActionConfig for pulling IES data.
             string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
@@ -133,7 +134,7 @@ namespace BH.Tests.Adapter.IES
             List<Space> spaces = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<Space>().ToList();
 
             //assert correct values.
-            spaces.Count.Should().Be(14, "Wrong number of panels pulled compared to expected."); //probably correct despite model issues
+            spaces.Count.Should().Be(14, "Wrong number of panels pulled compared to expected.");
         }
 
         [Test]
@@ -176,9 +177,9 @@ namespace BH.Tests.Adapter.IES
             }
 
             //assert correct values.
-            panels.Count.Should().Be(121, "Wrong number of panels pulled compared to expected."); //perhaps should be around 46
-            panels.OpeningsFromElements().Count.Should().Be(0, "Wrong number of openings pulled compared to expected."); //should still be 0
-            shades.Count.Should().Be(62, "Wrong number of shades being pulled compared to expected."); //perhaps should be 31
+            panels.Count.Should().Be(121, "Wrong number of panels pulled compared to expected.");
+            panels.OpeningsFromElements().Count.Should().Be(0, "Wrong number of openings pulled compared to expected.");
+            shades.Count.Should().Be(62, "Wrong number of shades being pulled compared to expected.");
         }
 
         [Test]
@@ -204,9 +205,9 @@ namespace BH.Tests.Adapter.IES
             }
 
             //assert correct values.
-            panels.Count.Should().Be(121, "Wrong number of panels pulled compared to expected."); //perhaps should be around 46
-            panels.OpeningsFromElements().Count.Should().Be(0, "Wrong number of openings pulled compared to expected."); //should still be 0
-            shades.Count.Should().Be(62, "Wrong number of shades being pulled compared to expected."); //perhaps should be 31
+            panels.Count.Should().Be(121, "Wrong number of panels pulled compared to expected.");
+            panels.OpeningsFromElements().Count.Should().Be(0, "Wrong number of openings pulled compared to expected.");
+            shades.Count.Should().Be(62, "Wrong number of shades being pulled compared to expected.");
         }
 
         [Test]
