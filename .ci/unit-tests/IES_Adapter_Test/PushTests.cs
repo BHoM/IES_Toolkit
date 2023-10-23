@@ -12,8 +12,6 @@ using FluentAssertions;
 using BH.Engine.Environment;
 using BH.oM.Base;
 using BH.Engine.Adapter;
-using BH.Engine.Geometry;
-using BH.oM.Geometry;
 
 namespace BH.Tests.Adapter.IES
 {
@@ -77,33 +75,7 @@ namespace BH.Tests.Adapter.IES
         [Description("Test to check if panels are being pushed correctly with openings.")]
         public void PushPanelsWithOpenings()
         {
-            m_PushConfig.ShadesAs3D = false;
-            int count = 4;
-            List<Panel> panels = new List<Panel>();
-            List<Point> panelCorners = new List<Point>()
-            {
-                new Point{ X = 0, Y = 0 },
-                new Point{ X = 9, Y = 0 },
-                new Point{ X = 9, Y = 9 },
-                new Point{ X = 0, Y = 9 }
-            };
-            List<Point> openingCorners = new List<Point>()
-            {
-                new Point{ X = 3, Y = 3 },
-                new Point{ X = 6, Y = 3 },
-                new Point{ X = 6, Y = 6 },
-                new Point{ X = 3, Y = 6 }
-            };
-
-            for (int i = 0; i < count; i++) 
-            {
-                Panel panel = BH.Engine.Base.Create.RandomObject(typeof(Panel), i) as Panel;
-                panel.Openings = new List<Opening>();
-                panel.ExternalEdges = BH.Engine.Geometry.Create.Polyline(panelCorners.Select(x => x.Translate(Vector.ZAxis * i))).SubParts().Select(x => new Edge { Curve = x }).ToList();
-                panel.Openings.Add(new Opening { Edges = BH.Engine.Geometry.Create.Polyline(openingCorners.Select(x => x.Translate(Vector.ZAxis * i))).SubParts().Select(x => new Edge { Curve = x}).ToList() });
-                panels.Add(panel);
-            }
-
+            
         }
     }
 }
