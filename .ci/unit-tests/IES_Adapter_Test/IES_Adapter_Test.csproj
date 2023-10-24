@@ -71,6 +71,16 @@
       <Private>True</Private>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="File_Engine">
+      <HintPath>$(ProgramData)\BHoM\Assemblies\File_Engine.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="File_oM">
+      <HintPath>$(ProgramData)\BHoM\Assemblies\File_oM.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="Geometry_oM">
       <HintPath>$(ProgramData)\BHoM\Assemblies\Geometry_oM.dll</HintPath>
       <Private>True</Private>
