@@ -56,6 +56,9 @@
       <Private>True</Private>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="Data_Engine">
+      <HintPath>..\..\..\..\..\ProgramData\BHoM\Assemblies\Data_Engine.dll</HintPath>
+    </Reference>
     <Reference Include="Data_oM">
       <HintPath>$(ProgramData)\BHoM\Assemblies\Data_oM.dll</HintPath>
       <Private>True</Private>

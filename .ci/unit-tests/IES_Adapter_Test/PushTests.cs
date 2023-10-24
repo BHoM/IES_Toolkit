@@ -1,4 +1,26 @@
-﻿using BH.Adapter.IES;
+﻿/*
+ * This file is part of the Buildings and Habitats object Model (BHoM)
+ * Copyright (c) 2015 - 2023, the respective contributors. All rights reserved.
+ *
+ * Each contributor holds copyright over their respective contributions.
+ * The project versioning (Git) records all such contribution source information.
+ *                                           
+ *                                                                              
+ * The BHoM is free software: you can redistribute it and/or modify         
+ * it under the terms of the GNU Lesser General Public License as published by  
+ * the Free Software Foundation, either version 3.0 of the License, or          
+ * (at your option) any later version.                                          
+ *                                                                              
+ * The BHoM is distributed in the hope that it will be useful,              
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of               
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                 
+ * GNU Lesser General Public License for more details.                          
+ *                                                                            
+ * You should have received a copy of the GNU Lesser General Public License     
+ * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
+ */
+
+using BH.Adapter.IES;
 using BH.oM.Adapter;
 using BH.oM.Data.Requests;
 using BH.oM.Environment.Elements;
@@ -84,12 +106,21 @@ namespace BH.Tests.Adapter.IES
             m_PullConfig.PullOpenings = true;
             List<Panel> panels = Engine.Adapters.File.Compute.ReadFromJsonFile(Path.Combine(m_PullConfig.File.Directory, "Test Model 3D Shades.json"), true).Where(x => x.GetType() == typeof(Panel)).Cast<Panel>().ToList();
 
+            int count = 0;
+            foreach (Panel panel in panels)
+            {
+                panel.Name = count.ToString();
+                count++;
+            }
+
             m_Adapter.Push(panels, actionConfig: m_PushConfig);
 
             List<IBHoMObject> objs = m_Adapter.Pull(request, actionConfig:m_PullConfig).Cast<IBHoMObject>().ToList();
 
             List<Space> pulledSpaces = BH.Engine.Environment.Query.Spaces(objs).Cast<Space>().ToList();
             List<Panel> pulledPanels = BH.Engine.Environment.Query.Panels(objs).Cast<Panel>().ToList();
+
+            pulledPanels = BH.Engine.Data.Query.OrderBy(pulledPanels, "Name");
 
             List<Panel> shades = new List<Panel>();
             foreach (Panel panel in pulledPanels)
@@ -100,9 +131,12 @@ namespace BH.Tests.Adapter.IES
                 }
             }
 
-            pulledPanels.Count.Should().Be(121, "Wrong number of panels pulled compared to expected.");
-            pulledPanels.OpeningsFromElements().Count.Should().Be(33, "Wrong number of openings pulled compared to expected.");
-            shades.Count.Should().Be(62, "Wrong number of shades being pulled compared to expected.");
+            pulledPanels.Volume().Should().Be(panels.Volume());
+            for (int i = 0; i < panels.Count; i++)
+            {
+                pulledPanels[i].IsIdentical(panels[i]).Should().BeTrue($"The panel pulled with name: {pulledPanels[i].Name}, was not identical to the panel originally pushed with the same name.");
+            }
+
             pulledSpaces.Count.Should().Be(14, "Wrong number of spaces pulled compared to expected.");
         }
 
@@ -116,12 +150,21 @@ namespace BH.Tests.Adapter.IES
             m_PullConfig.PullOpenings = true;
             List<Panel> panels = Engine.Adapters.File.Compute.ReadFromJsonFile(Path.Combine(m_PullConfig.File.Directory, "Test Model 2D Shades.json"), true).Where(x => x.GetType() == typeof(Panel)).Cast<Panel>().ToList();
 
+            int count = 0;
+            foreach (Panel panel in panels)
+            {
+                panel.Name = count.ToString();
+                count++;
+            }
+
             m_Adapter.Push(panels, actionConfig: m_PushConfig);
 
             List<IBHoMObject> objs = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<IBHoMObject>().ToList();
 
             List<Space> pulledSpaces = BH.Engine.Environment.Query.Spaces(objs).Cast<Space>().ToList();
             List<Panel> pulledPanels = BH.Engine.Environment.Query.Panels(objs).Cast<Panel>().ToList();
+
+            pulledPanels = BH.Engine.Data.Query.OrderBy(pulledPanels, "Name");
 
             List<Panel> shades = new List<Panel>();
             foreach (Panel panel in pulledPanels)
@@ -132,12 +175,13 @@ namespace BH.Tests.Adapter.IES
                 }
             }
 
-            pulledPanels.Count.Should().Be(121, "Wrong number of panels pulled compared to expected.");
-            pulledPanels.OpeningsFromElements().Count.Should().Be(33, "Wrong number of openings pulled compared to expected.");
-            shades.Count.Should().Be(62, "Wrong number of shades being pulled compared to expected.");
+            pulledPanels.Volume().Should().Be(panels.Volume());
+            for (int i = 0; i < panels.Count; i++)
+            {
+                pulledPanels[i].IsIdentical(panels[i]).Should().BeTrue($"The panel pulled with name: {pulledPanels[i].Name}, was not identical to the panel originally pushed with the same name.");
+            }
+
             pulledSpaces.Count.Should().Be(9, "Wrong number of spaces pulled compared to expected.");
         }
-
-
     }
 }
