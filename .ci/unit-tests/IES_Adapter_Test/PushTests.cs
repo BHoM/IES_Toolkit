@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2023, the respective contributors. All rights reserved.
@@ -21,6 +22,9 @@
  */
 
 using BH.Adapter.IES;
+=======
+﻿using BH.Adapter.IES;
+>>>>>>> 7fdf031b4f3abbc1a97b129a537e5a944de14a64
 using BH.oM.Adapter;
 using BH.oM.Data.Requests;
 using BH.oM.Environment.Elements;
@@ -106,6 +110,7 @@ namespace BH.Tests.Adapter.IES
             m_PullConfig.PullOpenings = true;
             List<Panel> panels = Engine.Adapters.File.Compute.ReadFromJsonFile(Path.Combine(m_PullConfig.File.Directory, "Test Model 3D Shades.json"), true).Where(x => x.GetType() == typeof(Panel)).Cast<Panel>().ToList();
 
+<<<<<<< HEAD
             int count = 0;
             foreach (Panel panel in panels)
             {
@@ -113,6 +118,8 @@ namespace BH.Tests.Adapter.IES
                 count++;
             }
 
+=======
+>>>>>>> 7fdf031b4f3abbc1a97b129a537e5a944de14a64
             m_Adapter.Push(panels, actionConfig: m_PushConfig);
 
             List<IBHoMObject> objs = m_Adapter.Pull(request, actionConfig:m_PullConfig).Cast<IBHoMObject>().ToList();
@@ -120,8 +127,11 @@ namespace BH.Tests.Adapter.IES
             List<Space> pulledSpaces = BH.Engine.Environment.Query.Spaces(objs).Cast<Space>().ToList();
             List<Panel> pulledPanels = BH.Engine.Environment.Query.Panels(objs).Cast<Panel>().ToList();
 
+<<<<<<< HEAD
             pulledPanels = BH.Engine.Data.Query.OrderBy(pulledPanels, "Name");
 
+=======
+>>>>>>> 7fdf031b4f3abbc1a97b129a537e5a944de14a64
             List<Panel> shades = new List<Panel>();
             foreach (Panel panel in pulledPanels)
             {
@@ -131,12 +141,18 @@ namespace BH.Tests.Adapter.IES
                 }
             }
 
+<<<<<<< HEAD
             pulledPanels.Volume().Should().Be(panels.Volume());
             for (int i = 0; i < panels.Count; i++)
             {
                 pulledPanels[i].IsIdentical(panels[i]).Should().BeTrue($"The panel pulled with name: {pulledPanels[i].Name}, was not identical to the panel originally pushed with the same name.");
             }
 
+=======
+            pulledPanels.Count.Should().Be(121, "Wrong number of panels pulled compared to expected.");
+            pulledPanels.OpeningsFromElements().Count.Should().Be(33, "Wrong number of openings pulled compared to expected.");
+            shades.Count.Should().Be(62, "Wrong number of shades being pulled compared to expected.");
+>>>>>>> 7fdf031b4f3abbc1a97b129a537e5a944de14a64
             pulledSpaces.Count.Should().Be(14, "Wrong number of spaces pulled compared to expected.");
         }
 
@@ -150,6 +166,7 @@ namespace BH.Tests.Adapter.IES
             m_PullConfig.PullOpenings = true;
             List<Panel> panels = Engine.Adapters.File.Compute.ReadFromJsonFile(Path.Combine(m_PullConfig.File.Directory, "Test Model 2D Shades.json"), true).Where(x => x.GetType() == typeof(Panel)).Cast<Panel>().ToList();
 
+<<<<<<< HEAD
             int count = 0;
             foreach (Panel panel in panels)
             {
@@ -157,6 +174,8 @@ namespace BH.Tests.Adapter.IES
                 count++;
             }
 
+=======
+>>>>>>> 7fdf031b4f3abbc1a97b129a537e5a944de14a64
             m_Adapter.Push(panels, actionConfig: m_PushConfig);
 
             List<IBHoMObject> objs = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<IBHoMObject>().ToList();
@@ -164,8 +183,11 @@ namespace BH.Tests.Adapter.IES
             List<Space> pulledSpaces = BH.Engine.Environment.Query.Spaces(objs).Cast<Space>().ToList();
             List<Panel> pulledPanels = BH.Engine.Environment.Query.Panels(objs).Cast<Panel>().ToList();
 
+<<<<<<< HEAD
             pulledPanels = BH.Engine.Data.Query.OrderBy(pulledPanels, "Name");
 
+=======
+>>>>>>> 7fdf031b4f3abbc1a97b129a537e5a944de14a64
             List<Panel> shades = new List<Panel>();
             foreach (Panel panel in pulledPanels)
             {
@@ -175,6 +197,7 @@ namespace BH.Tests.Adapter.IES
                 }
             }
 
+<<<<<<< HEAD
             pulledPanels.Volume().Should().Be(panels.Volume());
             for (int i = 0; i < panels.Count; i++)
             {
@@ -183,5 +206,14 @@ namespace BH.Tests.Adapter.IES
 
             pulledSpaces.Count.Should().Be(9, "Wrong number of spaces pulled compared to expected.");
         }
+=======
+            pulledPanels.Count.Should().Be(121, "Wrong number of panels pulled compared to expected.");
+            pulledPanels.OpeningsFromElements().Count.Should().Be(33, "Wrong number of openings pulled compared to expected.");
+            shades.Count.Should().Be(62, "Wrong number of shades being pulled compared to expected.");
+            pulledSpaces.Count.Should().Be(9, "Wrong number of spaces pulled compared to expected.");
+        }
+
+
+>>>>>>> 7fdf031b4f3abbc1a97b129a537e5a944de14a64
     }
 }
