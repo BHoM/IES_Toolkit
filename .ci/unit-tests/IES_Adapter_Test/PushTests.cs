@@ -117,8 +117,8 @@ namespace BH.Tests.Adapter.IES
 
             List<IBHoMObject> objs = m_Adapter.Pull(request, actionConfig:m_PullConfig).Cast<IBHoMObject>().ToList();
 
-            List<Space> pulledSpaces = BH.Engine.Environment.Query.Spaces(objs).Cast<Space>().ToList();
-            List<Panel> pulledPanels = BH.Engine.Environment.Query.Panels(objs).Cast<Panel>().ToList();
+            List<Space> pulledSpaces = BH.Engine.Environment.Query.Spaces(objs);
+            List<Panel> pulledPanels = BH.Engine.Environment.Query.Panels(objs);
 
             pulledPanels = BH.Engine.Data.Query.OrderBy(pulledPanels, "Name");
 
@@ -151,8 +151,8 @@ namespace BH.Tests.Adapter.IES
 
             List<IBHoMObject> objs = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<IBHoMObject>().ToList();
 
-            List<Space> pulledSpaces = BH.Engine.Environment.Query.Spaces(objs).Cast<Space>().ToList();
-            List<Panel> pulledPanels = BH.Engine.Environment.Query.Panels(objs).Cast<Panel>().ToList();
+            List<Space> pulledSpaces = BH.Engine.Environment.Query.Spaces(objs);
+            List<Panel> pulledPanels = BH.Engine.Environment.Query.Panels(objs);
 
             pulledPanels = BH.Engine.Data.Query.OrderBy(pulledPanels, "Name");
 
