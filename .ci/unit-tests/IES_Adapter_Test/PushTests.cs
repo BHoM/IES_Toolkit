@@ -133,6 +133,7 @@ namespace BH.Tests.Adapter.IES
                 pulledPanels[i].IsIdentical(panels[i]).Should().BeTrue($"The panel pulled with name: {pulledPanels[i].Name}, was not identical to the panel originally pushed with the same name.");
             }
 
+            pulledPanels.Count().Should().Be(panels.Count, "Wrong number of panels pulled compared to expected.");
             pulledSpaces.Count.Should().Be(14, "Wrong number of spaces pulled compared to expected.");
         }
 
@@ -173,6 +174,7 @@ namespace BH.Tests.Adapter.IES
                 pulledPanels[i].IsIdentical(panels[i]).Should().BeTrue($"The panel pulled with name: {pulledPanels[i].Name}, was not identical to the panel originally pushed with the same name.");
             }
 
+            pulledPanels.Count().Should().Be(panels.Count, "Wrong number of panels pulled compared to expected.");
             pulledSpaces.Count.Should().Be(9, "Wrong number of spaces pulled compared to expected."); //As the shades are being pushed, then pulled as 2D, they are not connected to any spaces, so there are 5 fewer spaces.
         }
     }
