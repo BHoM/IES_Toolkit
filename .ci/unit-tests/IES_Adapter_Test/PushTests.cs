@@ -58,7 +58,9 @@ namespace BH.Tests.Adapter.IES
                 Directory = ModelsPath,
                 FileName = "PushedModel.gem"
             };
+
             m_Adapter = new IESAdapter();
+
             m_PushConfig = new PushConfigIES()
             {
                 PlanarTolerance = 1.0e-6,
@@ -67,6 +69,7 @@ namespace BH.Tests.Adapter.IES
                 DistanceTolerance = Tolerance.MacroDistance,
                 File = file
             };
+
             m_PullConfig = new PullConfigIES()
             {
                 AngleTolerance = Tolerance.Angle,
@@ -115,7 +118,6 @@ namespace BH.Tests.Adapter.IES
                 count++;
             }
 
-
             //Push, then pull and sort objects by name.
             m_Adapter.Push(panels, actionConfig: m_PushConfig);
 
@@ -125,7 +127,6 @@ namespace BH.Tests.Adapter.IES
             List<Panel> pulledPanels = BH.Engine.Environment.Query.Panels(objs);
 
             pulledPanels = BH.Engine.Data.Query.OrderBy(pulledPanels, "Name");
-
 
             //Assert objects are identical to the ones pushed.
             for (int i = 0; i < panels.Count; i++)
@@ -156,7 +157,6 @@ namespace BH.Tests.Adapter.IES
                 count++;
             }
 
-
             //Push, then pull and sort objects by name.
             m_Adapter.Push(panels, actionConfig: m_PushConfig);
 
@@ -166,7 +166,6 @@ namespace BH.Tests.Adapter.IES
             List<Panel> pulledPanels = BH.Engine.Environment.Query.Panels(objs);
 
             pulledPanels = BH.Engine.Data.Query.OrderBy(pulledPanels, "Name");
-
 
             //Assert objects are identical to the ones pushed.
             for (int i = 0; i < panels.Count; i++)
