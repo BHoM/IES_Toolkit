@@ -100,10 +100,12 @@ namespace BH.Tests.Adapter.IES
         [Description("Test to check if panels are being pushed correctly with 3D shades.")]
         public void PushPanelsWith3DShades()
         {
+            //Arrange objects to push.
             FilterRequest request = new FilterRequest();
             m_PushConfig.ShadesAs3D = true;
             m_PullConfig.ShadesAs3D = true;
             m_PullConfig.PullOpenings = true;
+
             List<Panel> panels = Engine.Adapters.File.Compute.ReadFromJsonFile(Path.Combine(m_PullConfig.File.Directory, "Test Model 3D Shades.json"), true).Where(x => x.GetType() == typeof(Panel)).Cast<Panel>().ToList();
 
             int count = 0;
@@ -113,6 +115,8 @@ namespace BH.Tests.Adapter.IES
                 count++;
             }
 
+
+            //Push, then pull and sort objects by name.
             m_Adapter.Push(panels, actionConfig: m_PushConfig);
 
             List<IBHoMObject> objs = m_Adapter.Pull(request, actionConfig:m_PullConfig).Cast<IBHoMObject>().ToList();
@@ -122,6 +126,8 @@ namespace BH.Tests.Adapter.IES
 
             pulledPanels = BH.Engine.Data.Query.OrderBy(pulledPanels, "Name");
 
+
+            //Assert objects are identical to the ones pushed.
             for (int i = 0; i < panels.Count; i++)
             {
                 pulledPanels[i].IsIdentical(panels[i]).Should().BeTrue($"The panel pulled with name: {pulledPanels[i].Name}, was not identical to the panel originally pushed with the same name.");
@@ -134,10 +140,12 @@ namespace BH.Tests.Adapter.IES
         [Description("Test to check if panels are being pushed correctly with 2D shades.")]
         public void PushPanelsWith2DShades()
         {
+            //Arrange objects to push.
             FilterRequest request = new FilterRequest();
             m_PushConfig.ShadesAs3D = false;
             m_PullConfig.ShadesAs3D = false;
             m_PullConfig.PullOpenings = true;
+
             List<Panel> panels = Engine.Adapters.File.Compute.ReadFromJsonFile(Path.Combine(m_PullConfig.File.Directory, "Test Model 2D Shades.json"), true).Where(x => x.GetType() == typeof(Panel)).Cast<Panel>().ToList();
 
             int count = 0;
@@ -147,6 +155,8 @@ namespace BH.Tests.Adapter.IES
                 count++;
             }
 
+
+            //Push, then pull and sort objects by name.
             m_Adapter.Push(panels, actionConfig: m_PushConfig);
 
             List<IBHoMObject> objs = m_Adapter.Pull(request, actionConfig: m_PullConfig).Cast<IBHoMObject>().ToList();
@@ -156,6 +166,8 @@ namespace BH.Tests.Adapter.IES
 
             pulledPanels = BH.Engine.Data.Query.OrderBy(pulledPanels, "Name");
 
+
+            //Assert objects are identical to the ones pushed.
             for (int i = 0; i < panels.Count; i++)
             {
                 pulledPanels[i].IsIdentical(panels[i]).Should().BeTrue($"The panel pulled with name: {pulledPanels[i].Name}, was not identical to the panel originally pushed with the same name.");
