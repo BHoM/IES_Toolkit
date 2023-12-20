@@ -32,7 +32,7 @@ using System.ComponentModel;
 using BH.oM.Environment.Elements;
 using BH.Engine.Environment;
 using BH.Engine.Geometry;
-using BH.oM.IES.Settings;
+using BH.oM.Environment.IES;
 
 namespace BH.Adapter.IES
 {
@@ -42,7 +42,7 @@ namespace BH.Adapter.IES
         [Input("pt", "BHoM Geometry Point to convert")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("iesPt", "The IES string representation of the point")]
-        public static string ToIES(this Point pt, SettingsIES settingsIES, bool allCoords = true)
+        public static string ToIES(this Point pt, PushConfigIES settingsIES, bool allCoords = true)
         {
             if (allCoords)
                 return " " + Math.Round(pt.X, settingsIES.DecimalPlaces).ToString() + " " + Math.Round(pt.Y, settingsIES.DecimalPlaces).ToString() + " " + Math.Round(pt.Z, settingsIES.DecimalPlaces).ToString() + "\n";
@@ -54,7 +54,7 @@ namespace BH.Adapter.IES
         [Input("iesPt", "The IES string representation of a point to convert")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("point", "A BHoM Geometry Point")]
-        public static Point FromIES(this string iesPt, SettingsIES settingsIES)
+        public static Point FromIES(this string iesPt, PullConfigIES settingsIES)
         {
             try
             {

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2023, the respective contributors. All rights reserved.
  *
@@ -22,32 +22,14 @@
 
 using System;
 using System.Collections.Generic;
-using BH.oM.Data.Requests;
-using BH.Engine;
-using BH.oM.Base;
 using System.Linq;
-using System.Reflection;
-using System.IO;
+using System.Text;
+using System.Threading.Tasks;
+using BH.oM.Base;
 
-using System.ComponentModel;
-using BH.oM.Base.Attributes;
-
-namespace BH.Adapter.IES
+namespace BH.oM.Environment.IES
 {
-    public partial class IESAdapter : BHoMAdapter
+    public interface IIESConfig : IObject
     {
-        /***************************************************/
-        /**** Constructors                              ****/
-        /***************************************************/
-
-        [Description("Produces an IES Adapter to allow interopability with IES GEM files and the BHoM.")]
-        [Output("adapter", "Adapter to IES GEM.")]
-        [PreviousVersion("7.0", "BH.Adapter.IES.IESAdapter(BH.oM.Adapter.FileSettings, BH.oM.IES.Settings.SettingsIES)")]
-        public IESAdapter()
-        {
-            // This asks the base adapter to only Create the objects.
-            m_AdapterSettings.DefaultPushType = oM.Adapter.PushType.CreateOnly;
-            m_AdapterSettings.UseAdapterId = false;
-        }
     }
 }

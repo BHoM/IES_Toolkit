@@ -24,7 +24,7 @@ using BH.oM.Base.Attributes;
 using BH.oM.Environment.Elements;
 using BH.oM.Geometry;
 using BH.oM.IES.Fragments;
-using BH.oM.IES.Settings;
+using BH.oM.Environment.IES;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,16 +42,10 @@ namespace BH.Adapter.IES
         [Input("panelsAsSpace", "The collection of BHoM Environment Panels that represent a space")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("iesSpace", "The IES string representation of the space for GEM")]
-        public static List<string> ToIES(this List<Panel> panelsAsSpace, SettingsIES settingsIES)
+        public static List<string> ToIES(this List<Panel> panelsAsSpace, PushConfigIES settingsIES)
         {
             if (panelsAsSpace == null || panelsAsSpace.Count == 0)
                 return new List<string>();
-
-            if (settingsIES == null)
-            {
-                BH.Engine.Base.Compute.RecordWarning("A null set of IES Settings was provided when attempting to convert a collection of panels (forming a closed space or 3D shade) to GEM. As such, default settings have been applied.");
-                settingsIES = new SettingsIES();
-            }
 
             List<Panel> panels = panelsAsSpace.Where(x => x.ExternalEdges.Count > 0).ToList();
 
@@ -116,7 +110,7 @@ namespace BH.Adapter.IES
         [Input("iesSpace", "The IES representation of a space")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("panelsAsSpace", "BHoM Environment Space")]
-        public static List<Panel> FromIES(this List<string> iesSpace, SettingsIES settingsIES)
+        public static List<Panel> FromIES(this List<string> iesSpace, PullConfigIES settingsIES)
         {
             List<Panel> panels = new List<Panel>();
 

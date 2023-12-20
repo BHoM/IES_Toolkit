@@ -37,6 +37,7 @@ using BH.oM.Adapter;
 using BH.Engine.Adapter;
 using BH.Engine.Environment;
 using BH.Engine.Geometry;
+using BH.oM.Environment.IES;
 
 namespace BH.Adapter.IES
 {
@@ -48,22 +49,42 @@ namespace BH.Adapter.IES
 
         protected override IEnumerable<IBHoMObject> IRead(Type type, IList indices = null, ActionConfig actionConfig = null)
         {
-            if (type == typeof(Space))
-                return ReadSpaces();
-            else if (type == typeof(Panel))
-                return ReadPanels();
+            PullConfigIES pullConfig = (PullConfigIES)actionConfig;
+            if(pullConfig == null)
+            {
+                BH.Engine.Base.Compute.RecordError("Please provide a valid IES Pull Config to pull data from IES.");
+                return new List<IBHoMObject>();
+            }
 
-            return ReadFullGEM();
+            if (pullConfig.File == null)
+            {
+                BH.Engine.Base.Compute.RecordError("Please provide a valid file location to pull IES data from .");
+                return new List<IBHoMObject>();
+            }
+
+            string fullFilePath = pullConfig.File.GetFullFileName();
+            if (!Path.HasExtension(fullFilePath) || Path.GetExtension(fullFilePath) != ".gem")
+            {
+                BH.Engine.Base.Compute.RecordError("File Name must contain a GEM file extension.");
+                return new List<IBHoMObject>();
+            }
+
+            if (type == typeof(Space))
+                return ReadSpaces(pullConfig);
+            else if (type == typeof(Panel))
+                return ReadPanels(pullConfig);
+
+            return ReadFullGEM(pullConfig);
         }
 
         /***************************************************/
         /**** Private Methods                           ****/
         /***************************************************/
 
-        private List<IBHoMObject> ReadFullGEM()
+        private List<IBHoMObject> ReadFullGEM(PullConfigIES pullConfig)
         {
-            List<Panel> panels = ReadPanels();
-            List<Space> spaces = ReadSpaces(panels);
+            List<Panel> panels = ReadPanels(pullConfig);
+            List<Space> spaces = ReadSpaces(panels, pullConfig);
 
             List<IBHoMObject> objects = new List<IBHoMObject>();
             objects.AddRange(panels);
@@ -72,15 +93,16 @@ namespace BH.Adapter.IES
             return objects;
         }
 
-        private List<Panel> ReadPanels()
+        private List<Panel> ReadPanels(PullConfigIES pullConfig)
         {
-            if (!System.IO.File.Exists(_fileSettings.GetFullFileName()))
+            string fullFilePath = pullConfig.File.GetFullFileName();
+            if (!System.IO.File.Exists(fullFilePath))
             {
                 BH.Engine.Base.Compute.RecordError("File does not exist to pull from");
                 return new List<Panel>();
             }
 
-            StreamReader sr = new StreamReader(_fileSettings.GetFullFileName());
+            StreamReader sr = new StreamReader(fullFilePath);
 
             List<string> iesStrings = new List<string>();
             string line = "";
@@ -124,16 +146,16 @@ namespace BH.Adapter.IES
                 for (int x = 0; x < nextIndex; x++)
                     space.Add(iesStrings[x]);
 
-                if ((panelType == PanelType.Shade || panelType == PanelType.TranslucentShade) && !_settingsIES.ShadesAs3D)
-                    panels.Add(space.FromIESShading(_settingsIES, panelType)); //Make a shade panel
-                else if ((panelType == PanelType.Shade || panelType == PanelType.TranslucentShade) && _settingsIES.ShadesAs3D)
+                if ((panelType == PanelType.Shade || panelType == PanelType.TranslucentShade) && !pullConfig.ShadesAs3D)
+                    panels.Add(space.FromIESShading(pullConfig, panelType)); //Make a shade panel
+                else if ((panelType == PanelType.Shade || panelType == PanelType.TranslucentShade) && pullConfig.ShadesAs3D)
                 {
-                    var shadePanels = space.FromIES(_settingsIES);
+                    var shadePanels = space.FromIES(pullConfig);
                     shadePanels.ForEach(x => x.Type = panelType);
                     panels.AddRange(shadePanels);
                 }
                 else
-                    panels.AddRange(space.FromIES(_settingsIES));
+                    panels.AddRange(space.FromIES(pullConfig));
 
                 if (!endOfFile)
                 {
@@ -151,13 +173,13 @@ namespace BH.Adapter.IES
             return panels;
         }
 
-        private IEnumerable<IBHoMObject> ReadSpaces()
+        private IEnumerable<IBHoMObject> ReadSpaces(PullConfigIES pullConfig)
         {
-            _settingsIES.PullOpenings = false; //Override and not pull openings when pulling spaces
-            return ReadSpaces(ReadPanels());
+            pullConfig.PullOpenings = false; //Override and not pull openings when pulling spaces
+            return ReadSpaces(ReadPanels(pullConfig), pullConfig);
         }
 
-        private List<Space> ReadSpaces(List<Panel> panels)
+        private List<Space> ReadSpaces(List<Panel> panels, PullConfigIES pullConfig)
         {
             List<List<Panel>> panelsAsSpaces = panels.ToSpaces();
 

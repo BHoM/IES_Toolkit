@@ -32,7 +32,7 @@ using System.ComponentModel;
 using BH.oM.Environment.Elements;
 using BH.Engine.Environment;
 using BH.Engine.Geometry;
-using BH.oM.IES.Settings;
+using BH.oM.Environment.IES;
 
 namespace BH.Adapter.IES
 {
@@ -42,7 +42,7 @@ namespace BH.Adapter.IES
         [Input("panelsAsShade", "The collection of BHoM Environment Panels that represent shading elements")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("iesSpace", "The IES string representation of shade for GEM")]
-        public static List<string> ToIESShading(this List<Panel> panelsAsShade, SettingsIES settingsIES)
+        public static List<string> ToIESShading(this List<Panel> panelsAsShade, PushConfigIES settingsIES)
         {
             List<Panel> panels = panelsAsShade.Where(x => x.ExternalEdges.Count > 0).ToList();
 
@@ -94,7 +94,7 @@ namespace BH.Adapter.IES
         [Input("iesPanel", "The IES representation of a space.")]
         [Input("settingsIES", "The IES settings to use with the IES adapter")]
         [Output("panelsAsSpace", "BHoM Environment Space")]
-        public static Panel FromIESShading(this List<string> iesPanel, SettingsIES settingsIES, PanelType panelType)
+        public static Panel FromIESShading(this List<string> iesPanel, PullConfigIES settingsIES, PanelType panelType)
         {
             Panel panel = new Panel();
 
@@ -137,7 +137,10 @@ namespace BH.Adapter.IES
                 for (int x = 0; x < numCoords; x++)
                     openingPts.Add(iesPanel[count + x]);
 
-                //panel.Openings.Add(openingPts.FromIES(openingData.Split(' ')[1], settingsIES));
+                if (settingsIES.PullOpenings)
+                {
+                    panel.Openings.Add(openingPts.FromIESOpening(openingData.Split(' ')[1], pLine, settingsIES));
+                }
 
                 count += numCoords;
                 countOpenings++;
