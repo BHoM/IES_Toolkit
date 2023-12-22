@@ -42,7 +42,6 @@ namespace BH.Adapter.IES
 
         [Description("Produces an IES Adapter to allow interopability with IES GEM files and the BHoM.")]
         [Output("adapter", "Adapter to IES GEM.")]
-        [PreviousVersion("7.0", "BH.Adapter.IES.IESAdapter(BH.oM.Adapter.FileSettings, BH.oM.IES.Settings.SettingsIES)")]
         public IESAdapter()
         {
             // This asks the base adapter to only Create the objects.
