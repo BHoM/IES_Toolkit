@@ -1,6 +1,6 @@
 /*
  * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2023, the respective contributors. All rights reserved.
+ * Copyright (c) 2015 - 2024, the respective contributors. All rights reserved.
  *
  * Each contributor holds copyright over their respective contributions.
  * The project versioning (Git) records all such contribution source information.
@@ -42,7 +42,6 @@ namespace BH.Adapter.IES
 
         [Description("Produces an IES Adapter to allow interopability with IES GEM files and the BHoM.")]
         [Output("adapter", "Adapter to IES GEM.")]
-        [PreviousVersion("7.0", "BH.Adapter.IES.IESAdapter(BH.oM.Adapter.FileSettings, BH.oM.IES.Settings.SettingsIES)")]
         public IESAdapter()
         {
             // This asks the base adapter to only Create the objects.
@@ -51,3 +50,4 @@ namespace BH.Adapter.IES
         }
     }
 }
+
