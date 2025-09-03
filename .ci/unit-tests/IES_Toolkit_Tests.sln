@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IES_Engine", "..\..\IES_Eng
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IES_oM", "..\..\IES_oM\IES_oM.csproj", "{AC4262CD-C25B-43A5-A755-299C468EFDBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IES_Adapter_Test", "IES_Adapter_Test\IES_Adapter_Test.csproj", "{F5B2C13F-B391-405D-B492-3C5A1C398984}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IES_Adapter_Tests", "IES_Adapter_Test\IES_Adapter_Tests.csproj", "{F5B2C13F-B391-405D-B492-3C5A1C398984}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
