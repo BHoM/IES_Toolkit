@@ -46,6 +46,8 @@ namespace BH.Tests.Adapter.IES
         PushConfigIES m_PushConfig;
         PullConfigIES m_PullConfig;
 
+        //Temporary change to test CI checks
+
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
