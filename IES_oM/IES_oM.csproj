@@ -3,12 +3,11 @@
 <TargetFramework>net472</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>BH.oM.IES</RootNamespace>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <OutputPath>..\Build\</OutputPath>
     <AssemblyTitle>IES_oM</AssemblyTitle>
     <Description>https://github.com/BHoM/IES_Toolkit</Description>
     <Product>IES_oM</Product>
-    <Copyright>Copyright © https://github.com/BHoM</Copyright>
+    <Copyright>Copyright Â© https://github.com/BHoM</Copyright>
     <AssemblyVersion>9.0.0.0</AssemblyVersion>
     <FileVersion>9.0.0.0</FileVersion>
   </PropertyGroup>

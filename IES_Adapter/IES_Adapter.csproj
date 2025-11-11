@@ -3,13 +3,12 @@
 <TargetFramework>net472</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>BH.Adapter.IES</RootNamespace>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <OutputPath>..\Build\</OutputPath>
     <AssemblyTitle>IES_Toolkit</AssemblyTitle>
     <Description>https://github.com/BHoM/IES_Toolkit</Description>
     <Company>BuroHappold</Company>
     <Product>IES_Toolkit</Product>
-    <Copyright>Copyright © https://github.com/BHoM</Copyright>
+    <Copyright>Copyright Â© https://github.com/BHoM</Copyright>
     <AssemblyVersion>9.0.0.0</AssemblyVersion>
     <FileVersion>9.0.0.0</FileVersion>
   </PropertyGroup>
