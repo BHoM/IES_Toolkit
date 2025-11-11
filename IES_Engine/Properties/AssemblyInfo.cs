@@ -23,16 +23,6 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-[assembly: AssemblyTitle("IES_Engine")]
-[assembly: AssemblyDescription("https://github.com/BHoM/IES_Toolkit")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("BuroHappold")]
-[assembly: AssemblyProduct("IES_Engine")]
-[assembly: AssemblyCopyright("Copyright © https://github.com/BHoM")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
