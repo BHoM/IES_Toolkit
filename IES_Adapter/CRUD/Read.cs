@@ -113,9 +113,11 @@ namespace BH.Adapter.IES
 
             int linesToSkip = 10;
 
-            if (iesStrings.First() != "LAYER") //Check if it is a 2019 GEM file
+            // Look for the first line that starts with "LAYER" (some newer GEM files have header lines before it)
+            int firstLayerIndex = iesStrings.FindIndex(s => s != null && s.StartsWith("LAYER", StringComparison.Ordinal));
+            if (firstLayerIndex > 0) // there are header lines before the first LAYER
             {
-                iesStrings.RemoveRange(0, 4);
+                iesStrings.RemoveRange(0, firstLayerIndex);
                 linesToSkip = 12;
             }
 
