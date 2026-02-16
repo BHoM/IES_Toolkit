@@ -10,7 +10,7 @@
     <Product>IES_Engine</Product>
     <Copyright>Copyright © https://github.com/BHoM</Copyright>
     <AssemblyVersion>9.0.0.0</AssemblyVersion>
-    <FileVersion>9.0.0.0</FileVersion>
+    <FileVersion>9.1.0.0</FileVersion>
   </PropertyGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="if not &quot;$(ConfigurationName)&quot; == &quot;Test&quot; (xcopy &quot;$(ProjectDir)Extensions&quot; &quot;C:\ProgramData\BHoM\Extensions\IES&quot; /E /Y /I)&#xD;&#xA;if not &quot;$(ConfigurationName)&quot; == &quot;Test&quot; (xcopy &quot;$(ProjectDir)Extensions&quot; &quot;C:\ProgramData\BHoM\Extensions\CFD&quot; /E /Y /I)" />
